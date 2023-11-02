@@ -13,9 +13,9 @@
 
 I am not too sure what to put here. I am unaware of how front end libraries will work but:
 
-1. Determine libraries to use -> laila
+1. Determine libraries to use -> michelle
 2. Create a basic UI -> laila
-3. Create connection mechanism -> michelle
+3. Create connection mechanism -> laila
 4. create document stats part -> michelle
 
 
