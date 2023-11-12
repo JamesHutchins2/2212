@@ -11,7 +11,7 @@ public class main {
         
         //test 1: initialize dictionary, fill with words, and check that all words are in the dictionary
         
-        Dictionary dictionary = new Dictionary();
+        Dictionary dictionary = new Dictionary("Backend/dict_resources/words.txt");
 
         //read the words from the text file
         File file = new File("Backend/dict_resources/words.txt");
@@ -72,12 +72,8 @@ public class main {
 
         //test 4: get results from the spell checker
 
-        SpellChecker spellChecker = new SpellChecker();
-
-        String[] results = spellChecker.getSuggestions("helloo", dictionary);
-        
-        System.out.println(results);
-
+        String[] results = dictionary.getSuggestions("mispelt");
+        System.out.println(results[0] + " " + results[1] + " " + results[2]);
 
 
        
