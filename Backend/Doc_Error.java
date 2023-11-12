@@ -16,12 +16,13 @@ public class Doc_Error {
         this.corrected_double_words = 0;
         this.current_capital_errors = 0;
         this.corrected_capital_errors = 0;
+
+        //create an instance of the dictionary
+        Dictionary dictionary = new Dictionary("Backend/dict_resources/words.txt");
     }
 
-    public void checkWords(String word_Object, ArrayList<String> Dictionary) {
-        if (!Dictionary.contains(word_Object)) {
-            this.current_misspelt_words++;
-        }
+    public void checkWords(Word_Object word, ArrayList<String> Dictionary) {
+        
     }
 
     public void checkCapitals(String word_Object, ArrayList<String> Dictionary) {
