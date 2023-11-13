@@ -7,7 +7,6 @@ String[] text;  // variable to hold last checked text instance in document
 Linkedlist wordBuffer = new Linkedlist();  //linked list to hold our word object list (for the entire document)
 
 public void populateLinkedList(String[] text){
-  Word_object curr = new Word_Object();
   int first = 1;
   while(text.hasnext()){
     int last = text(i).length();
@@ -16,7 +15,7 @@ public void populateLinkedList(String[] text){
       //adding the capital check
       first = 1;
       //adding word object to linked list
-      wordbuffer.add(curr);
+      Word_Object curr = new Word_Object(text(i),     
       
     }else{
       //means no capital case, adding to linked list. checking if first int = 1 --> meaning the first word of the sentence
