@@ -16,6 +16,7 @@ public void populateLinkedList(String[] text){
       //adding the capital check
       first = 1;
       //adding word object to linked list
+      wordbuffer.add(curr);
       
     }else{
       //means no capital case, adding to linked list. checking if first int = 1 --> meaning the first word of the sentence
