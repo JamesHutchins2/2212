@@ -19,5 +19,31 @@ public class LinkedList {
         }
     }
 
-    // Add other methods as needed, such as remove, find, etc.
+    // This version/branch is copied and pasted from another branch nourans-linkedlist
+    // Remove a node from the list
+    public void remove(Word_Object node) {
+        if (node == head) {
+            head = node.getNext_node();
+            head.setPrev_node(null);
+        } else if (node == tail) {
+            tail = node.getPrev_node();
+            tail.setNext_node(null);
+        } else {
+            node.getPrev_node().setNext_node(node.getNext_node());
+            node.getNext_node().setPrev_node(node.getPrev_node());
+        }
+    } 
+
+    void checkPeriod(Word_Object node){
+        if(node.getWord().endsWith(".")){
+            node.setEnd_with_period(true);
+        }   
+    }
+
+    void checkCapital(Word_Object node){
+        if(Character.isUpperCase(node.getWord().charAt(0))){
+            node.setStart_with_capital(true);
+        }
+    }
+}
 }
