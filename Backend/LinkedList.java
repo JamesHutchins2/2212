@@ -1,4 +1,4 @@
-public class LinkedList {
+ public class LinkedList {
     private Word_Object head; // Head of the list
     private Word_Object tail; // Tail of the list
 
@@ -19,7 +19,7 @@ public class LinkedList {
         }
     }
 
-    // This version/branch is copied and pasted from another branch nourans-linkedlist
+    // The functions in this version/branch are copied and pasted from another branch nourans-linkedlist
     // Remove a node from the list
     public void remove(Word_Object node) {
         if (node == head) {
