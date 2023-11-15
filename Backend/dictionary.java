@@ -41,7 +41,11 @@ public class Dictionary {
     
     //check to see if a word is in the dictionary
     public boolean isWord(String word) {
-        return words.contains(word.toLowerCase());
+        if(words.contains(word.toLowerCase())){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public Set<String> lengthFilter(String misspelledWord) {
