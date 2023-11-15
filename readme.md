@@ -6,8 +6,8 @@
 2. Hash Table implementation (for libarary search) -> James
 3. Doc_Error implementation (spell checking) -> James
 5. Doc_Error implementation (grammar checking) -> Nouran
-4. Doc_Analysis -> jessica
-5. Document -> jessica & Nouran (connection to linked list and interpretation of data)
+4. Doc_Analysis -> jessica - ready for testing
+5. Document -> jessica & Nouran (connection to linked list and interpretation of data) - ready for testing
 
 ## UI
 
