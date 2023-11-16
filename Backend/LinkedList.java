@@ -19,5 +19,28 @@ public class LinkedList {
         }
     }
 
+    // Add a new node to the beginning of the list
+    public void addFirst(Word_Object newNode) {
+        if (head == null) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            newNode.setNext_node(head);
+            head.setPrev_node(newNode);
+            head = newNode;
+        }
+    }
+
+    // get the head of the list
+    public Word_Object getHead() {
+        return head;
+    }
+
+    // get the tail of the list
+    public Word_Object getTail() {
+        return tail;
+    }
+    
+
     // Add other methods as needed, such as remove, find, etc.
 }
