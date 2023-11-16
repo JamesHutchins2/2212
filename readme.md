@@ -22,8 +22,8 @@ I am not too sure what to put here. I am unaware of how front end libraries will
 ## RunTime
 
 
-1. Manage file -> Jessica
-2. Parallelize -> Jessica
+1. Manage file -> Jessica -- pretty much done, just need to convert big string to individual words
+2. Parallelize -> Jessica -- not sure how you want me to do this??
 3. Handle Click/Action -> Nouran + UI team
 4. Loops -> TBD (this will be very variable and dependant on the other classes. I can make the base stuff but everyone will be changing )
 5. Click Integration (Entire team this will really depend on what called functions are at play) Likley major for UI so michelle and laila
