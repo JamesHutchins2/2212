@@ -20,7 +20,8 @@ class Doc_Analysis{
     int i = 0;
     while(i < text.length){
       //checking if space, period, means new word
-      if(text(i).equals(" ") || text(i).equals(".") || text(i).equals("?") || text(i).equals("!")){
+
+      if(text[i] == ' ' || text[i] == '.' || text[i] == '?' || text[i] == '!'){
         wordCount += 1;
       }
     }
@@ -34,10 +35,11 @@ class Doc_Analysis{
     int i = 0;
     while( i < text.length){
       //if newline, count
-      if(text(i).equals('\n')){
+      if(text[i] == '\n'){
          lineCount += 1;
       }
     }
+    return lineCount;
   }
   
 }
