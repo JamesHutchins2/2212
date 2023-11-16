@@ -2,6 +2,7 @@
 import java.util.ArrayList;
 
 public class Doc_Error {
+    //create the document error variables
     private int current_misspelt_words;
     private int corrected_misspelt_words;
     private int current_double_words;
@@ -9,7 +10,9 @@ public class Doc_Error {
     private int current_capital_errors;
     private int corrected_capital_errors;
 
+    //initialize the object
     public Doc_Error() {
+        //set vars to zero
         this.current_misspelt_words = 0;
         this.corrected_misspelt_words = 0;
         this.current_double_words = 0;
@@ -21,6 +24,7 @@ public class Doc_Error {
         Dictionary dictionary = new Dictionary("Backend/dict_resources/words.txt");
     }
 
+    //checks words from the document for misspellings
     public void checkWords(Word_Object word, ArrayList<String> Dictionary) {
         //First check if the word is an actual word
 
@@ -38,16 +42,15 @@ public class Doc_Error {
         }
     }
 
-    //adding in a new function here
+    //check double word function
     public void checkDoubleWord(Word_Object word_Object){
 
         //get the current word text
         String word_text = word_Object.getWord();
 
         //get the next word object
-
         Word_Object next_word_object = word_Object.getNext_node();
-
+        //extract the word string
         String next_word = next_word_object.getWord();
 
 

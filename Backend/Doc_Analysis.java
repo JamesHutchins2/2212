@@ -30,7 +30,7 @@ Class Doc_Analysis{
     //loop through entire file
     while(text.hasnext()){
       //if newline, count
-      if(char[i].equals(\n)){
+      if(char[i].equals('\n')){
          lineCount += 1;
       }
     }
