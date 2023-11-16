@@ -2,10 +2,10 @@ Class Doc_Analysis{
   //this class is to return the analysis portion 
   
   //defining instance variables
-  char[] text;
-  int charCount = 0;
-  int wordCount = 0;
-  int lineCount = 0;
+  public char[] text;
+  private int charCount = 0;
+  private int wordCount = 0;
+  private int lineCount = 0;
 
   //method to return char count
   private int getCharCount(char[] text){
