@@ -3,8 +3,8 @@ public class Document extends Word_Object{
 //It transforms the data types into our word object so that the words can be analyzed by the spell check.
 
 // first creating instance variables
-String[] text;  // variable to hold last checked text instance in document
-Linkedlist wordBuffer = new Linkedlist();  //linked list to hold our word object list (for the entire document)
+public String[] text;  // variable to hold last checked text instance in document
+public Linkedlist wordBuffer = new Linkedlist();  //linked list to hold our word object list (for the entire document)
 
 public void populateLinkedList(String[] text, Linkedlist wordBuffer){
   int first = 1;
