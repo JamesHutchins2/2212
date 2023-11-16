@@ -1,4 +1,4 @@
-Class Doc_Analysis{
+class Doc_Analysis{
   //this class is to return the analysis portion 
   
   //defining instance variables
@@ -10,27 +10,31 @@ Class Doc_Analysis{
   //method to return char count
   private int getCharCount(char[] text){
     //the size of the array is the total char count
-    charCount = text.size();
+    charCount = text.length;
+    return charCount;
   }
 
   //to return word count
-  private int getWordCount(char[] word){
+  private int getWordCount(char[] text){
     //loop through char array
-    while(text.hasnext()){
+    int i = 0;
+    while(i < text.length){
       //checking if space, period, means new word
       if(text(i).equals(" ") || text(i).equals(".") || text(i).equals("?") || text(i).equals("!")){
         wordCount += 1;
       }
     }
+    return wordCount;
   }
 
 
   //to return line count
   private int getLineCount(char[] text){
     //loop through entire file
-    while(text.hasnext()){
+    int i = 0;
+    while( i < text.length){
       //if newline, count
-      if(char[i].equals('\n')){
+      if(text(i).equals('\n')){
          lineCount += 1;
       }
     }

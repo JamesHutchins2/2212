@@ -1,4 +1,4 @@
-public class Document extends Word_Object{
+public class Document{
 //this class is to work as the hub for the spell check system creating the linked list from the workspace text.
 //It transforms the data types into our word object so that the words can be analyzed by the spell check.
 
@@ -8,7 +8,8 @@ public Linkedlist wordBuffer = new Linkedlist();  //linked list to hold our word
 
 public void populateLinkedList(String[] text, Linkedlist wordBuffer){
   int first = 1;
-  while(text.hasnext()){
+  int i = 0;
+  while(i < text.length){
     
     int last = text(i).length();
     if(text(last).equals(".") || text(last).equals("?") || text(last).equals("!")){
