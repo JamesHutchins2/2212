@@ -13,6 +13,10 @@ public class Word_Object{
     private String suggestion_2;
     private String suggestion_3;
 
+    public Word_Object(){
+        //do nothing
+    }
+    
     public Word_Object(String word, boolean start_with_capital, boolean end_with_period, boolean is_real_word, boolean needs_capital, boolean needs_period, boolean is_double_word_after, boolean is_double_word_before, String suggestion_1, String suggestion_2, String suggestion_3) {
         this.word = word;
         this.start_with_capital = start_with_capital;

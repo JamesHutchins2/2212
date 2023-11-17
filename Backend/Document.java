@@ -11,13 +11,13 @@ public void populateLinkedList(String[] text, LinkedList wordBuffer){
   int first = 1;
   int i = 0;
   while(i < text.length){
-    
+    Word_Object curr = new Word_Object();
     int last = text[i].length();
     if((text[last].equals(".")) || (text[last].equals("?")) || (text[last].equals("!"))){
       //means the sentence has ended, add boolean for end of sentence for capital check
       //adding the capital check
-      Word_Object curr = new Word_Object(text[i],0,1,0,0,0,0,0,"","","");
-      first = 1;
+      curr.setWord(text[i]); 
+      curr.setEnd_with_period(true);
       //adding word object to linked list
       wordBuffer.add(curr);
       
@@ -27,10 +27,12 @@ public void populateLinkedList(String[] text, LinkedList wordBuffer){
         //resetting the value
         first = 0;
         //adding to linked list with capital
-        Word_Object curr = new Word_Object(text[i],1,0,0,0,0,0,0,0,0,0);
+        curr.setWord(text[i]);
+        curr.setStart_with_capital(true);
       }else{
         //just add the word to linked list, no capital check
-        Word_Object curr = new Word_Object(text[i],0,0,0,0,0,0,0,0,0,0);
+        curr.setWord(text[i]);
+        
       }
     }
   }
