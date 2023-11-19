@@ -134,4 +134,13 @@ public class Word_Object{
     public void setSuggestion_3(String suggestion_3) {
         this.suggestion_3 = suggestion_3;
     }
+
+    public boolean hasNext(){
+        if(this.next_node == null){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
 }

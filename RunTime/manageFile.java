@@ -43,6 +43,44 @@ class manageFile{
 
   }
 
+  public LinkedList string_to_list(String text){
+    //this function takes the singular string, and converts it to a linked list of words
+    
+    //split the string into an array of words
+    String[] words = text.split(" ");
+
+    //create a linked list
+    LinkedList word_list = new LinkedList();
+
+    //loop through the array of words
+    for(int i = 0; i < words.length; i++){
+      //create a word object
+      Word_Object word = new Word_Object();
+      //check if the word starts with a capital
+      if(Character.isUpperCase(words[i].charAt(0))){
+        //set the start with capital to true
+        word.setStart_with_capital(true);
+      }
+      //check if the word ends with a period
+      if(words[i].endsWith(".")){
+        //set the end with period to true
+        word.setEnd_with_period(true);
+        //remove the period from the word
+        words[i] = words[i].substring(0, words[i].length() - 1);
+      }
+
+
+      //set the word
+      word.setWord(words[i]);
+      //add the word to the linked list
+      word_list.add(word);
+    }
+
+    //return the linked list
+    return word_list;
+  
+  }
+
   //function to convert the string to a file (need filename??)
   private static void stringToFile(LinkedList words, String path){
     
