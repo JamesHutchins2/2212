@@ -12,8 +12,7 @@
             //           what should i do w corrected vars? **********Question***********
 
         // Comments for the group:
-            // i added isNeeds_lowercase() and setNeeds_lowercase(boolean needs_lowercase) to Word_Object.java
-            // test1
+            // i added isNeeds_lowercase() and setNeeds_lowercase(boolean needs_lowercase) to Word_Object.java.
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
