@@ -40,6 +40,13 @@ public class Doc_Error {
             this.current_misspelt_words++;
             //add a flag to the word object
             word.setIs_real_word(false);
+
+            //now get suggestions for the word
+            //create an array list to hold the suggestions
+            String [] suggestions = dictionary.getSuggestions(word_text);
+            //add the suggestions to the word object
+            word.setSuggestions(suggestions);
+            
         }
     }
 

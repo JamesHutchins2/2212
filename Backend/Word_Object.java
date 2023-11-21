@@ -111,29 +111,23 @@ public class Word_Object{
         this.is_double_word_before = is_double_word_before;
     }
 
-    public String getSuggestion_1() {
-        return suggestion_1;
+
+    public void setSuggestions(String[] suggestions) {
+        this.suggestion_1 = suggestions[0];
+        this.suggestion_2 = suggestions[1];
+        this.suggestion_3 = suggestions[2];
+    }
+    public String[] getSuggestions(){
+        String[] items = new String[3];
+        items[0] = this.suggestion_1;
+        items[1] = this.suggestion_2;
+        items[2] = this.suggestion_3;
+
+        return items;
+
     }
 
-    public void setSuggestion_1(String suggestion_1) {
-        this.suggestion_1 = suggestion_1;
-    }
-
-    public String getSuggestion_2() {
-        return suggestion_2;
-    }
-
-    public void setSuggestion_2(String suggestion_2) {
-        this.suggestion_2 = suggestion_2;
-    }
-
-    public String getSuggestion_3() {
-        return suggestion_3;
-    }
-
-    public void setSuggestion_3(String suggestion_3) {
-        this.suggestion_3 = suggestion_3;
-    }
+   
 
     public boolean hasNext(){
         if(this.next_node == null){

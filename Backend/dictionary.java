@@ -51,6 +51,11 @@ public class Dictionary {
             //if it contains the word, return true
             return true;
         }else{
+            //check to see if user words is null
+            if(user_words == null){
+                //if it is, return false
+                return false;
+            }
             //check the user words
             for(int i = 0; i < user_words.length; i++){
                 //if the word is in the user words, return true

@@ -1,50 +1,66 @@
-
 import java.util.LinkedList;
 
-public class RunTime extends Thread {
+public class RunTime {
     private String save_path;
     private boolean running;
 
-    public RunTime(String save_path) {
-        this.save_path = save_path;
+    // Associations with other classes
+    private Handle_Click handle_click;
+    private manageFile manage_file;
+    private UI ui;
+
+    // Constructor
+    public RunTime() {
+        // Initialization of attributes and associations
+        this.save_path = "";
         this.running = false;
+        
+        //call the start method
     }
 
+    // Methods
     public void start() {
-        this.running = true;
-        super.start();
+        
+        //initialize the UI object
+        ui = new UI(this);
+
+        //get words from the UI
+        String[] words = ui.getWords();
+
+        //initialize the document class
+        Document document = new Document(words);
     }
 
     public void watch() {
-        while (this.running) {
-            // watch for changes in the file system
-        }
+        // Implementation of watch method
     }
 
-    public void updateLibrary(String path) {
-        // update the library with the new path
+    public void updateLibrary(String libraryPath) {
+        // Implementation of updateLibrary
     }
 
     public LinkedList<String> runSpellCheck(String text) {
-        // run spell check on the given text and return a linked list of suggestions
-        return new LinkedList<String>();
+        // Implementation of runSpellCheck
+        return new LinkedList<>();
     }
 
-    public boolean saveFile(String text) {
-        // save the given text to the save_path
+    public boolean saveFile(String filePath) {
+        // Implementation of saveFile
         return true;
     }
 
-    public String[] loadFile(String path) {
-        // load the file at the given path and return its contents as an array of strings
+    public String[] loadFile(String filePath) {
+        // Implementation of loadFile
         return new String[0];
     }
 
     public void handleAction(Action action) {
-        // handle the given action
+        // Implementation of handleAction
     }
 
-    public void populateUI(LinkedList<String> suggestions) {
-        // populate the UI with the given suggestions
+    public void populateUI(LinkedList<String> data) {
+        // Implementation of populateUI
     }
+
+    // Other necessary methods and functionalities
 }

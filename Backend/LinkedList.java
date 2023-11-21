@@ -40,6 +40,16 @@ public class LinkedList {
     public Word_Object getTail() {
         return tail;
     }
+
+    public int get_length(){
+        int length = 0;
+        Word_Object curr = head;
+        while(curr != null){
+            length++;
+            curr = curr.getNext_node();
+        }
+        return length;
+    }
     
 
     // Add other methods as needed, such as remove, find, etc.
