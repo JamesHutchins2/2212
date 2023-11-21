@@ -1,9 +1,9 @@
 import Backend.Word_Object;
 
-public class Handle_Click{
+public class Handle_click{
     private RunTime runTime;
 
-    public Handle_Click(RunTime runTime) {
+    public Handle_click(RunTime runTime) {
         this.runTime = runTime;
     }
 

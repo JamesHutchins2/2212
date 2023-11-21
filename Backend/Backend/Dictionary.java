@@ -92,6 +92,16 @@ public class Dictionary {
                 //compare entries by value
                 (entry1, entry2) -> Integer.compare(entry2.getValue(), entry1.getValue()) // Explicit comparator for reversed order
         );
+
+        //combine the filtered words with the user words
+        try{
+            Set<String> user_words_set = new HashSet<>(Arrays.asList(user_words));
+            filteredWords.addAll(user_words_set);
+        }catch(Exception e){
+            //no user words so pass
+            
+        }
+        
         //loop through the filtered words
         for (String word : filteredWords) {
             //get the levenshtein distance between the misspelled word and the word in the dictionary
@@ -104,6 +114,9 @@ public class Dictionary {
                 pq.poll(); // Now removes the word with the largest distance
             }
         }
+
+        
+        //MIGHT NEED TO FIX @!!!!!!!!!!!!!!
         //create a list to hold the suggestions
         List<String> suggestions = new ArrayList<>();
         //loop through the priority queue

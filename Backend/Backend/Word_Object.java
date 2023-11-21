@@ -13,6 +13,8 @@ public class Word_Object{
     private String suggestion_1;
     private String suggestion_2;
     private String suggestion_3;
+    private int start_index;
+    private int end_index;
 
     public Word_Object(){
         //do nothing
@@ -31,6 +33,23 @@ public class Word_Object{
         this.suggestion_2 = suggestion_2;
         this.suggestion_3 = suggestion_3;
     }
+
+    public void setStart_index(int start_index) {
+        this.start_index = start_index;
+    }
+
+    public void setEnd_index(int end_index) {
+        this.end_index = end_index;
+    }
+
+    public int getStart_index() {
+        return start_index;
+    }
+
+    public int getEnd_index() {
+        return end_index;
+    }
+    
 
     public Word_Object getPrev_node() {
         return prev_node;

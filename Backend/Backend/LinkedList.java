@@ -54,6 +54,49 @@ public class LinkedList {
         }
         return length;
     }
+
+
+    public void calculate_indicies(){
+
+        //we will populate the index values for each word object.
+
+        //get the head of the linked list
+        Word_Object curr = head;
+
+        //set the start index to 0
+        
+
+        int index = 0;
+
+        //loop through the linked list
+        while(curr != null){
+
+            //set the start index
+            curr.setStart_index(index);
+
+            //get the word
+            String word = curr.getWord();
+
+            //get the length of the word
+            int word_length = word.length();
+
+            //add the word length to the index
+            index = index + word_length;
+
+            //set the end index
+            curr.setEnd_index(index);
+
+            //increment the index by 1 for space, by 2 for period and space
+            if(curr.isEnd_with_period()){
+                index = index + 2;
+            }else{
+                index = index + 1;
+            }
+
+        }
+
+
+    }
     
     
 
