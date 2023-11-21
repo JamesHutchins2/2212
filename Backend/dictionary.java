@@ -17,6 +17,7 @@ public class Dictionary {
     
     //create a set that will contain words from the text file dict
     private Set<String> words;
+    private String[] user_words;
 
     // cut off for word length to speed up search
     private static int threshold = 4;
@@ -50,6 +51,13 @@ public class Dictionary {
             //if it contains the word, return true
             return true;
         }else{
+            //check the user words
+            for(int i = 0; i < user_words.length; i++){
+                //if the word is in the user words, return true
+                if(user_words[i].equals(word)){
+                    return true;
+                }
+            }
             //word is not in the dictionary, return false
             return false;
         }
@@ -146,6 +154,14 @@ public class Dictionary {
     //returns the minimum of the numbers passed in
     private static int min(int... numbers) {
         return Arrays.stream(numbers).min().orElse(Integer.MAX_VALUE);
+    }
+
+
+    public void add_user_word(String word){
+        //add the word to the user words array
+        user_words = Arrays.copyOf(user_words, user_words.length + 1);
+        user_words[user_words.length - 1] = word;
+
     }
     
 }

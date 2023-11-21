@@ -1,16 +1,18 @@
 
-public class Action {
-    private Word word;
+
+public class action {
+
+    private Word_Object word;
     private boolean handled;
     private int buttonType;
 
-    public Action(Word word, int buttonType) {
+    public action(Word_Object word, int buttonType) {
         this.word = word;
         this.buttonType = buttonType;
         this.handled = false;
     }
 
-    public Word getWord() {
+    public Word_Object getWord() {
         return word;
     }
 
@@ -26,6 +28,7 @@ public class Action {
         return buttonType;
     }
 
+    //this needs to be developed still
     public void handle() {
         Handle_Click.handle(this);
     }
