@@ -6,6 +6,7 @@ public class Word_Object{
     private boolean end_with_period;
     private boolean is_real_word;
     private boolean needs_capital;
+    private boolean needs_lowercase; 
     private boolean needs_period;
     private boolean is_double_word_after;
     private boolean is_double_word_before;
@@ -13,12 +14,13 @@ public class Word_Object{
     private String suggestion_2;
     private String suggestion_3;
 
-    public Word_Object(String word, boolean start_with_capital, boolean end_with_period, boolean is_real_word, boolean needs_capital, boolean needs_period, boolean is_double_word_after, boolean is_double_word_before, String suggestion_1, String suggestion_2, String suggestion_3) {
+    public Word_Object(String word, boolean start_with_capital, boolean end_with_period, boolean is_real_word, boolean needs_capital, boolean needs_lowercase, boolean needs_period, boolean is_double_word_after, boolean is_double_word_before, String suggestion_1, String suggestion_2, String suggestion_3) {
         this.word = word;
         this.start_with_capital = start_with_capital;
         this.end_with_period = end_with_period;
         this.is_real_word = is_real_word;
         this.needs_capital = needs_capital;
+        this.needs_lowercase = needs_lowercase;
         this.needs_period = needs_period;
         this.is_double_word_after = is_double_word_after;
         this.is_double_word_before = is_double_word_before;
@@ -67,7 +69,7 @@ public class Word_Object{
         this.end_with_period = end_with_period;
     }
 
-    public boolean isIs_real_word() {
+    public boolean is_real_word() {
         return is_real_word;
     }
 
@@ -79,8 +81,17 @@ public class Word_Object{
         return needs_capital;
     }
 
+    public boolean isNeeds_lowercase() {
+        return needs_lowercase;
+    }
+
+
     public void setNeeds_capital(boolean needs_capital) {
         this.needs_capital = needs_capital;
+    }
+
+    public void setNeeds_lowercase(boolean needs_lowercase) {
+        this.needs_lowercase = needs_lowercase;
     }
 
     public boolean isNeeds_period() {

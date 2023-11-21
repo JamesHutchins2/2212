@@ -19,7 +19,8 @@
         }
     }
 
-    // The functions in this version/branch are copied and pasted from another branch nourans-linkedlist
+    // Add other methods as needed, such as remove, find, etc.
+
     // Remove a node from the list
     public void remove(Word_Object node) {
         if (node == head) {
@@ -34,15 +35,38 @@
         }
     } 
 
-    void checkPeriod(Word_Object node){
-        if(node.getWord().endsWith(".")){
-            node.setEnd_with_period(true);
-        }   
+    boolean isInList(Word_Object node){
+        Word_Object curr = head;
+        while(curr != null){
+            if(curr.getWord().equals(node.getWord())){
+                return true;
+            }
+            curr = curr.getNext_node();
+        }
+        return false;
     }
 
-    void checkCapital(Word_Object node){
-        if(Character.isUpperCase(node.getWord().charAt(0))){
-            node.setStart_with_capital(true);
+    int length(){
+        Word_Object curr = head;
+        int count = 0;
+        while(curr != null){
+            count++;
+            curr = curr.getNext_node();
         }
+        return count;
     }
+
+    Word_Object get(int index){
+        Word_Object curr = head;
+        int count = 0;
+        while(curr != null){
+            if(count == index){
+                return curr;
+            }
+            count++;
+            curr = curr.getNext_node();
+        }
+        return null;
+    }
+
 }
