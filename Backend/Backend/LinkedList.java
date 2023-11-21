@@ -1,3 +1,4 @@
+package Backend;
 public class LinkedList {
     private Word_Object head; // Head of the list
     private Word_Object tail; // Tail of the list

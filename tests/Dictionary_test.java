@@ -4,10 +4,8 @@ import Backend.Dictionary;
 import Backend.Doc_Error;
 import Backend.Word_Object;
 import Backend.LinkedList;
-import Backend.action;
 import java.nio.Buffer;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -24,7 +22,7 @@ public class Dictionary_test {
     public void testDictionary(){
     //test 1: initialize dictionary, fill with words, and check that all words are in the dictionary
         
-        Dictionary dictionary = new Dictionary("Backend/dict_resources/words.txt");
+        Dictionary dictionary = new Dictionary("../Backend/Backend/dict_resources/words.txt");
 
         //read the words from the text file
         File file = new File("Backend/dict_resources/words.txt");
@@ -90,12 +88,12 @@ public class Dictionary_test {
 
 
         //add words to the dictionary
-        dictionary.add_user_Word("hellooo");
+        dictionary.add_user_word("hellooo");
 
         //test 5: check to see if a word is in the dictionary
         dictionary.isWord("hellooo");
 
         //remove word from 
 
-
+    }
 }

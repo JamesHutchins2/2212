@@ -1,5 +1,5 @@
+package Backend;
 
-import java.util.ArrayList;
 
 public class Doc_Error {
     //create the document error variables

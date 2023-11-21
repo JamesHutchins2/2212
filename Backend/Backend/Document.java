@@ -1,3 +1,4 @@
+package Backend;
 import javax.print.Doc;
 
 public class Document{
@@ -133,4 +134,5 @@ public int[] get_doc_error_values(){
   //return the array
   return errors;
 
+  }
 }

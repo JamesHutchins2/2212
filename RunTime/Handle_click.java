@@ -1,3 +1,4 @@
+import Backend.Word_Object;
 
 public class Handle_Click{
     private RunTime runTime;

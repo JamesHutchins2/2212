@@ -3,6 +3,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import Backend.LinkedList;
+import Backend.Word_Object;
+
 
 class manageFile{
   //this is a class that works with the UI to open a file, save a file, etc.

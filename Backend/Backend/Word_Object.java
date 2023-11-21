@@ -1,3 +1,4 @@
+package Backend;
 public class Word_Object{
     private Word_Object prev_node;
     private Word_Object next_node;

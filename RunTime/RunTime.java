@@ -1,5 +1,7 @@
 import java.util.LinkedList;
 
+import Backend.Document;
+
 public class RunTime {
     private String save_path;
     private boolean running;
