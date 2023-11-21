@@ -2,6 +2,7 @@ package Backend;
 public class LinkedList {
     private Word_Object head; // Head of the list
     private Word_Object tail; // Tail of the list
+    
 
     public LinkedList() {
         head = null;
@@ -13,6 +14,7 @@ public class LinkedList {
         if (head == null) {
             head = newNode;
             tail = newNode;
+            newNode.setNext_node(null);
         } else {
             tail.setNext_node(newNode);
             newNode.setPrev_node(tail);
@@ -25,6 +27,7 @@ public class LinkedList {
         if (head == null) {
             head = newNode;
             tail = newNode;
+            newNode.setNext_node(null);
         } else {
             newNode.setNext_node(head);
             head.setPrev_node(newNode);
@@ -42,15 +45,16 @@ public class LinkedList {
         return tail;
     }
 
-    public int get_length(){
+    public int get_length() {
         int length = 0;
         Word_Object curr = head;
-        while(curr != null){
+        while (curr != null) {
             length++;
             curr = curr.getNext_node();
         }
         return length;
     }
+    
     
 
     // Add other methods as needed, such as remove, find, etc.

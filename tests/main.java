@@ -13,6 +13,11 @@ public class main {
         Doc_Analysis_test doc_analysis_test = new Doc_Analysis_test();
         doc_analysis_test.testDocAnalysis();
 
+
+        //run the doc error test
+        Doc_Error_test doc_error_test = new Doc_Error_test();
+        doc_error_test.testDocError();
+
         System.out.println("All tests passed!");
 
     }

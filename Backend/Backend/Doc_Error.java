@@ -1,5 +1,7 @@
 package Backend;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 
 public class Doc_Error {
     //create the document error variables
@@ -12,7 +14,7 @@ public class Doc_Error {
     Dictionary dictionary;
 
     //initialize the object
-    public Doc_Error() {
+    public Doc_Error(){
         //set vars to zero
         this.current_misspelt_words = 0;
         this.corrected_misspelt_words = 0;
@@ -22,7 +24,13 @@ public class Doc_Error {
         this.corrected_capital_errors = 0;
 
         //create an instance of the dictionary
-        this.dictionary = new Dictionary("Backend/dict_resources/words.txt");
+        
+        String relativePath = ".." + File.separator + "Backend" + File.separator + "Backend" + File.separator + "dict_resources" + File.separator + "words.txt";
+        File file = new File(relativePath);
+
+        // Use the file (e.g., pass the path to your Dictionary constructor)
+        this.dictionary = new Dictionary(file.getAbsolutePath());
+
     }
 
     //checks words from the document for misspellings

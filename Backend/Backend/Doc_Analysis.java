@@ -21,74 +21,57 @@ class Doc_Analysis{
 
 
   //to return line count
-  private int getLineCount(char[] text){
-    //loop through entire file
+  private int getLineCount(char[] text) {
+    int lineCount = 0; // Initialize lineCount
     int i = 0;
-    while( i < text.length){
-      //if newline, count
-      if(text[i] == '\n'){
-         lineCount += 1;
-      }
+    while (i < text.length) {
+        // If newline, count
+        if (text[i] == '\n') {
+            lineCount += 1;
+        }
+        i++; // Increment i to avoid infinite loop
     }
     return lineCount;
   }
 
-  private String[] getText(LinkedList wordBuffer){
+  private String[] getText(LinkedList wordBuffer) {
+    int length = wordBuffer.get_length();
+    String[] text = new String[length];
 
-    //loop through the linked list and get the text
-    //fist initialize the array
-    String[] text = new String[wordBuffer.get_length()];
-
-    //get the first word object
-    Word_Object curr_word_object = (Word_Object) wordBuffer.getHead();
-
-    //loop through the linked list until we reach the end
+    Word_Object curr_word_object = wordBuffer.getHead();
     int i = 0;
-    while(curr_word_object.hasNext()){
-      //get the word
-      String word = curr_word_object.getWord();
-      //add to the array
-      text[i] = word;
-      //increment the counter
-      i += 1;
+    while (curr_word_object != null) {
+        text[i] = curr_word_object.getWord();
+        i++;
+        curr_word_object = curr_word_object.getNext_node();
     }
 
-    //update the instance variable
     this.wordCount = i;
-
-
     return text;
   }
 
-private char[] getChar(String[] text){
-  //loop through the array and get the char
-  //first initialize the array
-  char[] char_array = new char[text.length];
-
-  //loop through the array
-  int i = 0;
-  while(i < text.length){
-    //get the word
-    String word = text[i];
-    //split the word into char array
-    char[] word_char_array = word.toCharArray();
-    //loop through the char array
-    int j = 0;
-    while(j < word_char_array.length){
-      //add to the char array
-      char_array[j] = word_char_array[j];
-      //increment the counter
-      j += 1;
+  private char[] getChar(String[] text) {
+    // Calculate total length needed
+    int totalLength = 0;
+    for (String word : text) {
+        totalLength += word.length();
     }
-    //increment the counter
-    i += 1;
-  }
 
-  //update the instance variable
-  
-  this.charCount = i;
+    // Initialize the array with the correct size
+    char[] char_array = new char[totalLength];
 
-  return char_array;
+    // Loop through the array and fill char_array
+    int currentIndex = 0;
+    for (String word : text) {
+        for (char c : word.toCharArray()) {
+            char_array[currentIndex++] = c;
+        }
+    }
+
+    // Update the instance variable
+    this.charCount = totalLength;
+
+    return char_array;
 }
 
   

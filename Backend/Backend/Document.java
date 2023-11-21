@@ -18,37 +18,27 @@ public Document(String[] text){
   populateLinkedList(text, wordBuffer);
   doc_analysis = new Doc_Analysis(wordBuffer);
 }
-public void populateLinkedList(String[] text, LinkedList wordBuffer){
-  int first = 1;
-  int i = 0;
-  while(i < text.length){
-    Word_Object curr = new Word_Object();
-    int last = text[i].length();
-    if((text[last].equals(".")) || (text[last].equals("?")) || (text[last].equals("!"))){
-      //means the sentence has ended, add boolean for end of sentence for capital check
-      //adding the capital check
-      curr.setWord(text[i]); 
-      curr.setEnd_with_period(true);
-      //adding word object to linked list
+public void populateLinkedList(String[] text, LinkedList wordBuffer) {
+  boolean isFirstWordOfSentence = true;
+
+  for (String word : text) {
+      Word_Object curr = new Word_Object();
+      char lastCharacter = word.charAt(word.length() - 1);
+
+      // Set properties of curr based on word
+      curr.setWord(word);
+      if (lastCharacter == '.' || lastCharacter == '?' || lastCharacter == '!') {
+          curr.setEnd_with_period(true);
+          isFirstWordOfSentence = true;
+      } else if (isFirstWordOfSentence) {
+          curr.setStart_with_capital(true);
+          isFirstWordOfSentence = false;
+      }
+
+      // Add word object to linked list
       wordBuffer.add(curr);
       
-    }else{
-      //means no capital case, adding to linked list. checking if first int = 1 --> meaning the first word of the sentence
-      if(first == 1){
-        //resetting the value
-        first = 0;
-        //adding to linked list with capital
-        curr.setWord(text[i]);
-        curr.setStart_with_capital(true);
-      }else{
-        //just add the word to linked list, no capital check
-        curr.setWord(text[i]);
-        
-      }
-    }
   }
-  //incrementing the counter
-  i += 1;
 }
 
 public LinkedList run_spell_check(){

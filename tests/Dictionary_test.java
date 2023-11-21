@@ -22,10 +22,14 @@ public class Dictionary_test {
     public void testDictionary(){
     //test 1: initialize dictionary, fill with words, and check that all words are in the dictionary
         
-        Dictionary dictionary = new Dictionary("../Backend/Backend/dict_resources/words.txt");
+        String relativePath = ".." + File.separator + "Backend" + File.separator + "Backend" + File.separator + "dict_resources" + File.separator + "words.txt";
+        File file_in = new File(relativePath);
+
+        // Use the file (e.g., pass the path to your Dictionary constructor)
+        Dictionary dictionary = new Dictionary(file_in.getAbsolutePath());
 
         //read the words from the text file
-        File file = new File("Backend/dict_resources/words.txt");
+        File file = file_in;
         BufferedReader bufferedReader = null;
         int count = 0; // Added for debugging
 

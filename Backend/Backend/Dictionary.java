@@ -161,11 +161,16 @@ public class Dictionary {
     }
 
 
-    public void add_user_word(String word){
-        //add the word to the user words array
+    public void add_user_word(String word) {
+        // Initialize user_words if it's null
+        if (user_words == null) {
+            user_words = new String[0];
+        }
+    
+        // Add the word to the user words array
         user_words = Arrays.copyOf(user_words, user_words.length + 1);
         user_words[user_words.length - 1] = word;
-
     }
+    
     
 }
