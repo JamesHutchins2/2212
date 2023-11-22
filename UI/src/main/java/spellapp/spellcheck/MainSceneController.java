@@ -119,15 +119,14 @@ public class MainSceneController {
 
     @FXML
     void startSpell(ActionEvent event) {
-        StringBuilder content = new StringBuilder () ;
-        content.append ( textArea .getText() ) ;
-        // Call Backend methods to load linked Lists, etc before starting spell check mode
+        StringBuilder content = new StringBuilder();
+        content.append( textArea.getText() );
+        mainLabel.setText("Spell Check Mode");
 
+        // Start Spell check mode
+        // Pass the "content" String into Backend methods to load linked Lists, etc before starting spell check mode
         // Once done - Parse linked list of incorrect words and somehow show them differently on UI
-        
-        // Then we want to create a series of popup UIs that are able to popup when certain words are clicked on
-
-
+        // THen we want to create a series of popup UIs that are able to popup when certain words are clicked on
     }
 
 }
