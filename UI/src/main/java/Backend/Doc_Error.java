@@ -44,6 +44,7 @@ public class Doc_Error {
         
         //if it is not a word (False evaluation)
         if(!is_a_word){
+            System.out.println("Misspelt word: " + word_text);
             //itterate the current misspelt words
             this.current_misspelt_words++;
             //add a flag to the word object
@@ -53,6 +54,10 @@ public class Doc_Error {
             //create an array list to hold the suggestions
             String [] suggestions = dictionary.getSuggestions(word_text);
             //add the suggestions to the word object
+            //print out the suggestions
+            for(int i = 0; i < suggestions.length; i++){
+                System.out.println(suggestions[i]);
+            }
             word.setSuggestions(suggestions);
             
         }

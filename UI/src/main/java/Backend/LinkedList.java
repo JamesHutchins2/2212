@@ -56,45 +56,66 @@ public class LinkedList {
     }
 
 
-    public void calculate_indicies(){
+    public void calculate_indicies() {
+        // We will populate the index values for each word object.
+        // Get the head of the linked list
+        Word_Object curr = head;
+    
+        // Set the start index to 0
+        int index = 0;
+    
+        // Loop through the linked list
+        while (curr != null) {
+            // Set the start index
+            curr.setStart_index(index);
+    
+            // Get the word
+            String word = curr.getWord();
+    
+            // Get the length of the word
+            int word_length = word.length();
+    
+            // Add the word length to the index
+            index += word_length;
+    
+            // Set the end index
+            curr.setEnd_index(index);
+    
+            // Increment the index by 1 for space, by 2 for period and space
+            if (curr.isEnd_with_period()) {
+                index += 2;
+            } else {
+                index += 1;
+            }
+    
+            // Move to the next node
+            curr = curr.getNext_node();
+        }
+    }
+    
 
-        //we will populate the index values for each word object.
-
+    public Word_Object get_word_at_index(int index){
+        System.out.println("get word at index: " + index);
         //get the head of the linked list
         Word_Object curr = head;
-
-        //set the start index to 0
-        
-
-        int index = 0;
+        System.out.println("index: " + index);
+        System.out.println("start index: " + curr.getWord());
 
         //loop through the linked list
         while(curr != null){
 
-            //set the start index
-            curr.setStart_index(index);
-
-            //get the word
-            String word = curr.getWord();
-
-            //get the length of the word
-            int word_length = word.length();
-
-            //add the word length to the index
-            index = index + word_length;
-
-            //set the end index
-            curr.setEnd_index(index);
-
-            //increment the index by 1 for space, by 2 for period and space
-            if(curr.isEnd_with_period()){
-                index = index + 2;
-            }else{
-                index = index + 1;
+            //check to see if the index is in the range of the word
+            if(index >= curr.getStart_index() && index <= curr.getEnd_index()){
+                return curr;
             }
+
+            //increment the index
+            curr = curr.getNext_node();
 
         }
 
+        //if we get here, we did not find the word
+        return null;
 
     }
     

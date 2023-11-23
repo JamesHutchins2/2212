@@ -2,6 +2,7 @@ package Backend;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -85,47 +86,58 @@ public class Dictionary {
 
     //get suggestions for a misspelled word
     public String[] getSuggestions(String misspelledWord) {
-        //filter out words that are not within a certain length of the misspelled word
-        Set<String> filteredWords = lengthFilter(misspelledWord);
-        //create a priority queue to hold the words so we know which ones are the most similar to the word in question
+        // Create a set to hold filtered words
+        Set<String> filteredWords = new HashSet<>();
+    
+        // Add all existing words to the set
+        filteredWords.addAll(words);
+    
+        // Create a priority queue to hold words along with their Levenshtein distance to the misspelled word
+        // Words with smaller distances (closer matches) will be given higher priority
         PriorityQueue<Map.Entry<String, Integer>> pq = new PriorityQueue<>(
-                //compare entries by value
-                (entry1, entry2) -> Integer.compare(entry2.getValue(), entry1.getValue()) // Explicit comparator for reversed order
+            Comparator.comparingInt(Map.Entry::getValue)
         );
-
-        //combine the filtered words with the user words
-        try{
+    
+        // Try to add user-defined words to the filtered set
+        try {
             Set<String> user_words_set = new HashSet<>(Arrays.asList(user_words));
             filteredWords.addAll(user_words_set);
-        }catch(Exception e){
-            //no user words so pass
-            
+        } catch (Exception e) {
+            // No user words, so we just pass and use the default words
+            System.out.println("No user words");
         }
-        
-        //loop through the filtered words
+    
+        // Iterate over the filtered words
         for (String word : filteredWords) {
-            //get the levenshtein distance between the misspelled word and the word in the dictionary
+            // Calculate the Levenshtein distance between the misspelled word and the current word
             int distance = levenshteinDistance(misspelledWord, word);
-            //add the word and distance to the priority queue
+    
+            // Add the word along with its distance to the priority queue
             pq.offer(new AbstractMap.SimpleEntry<>(word, distance));
-            
-            // Only keep the top 3 results
+    
+            // Keep only the top 3 closest words in the queue
             if (pq.size() > 3) {
-                pq.poll(); // Now removes the word with the largest distance
+                pq.poll(); // Remove the word with the largest distance
             }
         }
-
-        
-        //MIGHT NEED TO FIX @!!!!!!!!!!!!!!
-        //create a list to hold the suggestions
+    
+        // Create a list to store the suggestions
         List<String> suggestions = new ArrayList<>();
-        //loop through the priority queue
+        
+        // Retrieve the top 3 suggestions from the priority queue
         while (!pq.isEmpty()) {
-            //add the suggestions to the list
-            suggestions.add(pq.poll().getKey()); // No reversal needed
+            suggestions.add(0, pq.poll().getKey()); // Add at the beginning to reverse the order
         }
-        //return the suggestions
-        return suggestions.toArray(new String[0]);
+    
+        // Print the suggestions for debugging
+        for (String suggestion : suggestions) {
+            System.out.println(suggestion);
+        }
+        //print the length of the suggestions
+        System.out.println("suggestions length: " + suggestions.size());
+    
+        // Convert the list of suggestions to an array and return
+        return suggestions.toArray(new String[suggestions.size()]);
     }
 
     

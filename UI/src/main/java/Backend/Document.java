@@ -15,14 +15,16 @@ Doc_Analysis doc_analysis;
 //constructor
 public Document(String[] text){
   this.text = text;
-  populateLinkedList(text, wordBuffer);
-  doc_analysis = new Doc_Analysis(wordBuffer);
+  populateLinkedList(text);
+  //doc_analysis = new Doc_Analysis(wordBuffer);
+  System.out.println("document created");
 }
-public void populateLinkedList(String[] text, LinkedList wordBuffer) {
+public void populateLinkedList(String[] text) {
   boolean isFirstWordOfSentence = true;
 
   for (String word : text) {
-      Word_Object curr = new Word_Object();
+      System.out.println("looping:" + word);
+      Word_Object curr = new Word_Object(word);
       char lastCharacter = word.charAt(word.length() - 1);
 
       // Set properties of curr based on word
@@ -39,6 +41,10 @@ public void populateLinkedList(String[] text, LinkedList wordBuffer) {
       wordBuffer.add(curr);
       
   }
+  //ensure that the last item ends in null
+  System.out.println("last word: " + wordBuffer.getTail().getWord());
+  Word_Object last_word = (Word_Object) wordBuffer.getTail();
+  last_word.setNext_node(null);
 }
 
 public LinkedList run_spell_check(){
@@ -56,10 +62,10 @@ public LinkedList run_spell_check(){
     doc_error.checkWords(curr_word_object);
 
     //call the checkDoubleWord function
-    doc_error.checkDoubleWord(curr_word_object);
+    //doc_error.checkDoubleWord(curr_word_object);
 
     //check to see if the word needs a capital
-    doc_error.checkCapitals(curr_word_object);
+    //doc_error.checkCapitals(curr_word_object);
    
       
       
@@ -72,6 +78,19 @@ public LinkedList run_spell_check(){
   return wordBuffer;
 
 
+}
+
+public Word_Object get_word_in_linked_list(int index){
+  System.out.println("called " + index);
+  //call calculate indicies (linked list was just updated by calling function)
+  wordBuffer.calculate_indicies();
+  System.out.println("index calced " + index);
+
+  //get the word object at the index
+  Word_Object word = (Word_Object) wordBuffer.get_word_at_index(index);
+
+  //return the word object
+  return word;
 }
 
 

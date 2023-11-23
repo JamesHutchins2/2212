@@ -16,11 +16,12 @@ public class Word_Object{
     private int start_index;
     private int end_index;
 
-    public Word_Object(){
+    public Word_Object(String word){
+        this.word = word;
         //do nothing
     }
     
-    public Word_Object(String word, boolean start_with_capital, boolean end_with_period, boolean is_real_word, boolean needs_capital, boolean needs_period, boolean is_double_word_after, boolean is_double_word_before, String suggestion_1, String suggestion_2, String suggestion_3) {
+    public void Word_Object_full(String word, boolean start_with_capital, boolean end_with_period, boolean is_real_word, boolean needs_capital, boolean needs_period, boolean is_double_word_after, boolean is_double_word_before, String suggestion_1, String suggestion_2, String suggestion_3) {
         this.word = word;
         this.start_with_capital = start_with_capital;
         this.end_with_period = end_with_period;
@@ -133,9 +134,26 @@ public class Word_Object{
 
 
     public void setSuggestions(String[] suggestions) {
-        this.suggestion_1 = suggestions[0];
-        this.suggestion_2 = suggestions[1];
-        this.suggestion_3 = suggestions[2];
+
+
+        if(suggestions.length == 1){
+            this.suggestion_1 = suggestions[0];
+            this.suggestion_2 = "";
+            this.suggestion_3 = "";
+        }
+        else if(suggestions.length == 2){
+            this.suggestion_1 = suggestions[0];
+            this.suggestion_2 = suggestions[1];
+            this.suggestion_3 = "";
+        }
+        else if(suggestions.length == 3){
+            this.suggestion_1 = suggestions[0];
+            this.suggestion_2 = suggestions[1];
+            this.suggestion_3 = suggestions[2];
+        }
+        else{
+            //do nothing
+        }
     }
     public String[] getSuggestions(){
         String[] items = new String[3];

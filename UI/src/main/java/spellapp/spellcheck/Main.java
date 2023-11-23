@@ -16,11 +16,16 @@ public class Main extends Application {
 
         FileController fileController = loader.getController();
         fileController.setPrimaryStage(stage);
+        
+
+        
 
         Scene scene = new Scene(root, 800, 500);
         stage.setTitle("Spellchecker");
         stage.setScene(scene);
         stage.show();
+        //call a function in main scne controller to populate the text area
+        
     }
 
     public static void main(String[] args) {
