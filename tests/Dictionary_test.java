@@ -1,12 +1,11 @@
 
 package tests;
-import Backend.Dictionary;
-import Backend.Doc_Error;
-import Backend.Word_Object;
-import Backend.LinkedList;
 import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.List;
+
+import Backend.Dictionary;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.File;
@@ -88,6 +87,7 @@ public class Dictionary_test {
         //test 4: get results from the spell checker
 
         String[] results = dictionary.getSuggestions("mispelt");
+        //
         System.out.println(results[0] + " " + results[1] + " " + results[2]);
 
 

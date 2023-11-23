@@ -32,11 +32,11 @@ public class Doc_Error_test {
 
         //create 5 random word objects String word, boolean start_with_capital, boolean end_with_period, boolean is_real_word, boolean needs_capital, boolean needs_period, boolean is_double_word_after, boolean is_double_word_before, String suggestion_1, String suggestion_2, String suggestion_3
 
-        Word_Object word1 = new Word_Object("the", true, false, true, false, false, false, false, "", "", "" );
-        Word_Object word2 = new Word_Object("quick", false, false, true, false, false, false, false, "", "", "" );
-        Word_Object word3 = new Word_Object("brown", false, false, true, false, false, false, false, "", "", "" );
-        Word_Object word4 = new Word_Object("fox", false, false, true, false, false, false, false, "", "", "");
-        Word_Object word5 = new Word_Object("jumpsz", false, false, true, false, false, false, false, "", "", "");
+        Word_Object word1 = new Word_Object("the");
+        Word_Object word2 = new Word_Object("quick");
+        Word_Object word3 = new Word_Object("brown");
+        Word_Object word4 = new Word_Object("fox");
+        Word_Object word5 = new Word_Object("jumpsz");
         //last one is misspelt
         //run the check words function on the 5 word objects
 

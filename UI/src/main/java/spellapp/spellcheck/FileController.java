@@ -78,6 +78,7 @@ public class FileController {
                 MainSceneController mainSceneController = loader.getController();
                 mainSceneController.setTextAreaContent(content.toString());
                 mainSceneController.init_document(textArea);
+                mainSceneController.startRepeatedTask();
                 System.out.println("text area content: " + textArea.getText());
                 // Create Scene object for the main Scene - pass in initial window size
                 Scene mainScene = new Scene(mainSceneRoot, 800, 500);

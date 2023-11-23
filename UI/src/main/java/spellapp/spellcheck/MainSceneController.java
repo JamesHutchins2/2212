@@ -1,6 +1,7 @@
 package spellapp.spellcheck;
 
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,11 +20,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.util.Duration;
 import Backend.Document;
 import Backend.Word_Object;
 import javafx.stage.FileChooser;
-
+import javafx.application.Platform;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 public class MainSceneController {
 
     @FXML
@@ -57,7 +64,65 @@ public class MainSceneController {
         }
         //set the text area content
         textArea.setText(newContent.toString());
+        
     }
+    public void startRepeatedTask() {
+    // Create a service to run the task
+    Service<Void> backgroundService = new Service<Void>() {
+        @Override
+        protected Task<Void> createTask() {
+            return new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    // Background work
+                    String text = textArea.getText();
+                    String[] words = text.split("\\s+");
+                    document.populateLinkedList(words);
+                    document.run_spell_check();
+                    return null;
+                }
+
+                @Override
+                protected void succeeded() {
+                    super.succeeded();
+                    // Update UI if necessary, run on the JavaFX Application Thread
+                    Platform.runLater(() -> {
+                        // Update UI here if necessary
+                    });
+                }
+
+                @Override
+                protected void failed() {
+                    super.failed();
+                    // Handle errors, run on the JavaFX Application Thread
+                    Platform.runLater(() -> {
+                        Throwable error = getException();
+                        System.err.println("An error occurred in the background task:");
+                        error.printStackTrace();
+                        // Update UI to reflect error state if necessary
+                    });
+                }
+            };
+        }
+    };
+
+    // Set up the service to restart every 5 seconds
+    backgroundService.setOnSucceeded(e -> {
+        backgroundService.reset();
+        backgroundService.start();
+    });
+    backgroundService.setOnCancelled(e -> backgroundService.reset());
+    backgroundService.setOnFailed(e -> backgroundService.reset());
+
+    // Start the service
+    backgroundService.start();
+
+    // If you need to stop and start the service manually, you can use:
+    // backgroundService.cancel();
+    // backgroundService.start();
+}
+    
+     
     public void init_document(TextArea textArea){
         //set the text area
         this.textArea = textArea;
@@ -184,9 +249,11 @@ public class MainSceneController {
         if(this.document == null){
             //initialize the document object
             init_document(textArea);
+            startRepeatedTask();
         }else{
             //populate the document object
-            document.populateLinkedList(textArea.getText().split(" "));
+            //document.populateLinkedList(textArea.getText().split(" "));
+            //document.run_spell_check();
             
         }
         

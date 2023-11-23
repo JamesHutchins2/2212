@@ -25,14 +25,16 @@ public class Doc_Error {
 
         //create an instance of the dictionary
         
-        String relativePath = ".." + File.separator + "Backend" + File.separator + "Backend" + File.separator + "dict_resources" + File.separator + "words.txt";
-        File file = new File(relativePath);
+        String path_test = "../UI/src/main/java/Backend/dict_resources/words.txt";
+        String path_run = "../../Backend/dict_resources/words.txt";
+        String path = "C:/Users/james/Desktop/2212_final/new_java_project/2212/UI/src/main/java/Backend/dict_resources/words.txt";
+        File file = new File(path);
+        
+        dictionary = new Dictionary(path);
 
-        // Use the file (e.g., pass the path to your Dictionary constructor)
-        this.dictionary = new Dictionary(file.getAbsolutePath());
-
+        //put int a try catch block
+        
     }
-
     //checks words from the document for misspellings
     public void checkWords(Word_Object word) {
         //First check if the word is an actual word

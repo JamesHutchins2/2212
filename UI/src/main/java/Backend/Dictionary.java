@@ -90,7 +90,7 @@ public class Dictionary {
         Set<String> filteredWords = new HashSet<>();
     
         // Add all existing words to the set
-        filteredWords.addAll(words);
+        filteredWords = lengthFilter(misspelledWord);
     
         // Create a priority queue to hold words along with their Levenshtein distance to the misspelled word
         // Words with smaller distances (closer matches) will be given higher priority
