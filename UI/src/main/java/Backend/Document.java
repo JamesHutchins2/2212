@@ -25,25 +25,21 @@ public void populateLinkedList(String text) {
 
   int index = 0;
   Word_Object current = wordBuffer.getHead();
-  boolean isFirstWordOfSentence = true;
-  
-  for (String wordOrDelimiter : wordsWithDelimiters) {
-      // Determine if it's a word or a delimiter
-      boolean isWord = wordOrDelimiter.matches("\\S+"); // Matches non-space characters
+  int spacesBefore = 0;
+  boolean wordChanged;
+
+  for (String element : wordsWithDelimiters) {
+      boolean isWord = !element.matches("\\s+"); // True if the element is a word, false if it's spaces
 
       if (isWord) {
-          boolean endWithPeriod = wordOrDelimiter.endsWith(".") || wordOrDelimiter.endsWith("?") || wordOrDelimiter.endsWith("!");
+          wordChanged = current == null || !current.getWord().equals(element) || current.getSpaces_before() != spacesBefore;
 
-          if (current != null && current.getWord().equals(wordOrDelimiter) && !current.isModified()) {
-              // Word is unchanged, skip processing
-              current = current.getNext_node();
-          } else {
-              // Create or update the Word_Object
-              Word_Object newWord = new Word_Object(wordOrDelimiter);
-              newWord.setWord(wordOrDelimiter);
-              newWord.setEnd_with_period(endWithPeriod);
-              newWord.setStart_with_capital(isFirstWordOfSentence);
-              newWord.setModified(true); // Mark as modified
+          if (wordChanged) {
+              // Create a new Word_Object or update the existing one
+              Word_Object newWord = new Word_Object(element);
+              newWord.setWord(element);
+              newWord.setSpaces_before(spacesBefore);
+              newWord.setModified(true); // Mark as modified for spell check
 
               if (current == null) {
                   wordBuffer.add(newWord);
@@ -51,15 +47,18 @@ public void populateLinkedList(String text) {
                   wordBuffer.replaceWord(current, newWord);
                   current = newWord.getNext_node();
               }
+          } else {
+              current.setModified(false); // No change in word and spaces
+              current = current.getNext_node(); // Move to next word
           }
 
-          isFirstWordOfSentence = endWithPeriod;
+          spacesBefore = 0; // Reset spacesBefore as we just processed a word
       } else {
-          // Handle delimiters (spaces, punctuation) for index calculation
-          // ...
+          // Element is spaces or punctuation
+          spacesBefore += element.length();
       }
 
-      index += wordOrDelimiter.length();
+      index += element.length();
   }
 
   // Remove any remaining words in the old list
@@ -69,9 +68,9 @@ public void populateLinkedList(String text) {
       current = next;
   }
 
-  // Recalculate indices and run spell check
+  // Recalculate indices and run spell check on modified words
   wordBuffer.calculate_indicies();
-  run_spell_check();
+  run_spell_check(); // Modify this method to check only modified words
 }
 
 public void run_spell_check() {

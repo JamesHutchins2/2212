@@ -36,7 +36,7 @@ public class Word_Object{
         this.end_index = 0;
         this.spaces_after = 0;
         this.spaces_before = 0;
-        
+
     }
 
     private boolean modified;
@@ -143,6 +143,21 @@ public class Word_Object{
 
     public void setNeeds_period(boolean needs_period) {
         this.needs_period = needs_period;
+    }
+
+    public void setSpaces_after(int spaces_after) {
+        this.spaces_after = spaces_after;
+    }
+    public void setSpaces_before(int spaces_before) {
+        this.spaces_before = spaces_before;
+    }
+
+    public int getSpaces_after() {
+        return spaces_after;
+    }
+
+    public int getSpaces_before() {
+        return spaces_before;
     }
 
     public boolean isIs_double_word_after() {

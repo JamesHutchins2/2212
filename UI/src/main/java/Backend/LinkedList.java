@@ -22,6 +22,7 @@ public class LinkedList {
         }
     }
 
+    
     // Add a new node to the beginning of the list
     public void addFirst(Word_Object newNode) {
         if (head == null) {
