@@ -87,16 +87,16 @@ public class Dictionary {
     //get suggestions for a misspelled word
     public String[] getSuggestions(String misspelledWord) {
         // Create a set to hold filtered words
-        Set<String> filteredWords = new HashSet<>();
-    
+       
         // Add all existing words to the set
-        filteredWords = lengthFilter(misspelledWord);
+        Set<String> filteredWords = lengthFilter(misspelledWord);
     
         // Create a priority queue to hold words along with their Levenshtein distance to the misspelled word
         // Words with smaller distances (closer matches) will be given higher priority
         PriorityQueue<Map.Entry<String, Integer>> pq = new PriorityQueue<>(
-            Comparator.comparingInt(Map.Entry::getValue)
+            (a, b) -> b.getValue() - a.getValue()
         );
+
     
         // Try to add user-defined words to the filtered set
         try {

@@ -3,9 +3,16 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "spellapp.spellcheck/spellapp.spellcheck.Main",
+            "projectName": "SpellCheck"
+        },
+        {
+            "type": "java",
             "name": "Launch Current File",
             "request": "launch",
-            "cwd": "${workspaceFolder}/tests",
+            "cwd": "${workspaceFolder}/UI/src/main/java/spellapp/spellcheck",
             "mainClass": "${file}"
         }
     ]

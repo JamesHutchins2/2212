@@ -43,10 +43,12 @@ public class Doc_Error {
         String word_text = word.getWord();
         // check to see if word in dict
         Boolean is_a_word = dictionary.isWord(word_text);
+        //set the word object is real word flag
+        word.setIs_real_word(is_a_word);
         
         //if it is not a word (False evaluation)
         if(!is_a_word){
-            System.out.println("Misspelt word: " + word_text);
+            System.out.println("Misspelt word!!!: " + word_text);
             //itterate the current misspelt words
             this.current_misspelt_words++;
             //add a flag to the word object

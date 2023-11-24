@@ -11,6 +11,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.CustomMenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
@@ -40,11 +41,21 @@ public class MainSceneController {
 
     //Create a document object
     Document document;
+    private ContextMenu contextMenu = new ContextMenu();
+    private ContextMenu spellingContextMenu = new ContextMenu();
+    private ContextMenu undoContextMenu = new ContextMenu();
+    private int currentCaretPosition = 0;
 
     
 
     public void setTextAreaContent(String content) {
         textArea.setText(content);
+        textArea.setOnMouseClicked(event -> {
+            if (contextMenu.isShowing()) {
+                contextMenu.hide();
+            }
+            // Add logic to handle text click, if any
+        });
         //also set the file manager's text area content
         //initialize the document object
         init_document(textArea);
@@ -66,76 +77,56 @@ public class MainSceneController {
         textArea.setText(newContent.toString());
         
     }
-    public void startRepeatedTask() {
-    // Create a service to run the task
-    Service<Void> backgroundService = new Service<Void>() {
-        @Override
-        protected Task<Void> createTask() {
-            return new Task<Void>() {
-                @Override
-                protected Void call() throws Exception {
-                    // Background work
-                    String text = textArea.getText();
-                    String[] words = text.split("\\s+");
-                    document.populateLinkedList(words);
-                    document.run_spell_check();
-                    return null;
-                }
+ 
+public void startRepeatedTask() {
+    // Create a Timeline
+    Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
+        // Task to be executed every 5 seconds
+        Platform.runLater(() -> {
+            // Your repeated task logic here
+            // Example: Updating the TextArea content
+            String text = textArea.getText();
+            String[] words = text.split("\\s+");
+            document.populateLinkedList(words);
+            System.out.println("running spell check");
+            document.run_spell_check();
 
-                @Override
-                protected void succeeded() {
-                    super.succeeded();
-                    // Update UI if necessary, run on the JavaFX Application Thread
-                    Platform.runLater(() -> {
-                        // Update UI here if necessary
-                    });
-                }
+            // Re-populate the text area with the new content
+            //StringBuilder newContent = new StringBuilder();
+            //Word_Object curr = document.wordBuffer.getHead(); // Removed the cast
+            //while (curr != null) {
+            //    newContent.append(curr.getWord()).append(" ");
+            //    curr = curr.getNext_node();
+            //}
+            //textArea.setText(newContent.toString());
+        });
+    }));
 
-                @Override
-                protected void failed() {
-                    super.failed();
-                    // Handle errors, run on the JavaFX Application Thread
-                    Platform.runLater(() -> {
-                        Throwable error = getException();
-                        System.err.println("An error occurred in the background task:");
-                        error.printStackTrace();
-                        // Update UI to reflect error state if necessary
-                    });
-                }
-            };
-        }
-    };
+    timeline.setCycleCount(Timeline.INDEFINITE); // Run indefinitely
+    timeline.play(); // Start the timeline
 
-    // Set up the service to restart every 5 seconds
-    backgroundService.setOnSucceeded(e -> {
-        backgroundService.reset();
-        backgroundService.start();
-    });
-    backgroundService.setOnCancelled(e -> backgroundService.reset());
-    backgroundService.setOnFailed(e -> backgroundService.reset());
-
-    // Start the service
-    backgroundService.start();
-
-    // If you need to stop and start the service manually, you can use:
-    // backgroundService.cancel();
-    // backgroundService.start();
+    // If you need to stop this timeline manually, you can use:
+    // timeline.stop();
 }
+
     
      
     public void init_document(TextArea textArea){
         //set the text area
         this.textArea = textArea;
 
+        //parse the text area
+        String[] words = parse_text();
+
         //create a new document object
-        document = new Document(textArea.getText().split(" "));
+        document = new Document(words);
         
     }
 
     public void setDocument(Document document) {
         //populate the document object
         document.populateLinkedList(textArea.getText().split(" "));
-        document.run_spell_check();
+        //document.run_spell_check();
         //set the document object
         this.document = document;
     }
@@ -179,7 +170,18 @@ public class MainSceneController {
             e.printStackTrace();
         }
     }
-
+    public String[] parse_text(){
+        //get the text from the text area
+        String text = textArea.getText();
+        //split the text into an array of words
+        String[] words = text.split("\\s+");
+        
+        //delete double spaces
+        
+        //return the array of words
+        return words;
+    
+    }
 
     @FXML
     public void exit(ActionEvent event) {
@@ -229,8 +231,10 @@ public class MainSceneController {
         content.append( textArea.getText() );
         mainLabel.setText("Spell Check Mode");
         // call spell check mode
-        document.populateLinkedList(content.toString().split(" "));
-        document.run_spell_check();
+        
+        
+        //document.populateLinkedList(content.toString().split(" "));
+        //document.run_spell_check();
 
         // Start Spell check mode
         // Pass the "content" String into Backend methods to load linked Lists, etc before starting spell check mode
@@ -240,106 +244,102 @@ public class MainSceneController {
     // ---> james adding stuff.
     public void initialize() {
         textArea.setOnMouseClicked(event -> {
-            handleTextClick(event);
+            if (event.getButton() == MouseButton.PRIMARY) {
+                handleTextClick(event);
+            } else {
+                contextMenu.hide();
+            }
         });
     }
     private void handleTextClick(MouseEvent event) {
-
-        //check to see if this.document is null
-        if(this.document == null){
-            //initialize the document object
+        // Check if the document is initialized
+        if (this.document == null) {
+            System.out.println("document is null, initializing");
             init_document(textArea);
             startRepeatedTask();
-        }else{
-            //populate the document object
-            //document.populateLinkedList(textArea.getText().split(" "));
-            //document.run_spell_check();
-            
         }
-        
-        
-        
 
-        //
-        // E.g., get click position, call backend function, etc.
         int position = getClickPosition(event);
-        
-       
-
-        //call the spell check function
-        //document.run_spell_check();
-
-        //now we will call to the backend to get the word object
         Word_Object this_word = document.get_word_in_linked_list(position);
-        System.out.println("Got Word: " + this_word.getWord());
-        //lets see if the word object is null
-        
 
-        //now we will call a function with the word_object to render a popup with the word object
-
-        //only display if the word is misspelled, otherwise do nothing
-        if(this_word.isIs_real_word() == false){
-            int position_x = (int) event.getScreenX();
-            int position_y = (int) event.getScreenY();
-            //call the function to display the popup
-            showPopupAtTextPosition_spelling(this_word, position_x, position_y);
+        // Check if the word is misspelled and show suggestions
+        if (!this_word.isIs_real_word()) {
+            //hide all other context menus
+            contextMenu.hide();
+            System.out.println("word is misspelled: " + this_word.getWord());
+            showPopupAtTextPosition_spelling(this_word, event.getScreenX(), event.getScreenY());
         }
-
-
     }
 
     //adding a function to display the popup
     
 
-    private void showPopupAtTextPosition_spelling(Word_Object word, int x, int y) {
-    System.out.println("Showing popup at: " + x + ", " + y);
-    // Create a context menu or popup
-    String[] suggestions = word.getSuggestions();
-    //if suggesitons[0] is null, then do nothing
-    if(suggestions[0] == null){
-        return;
-    }
-    ContextMenu contextMenu = new ContextMenu();
+    private void showPopupAtTextPosition_spelling(Word_Object word, double x, double y) {
+        // Clear existing items and prepare new ones
+        contextMenu.getItems().clear();
+        String[] suggestions = word.getSuggestions();
 
-    // Create CustomMenuItems with Labels
-    CustomMenuItem item1 = createCustomMenuItem(suggestions[0]);
-    CustomMenuItem item2 = createCustomMenuItem(suggestions[1]);
-    CustomMenuItem item3 = createCustomMenuItem(suggestions[2]);
+        if (suggestions[0] != null) {
+            // Add new items to the context menu
+            contextMenu.getItems().addAll(
+                createCustomMenuItem(0, word),
+                createCustomMenuItem(1, word),
+                createCustomMenuItem(2, word)
+            );
 
-    // Add items to context menu
-    contextMenu.getItems().addAll(item1, item2, item3);
-
-    // Show context menu at specified screen coordinates
-    contextMenu.show(textArea, x, y);
-    System.out.println("Showing popup done");
+            // Show context menu at the mouse cursor's position
+            contextMenu.show(textArea, x, y);
+        }
     }
 
-    private CustomMenuItem createCustomMenuItem(String text) {
+    private CustomMenuItem createCustomMenuItem(int index, Word_Object word) {
+        // Create a label with specified text and styling
+        String text = word.getSuggestions()[index];
         Label label = new Label(text);
-        label.setStyle("-fx-text-fill: red;"); // Set text color to red
-        label.setPrefWidth(150); // Set preferred width
-        label.setMaxWidth(Double.MAX_VALUE); // Allow label to expand
-        label.setWrapText(true); // Allow text wrapping
+        label.setStyle("-fx-text-fill: red;");
+        label.setPrefWidth(150);
+        label.setMaxWidth(Double.MAX_VALUE);
+        label.setWrapText(true);
 
-        CustomMenuItem item = new CustomMenuItem(label, false);
-        return item;
+        //let's create an event listner for the label
+
+        label.setOnMouseClicked(event -> {
+            //get the text of the label
+            String label_text = label.getText();
+            //get the current word
+            String current_word = text;
+            //replace the current word with the label text
+            textArea.replaceSelection(label_text);
+            //hide the context menu
+            contextMenu.hide();
+            //add the word to the user dictionary
+            //re-run the spell check
+            //document.run_spell_check();
+            //re-populate the text area with the new content
+            StringBuilder newContent = new StringBuilder();
+            //get the head node
+            Word_Object curr = (Word_Object) document.wordBuffer.getHead();
+            //loop through the linked list until we reach the end
+            while(curr != null){
+                //add the word to the string builder
+              newContent.append(curr.getWord() + " ");
+              curr = curr.getNext_node();
+            }
+            //set the text area content
+            textArea.setText(newContent.toString());
+        });
+
+        return new CustomMenuItem(label, false);
     }
 
-    //adding a get click position function
     private int getClickPosition(MouseEvent event) {
-        System.out.println("getting click position");
-        // First, get the text area content
-        //String text = textArea.getText();
-        // Next, get the click position
-        int position = textArea.getCaretPosition();
-        System.out.println("Click position: " + position);
-
-        // Finally, return the position
-        System.out.println("got click position");
-
-        return position;
+        // Return the current caret position in the text area
+        return textArea.getCaretPosition();
     }
 
+    
+
+    
 }
 
 

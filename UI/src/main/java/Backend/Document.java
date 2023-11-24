@@ -22,8 +22,12 @@ public Document(String[] text){
 public void populateLinkedList(String[] text) {
   boolean isFirstWordOfSentence = true;
 
+  //delete the old linked list
+  this.wordBuffer = new LinkedList();
+  System.out.println("document text:" + text);
+
   for (String word : text) {
-      System.out.println("looping:" + word);
+      
       Word_Object curr = new Word_Object(word);
       char lastCharacter = word.charAt(word.length() - 1);
 
@@ -42,9 +46,12 @@ public void populateLinkedList(String[] text) {
       
   }
   //ensure that the last item ends in null
-  System.out.println("last word: " + wordBuffer.getTail().getWord());
+  
   Word_Object last_word = (Word_Object) wordBuffer.getTail();
   last_word.setNext_node(null);
+
+  //now we will call the run spell check function
+  run_spell_check();
 }
 
 public LinkedList run_spell_check(){
@@ -80,11 +87,22 @@ public LinkedList run_spell_check(){
 
 }
 
+public Word_Object check_single_word(Word_Object word){
+  //create a word object
+  
+
+  //check the word
+  doc_error.checkWords(word);
+
+  //return the word object
+  return word;
+}
+
 public Word_Object get_word_in_linked_list(int index){
-  System.out.println("called " + index);
+  
   //call calculate indicies (linked list was just updated by calling function)
   wordBuffer.calculate_indicies();
-  System.out.println("index calced " + index);
+  
 
   //get the word object at the index
   Word_Object word = (Word_Object) wordBuffer.get_word_at_index(index);

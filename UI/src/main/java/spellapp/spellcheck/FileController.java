@@ -35,12 +35,7 @@ public class FileController {
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        //call document
-        //convert text area to string
         
-        //convert to string array
-        
-        //send document to MainSceneController
 
         }
 
@@ -79,7 +74,7 @@ public class FileController {
                 mainSceneController.setTextAreaContent(content.toString());
                 mainSceneController.init_document(textArea);
                 mainSceneController.startRepeatedTask();
-                System.out.println("text area content: " + textArea.getText());
+                
                 // Create Scene object for the main Scene - pass in initial window size
                 Scene mainScene = new Scene(mainSceneRoot, 800, 500);
                 // Make Scene visible
