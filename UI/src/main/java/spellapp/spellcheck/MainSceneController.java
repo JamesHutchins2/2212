@@ -60,7 +60,7 @@ public class MainSceneController {
         //initialize the document object
         init_document(textArea);
         //call the backend to load the document
-        document.populateLinkedList(content.toString().split(" "));
+        document.populateLinkedList(content.toString());
         document.run_spell_check();
 
         //re-populate the text area with the new content
@@ -83,11 +83,8 @@ public void startRepeatedTask() {
     Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
         // Task to be executed every 5 seconds
         Platform.runLater(() -> {
-            // Your repeated task logic here
-            // Example: Updating the TextArea content
-            String text = textArea.getText();
-            String[] words = text.split("\\s+");
-            document.populateLinkedList(words);
+            
+            document.populateLinkedList(textArea.getText());
             System.out.println("running spell check");
             document.run_spell_check();
 
@@ -116,16 +113,16 @@ public void startRepeatedTask() {
         this.textArea = textArea;
 
         //parse the text area
-        String[] words = parse_text();
+        
 
         //create a new document object
-        document = new Document(words);
+        document = new Document(textArea.getText());
         
     }
 
     public void setDocument(Document document) {
         //populate the document object
-        document.populateLinkedList(textArea.getText().split(" "));
+        document.populateLinkedList(textArea.getText());
         //document.run_spell_check();
         //set the document object
         this.document = document;

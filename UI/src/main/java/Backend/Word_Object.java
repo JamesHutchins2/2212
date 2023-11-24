@@ -15,11 +15,40 @@ public class Word_Object{
     private String suggestion_3;
     private int start_index;
     private int end_index;
+    private int spaces_after;
+    private int spaces_before;
 
-    public Word_Object(String word){
+    public Word_Object(String word) {
+        // Initialization logic
+        //set is_real_word to false
+        this.is_real_word = false;
         this.word = word;
-        //do nothing
+        this.start_with_capital = false;
+        this.end_with_period = false;
+        this.needs_capital = false;
+        this.needs_period = false;
+        this.is_double_word_after = false;
+        this.is_double_word_before = false;
+        this.suggestion_1 = "";
+        this.suggestion_2 = "";
+        this.suggestion_3 = "";
+        this.start_index = 0;
+        this.end_index = 0;
+        this.spaces_after = 0;
+        this.spaces_before = 0;
+        
     }
+
+    private boolean modified;
+
+    public boolean isModified() {
+        return modified;
+    }
+
+    public void setModified(boolean modified) {
+        this.modified = modified;
+    }
+    
     
     public void Word_Object_full(String word, boolean start_with_capital, boolean end_with_period, boolean is_real_word, boolean needs_capital, boolean needs_period, boolean is_double_word_after, boolean is_double_word_before, String suggestion_1, String suggestion_2, String suggestion_3) {
         this.word = word;
@@ -134,26 +163,9 @@ public class Word_Object{
 
 
     public void setSuggestions(String[] suggestions) {
-
-
-        if(suggestions.length == 1){
-            this.suggestion_1 = suggestions[0];
-            this.suggestion_2 = "";
-            this.suggestion_3 = "";
-        }
-        else if(suggestions.length == 2){
-            this.suggestion_1 = suggestions[0];
-            this.suggestion_2 = suggestions[1];
-            this.suggestion_3 = "";
-        }
-        else if(suggestions.length == 3){
-            this.suggestion_1 = suggestions[0];
-            this.suggestion_2 = suggestions[1];
-            this.suggestion_3 = suggestions[2];
-        }
-        else{
-            //do nothing
-        }
+        this.suggestion_1 = suggestions.length > 0 ? suggestions[0] : "";
+        this.suggestion_2 = suggestions.length > 1 ? suggestions[1] : "";
+        this.suggestion_3 = suggestions.length > 2 ? suggestions[2] : "";
     }
     public String[] getSuggestions(){
         String[] items = new String[3];
@@ -175,4 +187,6 @@ public class Word_Object{
             return true;
         }
     }
+
+    
 }

@@ -6,85 +6,84 @@ public class Document{
 //It transforms the data types into our word object so that the words can be analyzed by the spell check.
 
 // first creating instance variables
-public String[] text;  // variable to hold last checked text instance in document
+public String text;  // variable to hold last checked text instance in document
 public LinkedList wordBuffer = new LinkedList();  //linked list to hold our word object list (for the entire document)
 //create an instance of Doc error
 Doc_Error doc_error = new Doc_Error();
 Doc_Analysis doc_analysis;
 
 //constructor
-public Document(String[] text){
+public Document(String text){
   this.text = text;
   populateLinkedList(text);
   //doc_analysis = new Doc_Analysis(wordBuffer);
   System.out.println("document created");
 }
-public void populateLinkedList(String[] text) {
+public void populateLinkedList(String text) {
+  // Split the text into words, keeping delimiters (spaces and punctuation)
+  String[] wordsWithDelimiters = text.split("(?<=\\s)|(?=\\s)|(?<=\\p{Punct})|(?=\\p{Punct})");
+
+  int index = 0;
+  Word_Object current = wordBuffer.getHead();
   boolean isFirstWordOfSentence = true;
+  
+  for (String wordOrDelimiter : wordsWithDelimiters) {
+      // Determine if it's a word or a delimiter
+      boolean isWord = wordOrDelimiter.matches("\\S+"); // Matches non-space characters
 
-  //delete the old linked list
-  this.wordBuffer = new LinkedList();
-  System.out.println("document text:" + text);
+      if (isWord) {
+          boolean endWithPeriod = wordOrDelimiter.endsWith(".") || wordOrDelimiter.endsWith("?") || wordOrDelimiter.endsWith("!");
 
-  for (String word : text) {
-      
-      Word_Object curr = new Word_Object(word);
-      char lastCharacter = word.charAt(word.length() - 1);
+          if (current != null && current.getWord().equals(wordOrDelimiter) && !current.isModified()) {
+              // Word is unchanged, skip processing
+              current = current.getNext_node();
+          } else {
+              // Create or update the Word_Object
+              Word_Object newWord = new Word_Object(wordOrDelimiter);
+              newWord.setWord(wordOrDelimiter);
+              newWord.setEnd_with_period(endWithPeriod);
+              newWord.setStart_with_capital(isFirstWordOfSentence);
+              newWord.setModified(true); // Mark as modified
 
-      // Set properties of curr based on word
-      curr.setWord(word);
-      if (lastCharacter == '.' || lastCharacter == '?' || lastCharacter == '!') {
-          curr.setEnd_with_period(true);
-          isFirstWordOfSentence = true;
-      } else if (isFirstWordOfSentence) {
-          curr.setStart_with_capital(true);
-          isFirstWordOfSentence = false;
+              if (current == null) {
+                  wordBuffer.add(newWord);
+              } else {
+                  wordBuffer.replaceWord(current, newWord);
+                  current = newWord.getNext_node();
+              }
+          }
+
+          isFirstWordOfSentence = endWithPeriod;
+      } else {
+          // Handle delimiters (spaces, punctuation) for index calculation
+          // ...
       }
 
-      // Add word object to linked list
-      wordBuffer.add(curr);
-      
+      index += wordOrDelimiter.length();
   }
-  //ensure that the last item ends in null
-  
-  Word_Object last_word = (Word_Object) wordBuffer.getTail();
-  last_word.setNext_node(null);
 
-  //now we will call the run spell check function
+  // Remove any remaining words in the old list
+  while (current != null) {
+      Word_Object next = current.getNext_node();
+      wordBuffer.removeWord(current);
+      current = next;
+  }
+
+  // Recalculate indices and run spell check
+  wordBuffer.calculate_indicies();
   run_spell_check();
 }
 
-public LinkedList run_spell_check(){
-
-
-  //loop through the linked list and check for errors
-
-  //get the first word object
-  Word_Object curr_word_object = (Word_Object) wordBuffer.getHead();
-
-  //loop through the linked list until we reach the end
-  while(curr_word_object.hasNext()){
-
-    //call the checkWords function
-    doc_error.checkWords(curr_word_object);
-
-    //call the checkDoubleWord function
-    //doc_error.checkDoubleWord(curr_word_object);
-
-    //check to see if the word needs a capital
-    //doc_error.checkCapitals(curr_word_object);
-   
-      
-      
-    
-
-    curr_word_object = curr_word_object.getNext_node();
-    }
-  
-
-  return wordBuffer;
-
-
+public void run_spell_check() {
+  Word_Object current = wordBuffer.getHead();
+  while (current != null) {
+      if (current.isModified()) {
+          // Run spell check on this word
+          doc_error.checkWords(current);
+          current.setModified(false); // Reset the modified flag after checking
+      }
+      current = current.getNext_node();
+  }
 }
 
 public Word_Object check_single_word(Word_Object word){

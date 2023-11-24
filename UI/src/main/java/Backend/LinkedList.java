@@ -92,6 +92,20 @@ public class LinkedList {
             curr = curr.getNext_node();
         }
     }
+
+    public void removeWord(Word_Object word) {
+        if (word.getPrev_node() != null) {
+            word.getPrev_node().setNext_node(word.getNext_node());
+        } else {
+            head = word.getNext_node();
+        }
+    
+        if (word.getNext_node() != null) {
+            word.getNext_node().setPrev_node(word.getPrev_node());
+        } else {
+            tail = word.getPrev_node();
+        }
+    }
     
 
     public Word_Object get_word_at_index(int index){
@@ -118,8 +132,45 @@ public class LinkedList {
         return null;
 
     }
+    public Word_Object getWordAtCaretPosition(int caretPosition) {
+        Word_Object current = head;
+        
+        while (current != null) {
+            if (caretPosition >= current.getStart_index() && caretPosition <= current.getEnd_index()) {
+                return current;
+            }
+            current = current.getNext_node();
+        }
     
+        return null; // No word found at this caret position
+    }
+    public void updateWordAtCaretPosition(int caretPosition, Word_Object newWord) {
+        Word_Object wordToUpdate = getWordAtCaretPosition(caretPosition);
     
+        if (wordToUpdate != null) {
+            // Replace the existing word
+            replaceWord(wordToUpdate, newWord);
+        } else {
+            // New word to add
+            add(newWord); // This may need to be more sophisticated depending on how you handle new words
+        }
+    }
+    public void replaceWord(Word_Object oldWord, Word_Object newWord) {
+        newWord.setNext_node(oldWord.getNext_node());
+        newWord.setPrev_node(oldWord.getPrev_node());
+    
+        if (oldWord.getPrev_node() != null) {
+            oldWord.getPrev_node().setNext_node(newWord);
+        } else {
+            head = newWord;
+        }
+    
+        if (oldWord.getNext_node() != null) {
+            oldWord.getNext_node().setPrev_node(newWord);
+        } else {
+            tail = newWord;
+        }
+    }
 
     // Add other methods as needed, such as remove, find, etc.
 }
