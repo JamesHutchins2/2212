@@ -210,11 +210,12 @@ public void startRepeatedTask() {
             UserDictionaryController userDictionaryController = loader.getController();
             userDictionaryController.setTextAreaContent(textArea.getText());
 
-            Scene mainScene = new Scene(root, 800, 500);
+            // Get the existing stage
+            Stage stage = (Stage) textArea.getScene().getWindow();
 
-            Stage stage = new Stage();
+
+            stage.setScene(new Scene(root, 800, 500));
             stage.setTitle("User Dictionary");
-            stage.setScene(mainScene);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
