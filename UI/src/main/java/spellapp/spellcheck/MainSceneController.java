@@ -8,15 +8,21 @@ import javafx.scene.Parent;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-// import javax.swing.*;
+import javax.swing.*;
+import javax.swing.text.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.LinkedList;
+
 import javafx.stage.FileChooser;
+import javafx.scene.layout.BorderPane;
+
 
 public class MainSceneController {
 
@@ -24,15 +30,23 @@ public class MainSceneController {
     private TextArea textArea;
     @FXML
     private Label mainLabel;
+    @FXML
+    private BorderPane mainID;
 
     @FXML
     public void initialize() {
         mainLabel.setText("MainSceneController Initialized");
+        textArea.setStyle("-fx-highlight-fill: none; -fx-highlight-text-fill: black; -fx-font-size: 12px;");
     }
 
     public void setTextAreaContent(String content) {
         textArea.setText(content);
     }
+
+    public String getTextAreaContent() {
+        return textArea.getText();
+    }
+
 
     @FXML
     private void handleSaveButton(ActionEvent event) {
@@ -97,8 +111,58 @@ public class MainSceneController {
     }
 
     @FXML
-    private void handleUserDictionary(ActionEvent event) {
+    void startSpell(ActionEvent event) {
+        // Start Spell check mode - change window status text
+        mainLabel.setText("Spell Check Mode");
 
+        // Several possible methods
+        // Pass the "content" String into Backend methods to load linked Lists, etc before starting spell check mode
+        // Once done - Parse linked list of incorrect words and somehow show them differently on UI
+        // THen we want to create a series of popup UIs that are able to popup when certain words are clicked on
+
+        // Let's create a Spell Scene
+        // Create new Scene based on SpellScene
+         try {
+             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SpellScene.fxml"));
+             Scene spellScene = new Scene(fxmlLoader.load());
+
+             // Create a SpellCheck controller, and set the previous Scene to this one
+             SpellSceneController controller = fxmlLoader.getController();
+             // SpellController controller = (SpellController)loader.getController();
+             controller.setPreScene(textArea.getScene());               // some element from current scene
+
+             controller.setSpellAreaContent(textArea.getText()); // Pass current text to SpellCheck
+
+             Stage stage = (Stage) textArea.getScene().getWindow(); // Get current stage
+             stage.setScene(spellScene);  // show new scene
+             stage.show();
+
+         } catch (IOException e) {
+             e.printStackTrace();
+         }
+
+    }
+    
+
+    @FXML
+    private void handleUserDictionary(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("UserDictionary.fxml"));
+            Scene dictScene = new Scene(fxmlLoader.load());
+
+            // Create a Dictionary controller, and set the previous Scene to this one
+            UserDictionaryController controller = fxmlLoader.getController();
+            // SpellController controller = (SpellController)loader.getController();
+            controller.setPreScene(textArea.getScene());               // some element from current scene
+
+            Stage stage = (Stage) textArea.getScene().getWindow(); // Get current stage
+            stage.setScene(dictScene);  // show new scene
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error loading UserDictionary.fxml: " + e.getMessage());
+        }
+        /*
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("UserDictionary.fxml"));
             Parent root = loader.load();
@@ -115,20 +179,9 @@ public class MainSceneController {
             e.printStackTrace();
             System.out.println("Error loading UserDictionary.fxml: " + e.getMessage());
         }
+*/
+
     }
-
-    @FXML
-    void startSpell(ActionEvent event) {
-        StringBuilder content = new StringBuilder();
-        content.append( textArea.getText() );
-        mainLabel.setText("Spell Check Mode");
-
-        // Start Spell check mode
-        // Pass the "content" String into Backend methods to load linked Lists, etc before starting spell check mode
-        // Once done - Parse linked list of incorrect words and somehow show them differently on UI
-        // THen we want to create a series of popup UIs that are able to popup when certain words are clicked on
-    }
-
 }
 
 

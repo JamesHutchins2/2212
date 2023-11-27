@@ -5,14 +5,23 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Stage;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.stage.Popup;
-import javafx.stage.Stage;
-
+import javafx.scene.control.Button;
 import java.io.IOException;
 
 public class UserDictionaryController {
+    private Scene preScene;         // To remember scene of Main window, to go back
+
+    public void setPreScene(Scene preScene) {
+        this.preScene = preScene;
+    }
+
+    @FXML
+    private Button homeButton;
+
     @FXML
     private TextArea textArea;
 
@@ -27,25 +36,9 @@ public class UserDictionaryController {
 
     @FXML
     private void handleHome(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("FileChooser.fxml"));
-            Parent root = loader.load();
-            FileController homeController = loader.getController();
-            homeController.setPrimaryStage(primaryStage);
-
-            Scene mainScene = new Scene(root, 800, 500);
-
-            Stage stage = new Stage();
-            stage.setTitle("SpellChecker");
-            stage.setScene(mainScene);
+            Stage stage = (Stage) homeButton.getScene().getWindow();
+            stage.setScene(preScene);
             stage.show();
-
-            Stage currentStage = (Stage) textArea.getScene().getWindow();
-            currentStage.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Error loading FileChooser.fxml: " + e.getMessage());
-        }
     }
 
     @FXML
