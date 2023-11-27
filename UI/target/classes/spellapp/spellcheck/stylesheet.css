@@ -1,0 +1,9 @@
+.misspelled-word {
+    -fx-fill: red; /* Red text color for misspelled words */
+    -fx-underline: true; /* Underline for emphasis */
+}
+
+.normal-word {
+    -fx-fill: black; /* Regular text color */
+    -fx-underline: false; /* No underline */
+}

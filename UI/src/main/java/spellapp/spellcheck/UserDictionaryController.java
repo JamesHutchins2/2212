@@ -1,5 +1,5 @@
 package spellapp.spellcheck;
-
+import org.fxmisc.richtext.InlineCssTextArea;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

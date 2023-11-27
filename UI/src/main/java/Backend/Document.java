@@ -18,6 +18,8 @@ public Document(String text){
   populateLinkedList(text);
   //doc_analysis = new Doc_Analysis(wordBuffer);
   System.out.println("document created");
+  //create doc analysis object
+  this.doc_analysis = new Doc_Analysis(wordBuffer);
 }
 public void populateLinkedList(String text) {
   // Split the text into words, keeping delimiters (spaces and punctuation)
@@ -83,6 +85,9 @@ public void run_spell_check() {
       }
       current = current.getNext_node();
   }
+
+  //let us update the doc analysis
+  update_doc_analysis();
 }
 
 public Word_Object check_single_word(Word_Object word){
@@ -111,8 +116,22 @@ public Word_Object get_word_in_linked_list(int index){
 
 
 public void update_doc_analysis(){
+  System.out.println("updating doc analysis");
+  //check to see if doc_analysis is null
+  if(doc_analysis == null){
+    //create a new doc analysis object and assign it to instance variable
+    doc_analysis = new Doc_Analysis(wordBuffer);
+  }
   //update the document analysis
   doc_analysis.update(wordBuffer);
+  //get the values from doc analysis and print them
+  int char_count = doc_analysis.get_char_count();
+  int word_count = doc_analysis.get_word_count();
+  int line_count = doc_analysis.get_line_count();
+
+  System.out.println("char count: " + char_count);
+  System.out.println("word count: " + word_count);
+  System.out.println("line count: " + line_count);
 }
 
 public int[] get_doc_analysis(){
@@ -159,5 +178,25 @@ public int[] get_doc_error_values(){
   //return the array
   return errors;
 
+  }
+
+
+  public Doc_Error get_doc_error(){
+    return doc_error;
+  }
+
+  public void add_to_user_dict(String word){
+    //call the add to user dict function in doc error
+    doc_error.addToUserDict(word);
+  }
+
+  public void fix_a_word_spelling(){
+    //call the fix a word function in doc error
+    doc_error.fix_a_word_spelling();
+  }
+
+  public void decrease_current_misspelt_words(){
+    //call the down count misspelt function in doc error
+    doc_error.downCountMisspelt();
   }
 }

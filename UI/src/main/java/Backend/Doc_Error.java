@@ -166,6 +166,16 @@ public class Doc_Error {
 
 
     }
+    public void fix_a_word_spelling(){
+        // count of misspelt corrected words
+        this.corrected_misspelt_words++;
+    }
+
+    //add to user dict function
+    public void addToUserDict(String word){
+        //add the word to the user dict
+        dictionary.add_user_word(word);
+    }
 
     //functions to down count the errors as they are corrected
     public void downCountMisspelt(){
