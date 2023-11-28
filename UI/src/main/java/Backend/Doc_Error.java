@@ -28,7 +28,7 @@ public class Doc_Error {
         
         String path_test = "../UI/src/main/java/Backend/dict_resources/words.txt";
         String path_run = "../../Backend/dict_resources/words.txt";
-        String path = "C:/Users/james/Desktop/2212_final/new_java_project/2212/UI/src/main/java/Backend/dict_resources/words.txt";
+        String path = "C:/Users/james/Downloads/2212/final/2212/UI/src/main/java/Backend/dict_resources/words.txt";
         File file = new File(path);
         
         dictionary = new Dictionary(path);

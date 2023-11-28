@@ -373,6 +373,11 @@ public class MainSceneController {
 
         //determine the position of the click from the event value 
         int position = getClickPosition(event);
+
+        //update the wordbuffer indicies
+        document.wordBuffer.calculate_indicies();
+
+        // ! maybe update index here (how long does that take!!! )
         //get the word using the document class using the position (index value (carret position))
         Word_Object this_word = document.get_word_in_linked_list(position);
 
@@ -390,6 +395,7 @@ public class MainSceneController {
             showPopupAtTextPosition_double_word(this_word, event.getScreenX(), event.getScreenY());
         }
         if(this_word.isNeeds_first_capital() || this_word.isNeeds_lower_but_first()){
+            System.out.println("Is needs first capital");
             //provide a reccomendation that shows just the first letter capatalized
             String word_base = this_word.getWord();
             //first set it all to lower case
@@ -401,6 +407,7 @@ public class MainSceneController {
             popup_caps(word_capital, this_word, event.getScreenX(), event.getScreenY());
 
         }if(this_word.isNeeds_lower()){
+            System.out.println("Is needs Lower");
             //provide a reccomendation that shows the word lowercase
             String word_base = this_word.getWord();
             String word_lower = word_base.toLowerCase();
@@ -598,7 +605,60 @@ public class MainSceneController {
 
     private int getClickPosition(MouseEvent event) {
         // Return the current caret position in the text area
+        invoke_click_splash(event);
         return textArea.getCaretPosition();
+    }
+
+    private void invoke_click_splash(MouseEvent event){
+        
+        //get the click position
+        int position = textArea.getCaretPosition();
+
+        //get the word object at this position
+        Word_Object this_word = document.wordBuffer.getWordAtCaretPosition(position);
+
+        if(this_word == null){
+            return;
+        }
+
+        Word_Object current = this_word;
+        Word_Object [] before = {null, null, null};
+        Word_Object [] after = {null, null, null}; 
+        int i = 0;
+        current = this_word.getNext_node();
+        while(current != null && i < 2){
+
+            after[i] = current;
+            i++;
+            current = current.getNext_node();
+        }
+        i = 0;
+        current = this_word;
+        current = current.getPrev_node();
+        while(current != null && i < 2){
+            before[i] = current;
+            i++;
+            current = current.getPrev_node();
+
+        }
+
+        //run checks on the two arrays of words
+        for(int j = 0; j<2; j++){
+            //mark the word objects as modified
+            if(before[j] != null){
+                before[j].isModified();
+            }
+            if(after[j] != null){
+                after[j].isModified();
+            }
+        }
+
+        //Word_Object [] previous = {this_word.getPrev_node(), this_word.getPrev_node().getPrev_node()};
+        //Word_Object [] next = {this_word.getNext_node(), this_word.getNext_node().getNext_node()};
+
+        //mark two words in each direction as modified
+
+
     }
 
     public void highlightWords(){

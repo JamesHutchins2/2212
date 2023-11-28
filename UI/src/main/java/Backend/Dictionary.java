@@ -38,6 +38,7 @@ public class Dictionary {
             while ((line = bufferedReader.readLine()) != null) {
                 words.add(line.toLowerCase()); // add each word to the set
             }
+            System.out.println("WOrd" + words);
         } catch (IOException e) {
             e.printStackTrace(); // print error if file not found
         }
@@ -52,10 +53,10 @@ public class Dictionary {
             return true;
         }else{
             //check to see if user words is null
-            if(user_words == null){
-                //if it is, return false
-                return false;
-            }
+        if(user_words == null){
+            //if it is, return false
+            return false;
+        }
             //check the user words
             for(int i = 0; i < user_words.length; i++){
                 //if the word is in the user words, return true

@@ -53,7 +53,7 @@ public class Word_Object{
 
     }
 
-    private boolean modified;
+    private boolean modified = true;
 
     public boolean isNeeds_first_capital() {
         return needs_first_capital;

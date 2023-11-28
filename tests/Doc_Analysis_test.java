@@ -1,7 +1,7 @@
 package tests;
-import javax.print.Doc;
-
 import Backend.Document;
+import Backend.Doc_Analysis;
+import Backend.Doc_Error;
 public class Doc_Analysis_test {
 
     public void testDocAnalysis() {
