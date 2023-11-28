@@ -55,7 +55,7 @@ public class Doc_Error_test {
 
         //now we will check to see if the current misspelt words is 1
         if(doc_error.getCurrent_misspelt_words() == 1){
-            System.out.println("Test 1a - Error count: Passed");
+            System.out.println("Test 1 - Error count: Passed");
         }
         //now check to see if word5 has the correct suggestions
         String[] w5_suggestions = word5.getSuggestions();
@@ -63,7 +63,7 @@ public class Doc_Error_test {
         for(int i = 0; i < w5_suggestions.length; i++){
             //check to see if any are jumps
             if(w5_suggestions[i].equals("jumps")){
-                System.out.println("Test 1a - Suggestion: Passed");
+                System.out.println("Test 2 - Suggestion: Passed");
             }
         }
 
@@ -94,7 +94,7 @@ public class Doc_Error_test {
             Document test3c = new Document("The", "Quick", "brown", "fox", "Jumps", "over", "the", "lazy", "dog.", "\n");
             test3c.run_spell_check();
             int[] temp3c = test3c.get_doc_error_values();
-            if(temp3c[4] == 1){                 //need to double check this val
+            if(temp3c[4] == 2){                 //need to double check this val
                 System.out.println("Test 3c: Passed");
             }else{
                 System.out.println("Test 3c: Failed");
@@ -110,7 +110,7 @@ public class Doc_Error_test {
 
         //test check doubles: Test 4 - line 3, word 4 & 5 of test corpus
         int[] temp4 = doc.get_doc_error_values();
-        if(temp4[4] == test_double){
+        if(temp4[2] == test_double){
             System.out.println("Test 4: Passed");
         }else{
             System.out.println("Test 4: Failed");
@@ -150,6 +150,7 @@ public class Doc_Error_test {
 
         //test check get and set of current double words: Test 7
         Document t7 = new Document("Tommorrow", "will", "be", "an", "an", "intersting", "day", "for", "our", "picnic.", "\n");
+        t7.run_spell_check();
         int[] temp7 = t7.get_doc_error_values();
         if(temp7[2] == test_double){
             System.out.println("Test 7: Passed");
@@ -161,7 +162,7 @@ public class Doc_Error_test {
         //assume the user removes one of the instances of an
         t7.correct_word("an", "");
         int[] temp8 = t7.get_doc_error_values();
-        if(temp8[2] == 0){
+        if(temp8[2] == 0 && temp8[3] == 1){
             System.out.println("Test 8: Passed");
         }else{
             System.out.println("Test 8: Failed");
@@ -169,8 +170,9 @@ public class Doc_Error_test {
 
         //test check get and set of current capital errors: Test 9
         Document t9 = new Document("it's", "a", "beautifull", "sunny", "day", "outside.", "\n");
+        t9.run_spell_check();
         int[] temp9 = t9.get_doc_error_values();
-        if(temp9[3] == 1){
+        if(temp9[4] == 1){
             System.out.println("Test 9: Passed");
         }else{
             System.out.println("Test 9: Failed");
@@ -180,7 +182,7 @@ public class Doc_Error_test {
         //assume the user capitalizes the i in it's
         t9.correct_word("it's", "It's");
         int[] temp10 = t9.get_doc_error_values();
-        if(temp10[3] == 0){
+        if(temp10[4] == 0 && temp10[5] == 1){
             System.out.println("Test 10: Passed");
         }else{
             System.out.println("Test 10: Failed");
@@ -188,6 +190,7 @@ public class Doc_Error_test {
 
         //test check get and set of current misspelt words: Test 11
         Document t11 = new Document("She", "said", "her", "favoritte", "book", "is", "\"The", "Great", "Gatsby\".", "\n");
+        t11.run_spell_check();
         int[] temp11 = t11.get_doc_error_values();
         if(temp11[0] == 1){
             System.out.println("Test 11: Passed");
@@ -199,7 +202,7 @@ public class Doc_Error_test {
         //assume the user corrects the word favoritte to favorite
         t11.correct_word("favoritte", "favorite");
         int[] temp12 = t11.get_doc_error_values();
-        if(temp12[0] == 0){
+        if(temp12[0] == 0 && temp12[1] == 1){
             System.out.println("Test 12: Passed");
         }else{
             System.out.println("Test 12: Failed");
