@@ -119,6 +119,7 @@ public class Doc_Error {
         }
     }
 
+    // This is my new attempt at implemeting this I have added some new params to the word object for doing so and have added populating functions to do so. 
     public void checkCapitals(Word_Object head) {
         Word_Object current = head;
     
@@ -184,7 +185,7 @@ public class Doc_Error {
         this.corrected_capital_errors++;
     }
 
-    //getters and setters
+    //getters and setters for the document class to use to popluate the front end values. 
     public int getCurrent_misspelt_words() {
         return current_misspelt_words;
     }

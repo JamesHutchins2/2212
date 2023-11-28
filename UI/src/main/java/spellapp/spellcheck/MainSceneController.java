@@ -72,22 +72,25 @@ public class MainSceneController {
         
     }
 
- 
+    //this function starts at the first click, and automatically updates the encironment every 10 seconds
     public void startRepeatedTask() {
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(10), event -> {
             Platform.runLater(() -> {
                 try {
+                    //get text area content
                     String textContent = textArea.getText();
+                    //populate the linked list
                     document.populateLinkedList(textContent);
-                    System.out.println("Running spell check");
+                    //run the document spell check on the newly updated linked list
                     document.run_spell_check();
     
                     int[] docAnalysisVals = get_doc_analysis();
                     update_doc_analysis_values(docAnalysisVals);
-    
+                    //get the doc error values
                     int[] docErrorVals = get_doc_error();
                     //run the highlight misspelled words function
                     highlightWords();
+                    //populate the doc error values on the front end
                     update_doc_error_values(docErrorVals);
                     
                 } catch (Exception e) {
@@ -103,12 +106,9 @@ public class MainSceneController {
     
 
     
-     
+     //init the document object from the text area
     public void init_document(StyleClassedTextArea textArea_in){
-        // Set the text area
-        System.out.println("initializing document");
         
-    
         // Create a new document object
         this.document = new Document(textArea.getText());
         
@@ -118,8 +118,6 @@ public class MainSceneController {
     public void setDocument(Document document) {
         // Populate the document object
         document.populateLinkedList(textArea.getText());
-        // Uncomment if spell check should be run here
-        // document.run_spell_check();
     
         // Set the document object
         this.document = document;
@@ -165,6 +163,8 @@ public class MainSceneController {
             e.printStackTrace();
         }
     }
+
+    //gets the text from the document (depricated (I think))
     public String[] parse_text(){
         //get the text from the text area
         String text = textArea.getText();
@@ -214,6 +214,7 @@ public class MainSceneController {
             }
 
             Scene mainScene = new Scene(root, 800, 500);
+            //adds the stylesheet to the scene
             mainScene.getStylesheets().add(getClass().getResource("/spellapp/spellcheck/stylesheet.css").toExternalForm());
 
 
@@ -227,6 +228,7 @@ public class MainSceneController {
         }
     }
 
+    //I dont think we really need this
     @FXML
     void startSpell(ActionEvent event) {
         StringBuilder content = new StringBuilder();
@@ -245,6 +247,8 @@ public class MainSceneController {
     }
     // ---> james adding stuff.
     
+
+    //gets the doc analysis values
     public int[] get_doc_analysis(){
         //gets the values from the doc analysis object
         //int num_lines = textArea.getParagraphs().size();
@@ -273,6 +277,8 @@ public class MainSceneController {
     private Label Corrections;
     @FXML
     private Label DoubleWordCorrections;
+
+    //updates the document error values from an array of values
 
     public void update_doc_error_values(int[] values){
         //update the doc error values
@@ -309,6 +315,7 @@ public class MainSceneController {
         wordCountLabel.setText("Word count: " + word_count);
     }
 
+    //get the values from the doc error class via the document class/ 
     public int[] get_doc_error(){
 
         Doc_Error error = document.get_doc_error();
@@ -332,7 +339,7 @@ public class MainSceneController {
     
 
 
-
+    //inits the text area, as well as the repeated task function
     @FXML
     public void initialize() {
         // Initialize StyleClassedTextArea
@@ -354,8 +361,9 @@ public class MainSceneController {
         });
     }
 
+    //when we click on the screen this function is called. 
     private void handleTextClick(MouseEvent event) {
-        System.out.println("Mouse clicked at: " + event.getX() + ", " + event.getY());
+    
         // Check if the document is initialized
         if (this.document == null) {
             System.out.println("document is null, initializing");
@@ -363,7 +371,9 @@ public class MainSceneController {
             startRepeatedTask();
         }
 
+        //determine the position of the click from the event value 
         int position = getClickPosition(event);
+        //get the word using the document class using the position (index value (carret position))
         Word_Object this_word = document.get_word_in_linked_list(position);
 
         // Check if the word is misspelled and show suggestions
@@ -379,7 +389,57 @@ public class MainSceneController {
             System.out.println("word is double word: " + this_word.getWord());
             showPopupAtTextPosition_double_word(this_word, event.getScreenX(), event.getScreenY());
         }
+        if(this_word.isNeeds_first_capital() || this_word.isNeeds_lower_but_first()){
+            //provide a reccomendation that shows just the first letter capatalized
+            String word_base = this_word.getWord();
+            //first set it all to lower case
+            String word_lower = word_base.toLowerCase();
+            //then set the first letter to upper case
+            String word_capital = word_lower.substring(0, 1).toUpperCase() + word_lower.substring(1);
+            //create a new word_object
+            
+            popup_caps(word_capital, this_word, event.getScreenX(), event.getScreenY());
+
+        }if(this_word.isNeeds_lower()){
+            //provide a reccomendation that shows the word lowercase
+            String word_base = this_word.getWord();
+            String word_lower = word_base.toLowerCase();
+            
+            popup_caps(word_lower, this_word, event.getScreenX(), event.getScreenY());
+
+        }
     }
+    private void popup_caps(String adjusted_word, Word_Object word, double x, double y){
+        // Clear existing items and prepare new ones
+        contextMenu.getItems().clear();
+        // Add new items to the context menu
+        contextMenu.getItems().addAll(
+            createCustomMenuItem_caps(word, adjusted_word)
+        );
+
+        // Show context menu at the mouse cursor's position
+        contextMenu.show(textArea, x, y);
+    }
+
+    private CustomMenuItem createCustomMenuItem_caps(Word_Object word, String adjusted_word) {
+        String label_word = word.getWord();
+        Label label = new Label(label_word);
+        label.setStyle("-fx-text-fill: red;");
+        label.setPrefWidth(150);
+        label.setMaxWidth(Double.MAX_VALUE);
+        label.setWrapText(true);
+
+
+        label.setOnMouseClicked(event -> {
+            //delete the text, and the word object in the linked list
+            implement_caps(word);
+        });
+
+        return new CustomMenuItem(label,true);
+
+    
+    }
+
     private void showPopupAtTextPosition_double_word(Word_Object word, double x, double y){
 
         contextMenu.getItems().clear();
@@ -411,7 +471,7 @@ public class MainSceneController {
 
         return new CustomMenuItem(label,true);
     }
-
+    
 
     //adding a function to display the popup
     private CustomMenuItem addTouserDictItem(Word_Object word){
@@ -492,6 +552,13 @@ public class MainSceneController {
         });
     
         return new CustomMenuItem(label, false);
+    }
+    private void implement_caps(Word_Object word){
+        //get the word start and stop indicies
+        int startIndex = (word.getPrev_node() != null) ? word.getPrev_node().getEnd_index() + 1 : 0;
+        int endIndex = (word.getNext_node() != null) ? word.getNext_node().getStart_index() : textArea.getLength();
+
+        //replace that text in that range with the word
     }
 
     private void implement_suggestion(Word_Object word, String suggestion) {
