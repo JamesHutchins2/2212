@@ -28,9 +28,12 @@ public class Doc_Error_test {
         int test_mispelt = 5;
         int test_double = 1;
         int test_capital = 3;
-        //create a document object
 
+        //create a document object
         Document doc = new Document(test_corpus);
+
+        //running spell check
+        doc.run_spell_check();
 
         //test 1: test check words function
 
@@ -52,7 +55,7 @@ public class Doc_Error_test {
 
         //now we will check to see if the current misspelt words is 1
         if(doc_error.getCurrent_misspelt_words() == 1){
-            System.out.println("Test 1: Passed");
+            System.out.println("Test 1a - Error count: Passed");
         }
         //now check to see if word5 has the correct suggestions
         String[] w5_suggestions = word5.getSuggestions();
@@ -60,13 +63,12 @@ public class Doc_Error_test {
         for(int i = 0; i < w5_suggestions.length; i++){
             //check to see if any are jumps
             if(w5_suggestions[i].equals("jumps")){
-                System.out.println("Test 2: Passed");
+                System.out.println("Test 1a - Suggestion: Passed");
             }
         }
 
     
         //checking capitals: Test 3
-            doc.get_doc_error_values();
             //can be within the word incorrectly capitalized (a) - line 9, word 7 of test corpus
             Word_Object word6 = new Word_Object("gaLlery");
             doc_error.checkCapitals(word6);
@@ -78,15 +80,37 @@ public class Doc_Error_test {
             }
 
             //and at the beginning of a sentance not capitalized (b) - line 2, word 1 of test corpus
-            
+            Document test3b = new Document("it's", "a", "beautifull", "sunny", "day", "outside.", "\n");
+            test3b.run_spell_check();
+            int[] temp3b = test3b.get_doc_error_values();
+            if(temp3b[4] == 1){                 //need to double check this val
+                System.out.println("Test 3b: Passed");
+            }else{
+                System.out.println("Test 3b: Failed");
+            }
+
 
             //and in the middle of a sentence capitalized when it shouldnt be (c) - line 1, word 2 of test corpus
+            Document test3c = new Document("The", "Quick", "brown", "fox", "Jumps", "over", "the", "lazy", "dog.", "\n");
+            test3c.run_spell_check();
+            int[] temp3c = test3c.get_doc_error_values();
+            if(temp3c[4] == 1){                 //need to double check this val
+                System.out.println("Test 3c: Passed");
+            }else{
+                System.out.println("Test 3c: Failed");
+            }
 
-
+            //now for all capitals
+            int[] temp = doc.get_doc_error_values();
+            if(temp[4] == 3){                 //need to double check this val
+                System.out.println("Test 3d: Passed");
+            }else{
+                System.out.println("Test 3d: Failed");
+            }
 
         //test check doubles: Test 4 - line 3, word 4 & 5 of test corpus
-        doc.run_spell_check();
-        if(doc_error.getCurrent_double_words() == test_double){
+        int[] temp4 = doc.get_doc_error_values();
+        if(temp4[4] == test_double){
             System.out.println("Test 4: Passed");
         }else{
             System.out.println("Test 4: Failed");
@@ -94,42 +118,92 @@ public class Doc_Error_test {
 
 
         //test check get and set of current misspelt words: Test 5
-        doc.run_spell_check();
-        if(doc_error.getCurrent_misspelt_words() == test_mispelt){
+        int[] temp5 = doc.get_doc_error_values();
+        if(temp5[0] == test_mispelt){
             System.out.println("Test 5: Passed");
         }else{
             System.out.println("Test 5: Failed");
         }
 
         //test check get and set of corrected misspelt words: Test 6
-
-        //get spell check values
-        doc.run_spell_check();
-        doc.get_doc_error_values();
-
+        //assume the user corrects the word jumpsz to jumps via the UI
+        doc.correct_word("jumpsz", "jumps");
+        int[] temp6 = doc.get_doc_error_values();
         //test correcting some of the words - 6a
+        if(temp6[1] == 1){
+            System.out.println("Test 6a: Passed");
+        }else{
+            System.out.println("Test 6a: Failed");
+        }
 
-
-        //correct all of the words - 6b
-
+        //test getting some of the words - 6b
+        
+        while(doc.getNext_node() != null){
+            curr = doc.getNext_node();
+            if(curr.getWord().equals("jumps")){
+                System.out.println("Test 6b: Passed");
+        }else if(curr.getWord().equals("jumpsz")){
+            System.out.println("Test 6b: Failed");
+        }
+        }
 
 
         //test check get and set of current double words: Test 7
+        Document t7 = new Document("Tommorrow", "will", "be", "an", "an", "intersting", "day", "for", "our", "picnic.", "\n");
+        int[] temp7 = t7.get_doc_error_values();
+        if(temp7[2] == test_double){
+            System.out.println("Test 7: Passed");
+        }else{
+            System.out.println("Test 7: Failed");
+        }
 
         //test check get and set of corrected double words: Test 8
+        //assume the user removes one of the instances of an
+        t7.correct_word("an", "");
+        int[] temp8 = t7.get_doc_error_values();
+        if(temp8[2] == 0){
+            System.out.println("Test 8: Passed");
+        }else{
+            System.out.println("Test 8: Failed");
+        }
 
         //test check get and set of current capital errors: Test 9
+        Document t9 = new Document("it's", "a", "beautifull", "sunny", "day", "outside.", "\n");
+        int[] temp9 = t9.get_doc_error_values();
+        if(temp9[3] == 1){
+            System.out.println("Test 9: Passed");
+        }else{
+            System.out.println("Test 9: Failed");
+        }
 
         //test check get and set of corrected capital errors: Test 10
+        //assume the user capitalizes the i in it's
+        t9.correct_word("it's", "It's");
+        int[] temp10 = t9.get_doc_error_values();
+        if(temp10[3] == 0){
+            System.out.println("Test 10: Passed");
+        }else{
+            System.out.println("Test 10: Failed");
+        }
 
         //test check get and set of current misspelt words: Test 11
+        Document t11 = new Document("She", "said", "her", "favoritte", "book", "is", "\"The", "Great", "Gatsby\".", "\n");
+        int[] temp11 = t11.get_doc_error_values();
+        if(temp11[0] == 1){
+            System.out.println("Test 11: Passed");
+        }else{
+            System.out.println("Test 11: Failed");
+        }
 
         //test check get and set of corrected misspelt words: Test 12
-
-        //test check get and set of current double words: Test 13
-    
-   
-
-
+        //assume the user corrects the word favoritte to favorite
+        t11.correct_word("favoritte", "favorite");
+        int[] temp12 = t11.get_doc_error_values();
+        if(temp12[0] == 0){
+            System.out.println("Test 12: Passed");
+        }else{
+            System.out.println("Test 12: Failed");
+        }
+        
     }   
 }
