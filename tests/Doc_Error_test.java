@@ -12,7 +12,7 @@ public class Doc_Error_test {
     
 
 
-        //test corpus
+        //test corpus, to mass test the doc_error class
         String [] test_corpus = {"The", "Quick", "brown", "fox", "Jumps", "over", "the", "lazy", "dog.", "\n",
         "it's", "a", "beautifull", "sunny", "day", "outside.", "\n",
         "Tommorrow", "will", "be", "an", "an", "intersting", "day", "for", "our", "picnic.", "\n",
