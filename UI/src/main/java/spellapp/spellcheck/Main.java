@@ -24,6 +24,7 @@ public class Main extends Application {
         
 
         Scene scene = new Scene(root, 800, 500);
+        scene.getStylesheets().add(getClass().getResource("/spellapp/spellcheck/stylesheet.css").toExternalForm());
         stage.setTitle("Spellchecker");
         stage.setScene(scene);
         stage.show();

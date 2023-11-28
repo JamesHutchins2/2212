@@ -1,9 +1,14 @@
 package Backend;
+
+
+
 public class Word_Object{
     private Word_Object prev_node;
     private Word_Object next_node;
     private String word;
-    private boolean start_with_capital;
+    private boolean needs_first_capital;
+    private boolean needs_lower_but_first;
+    private boolean needs_lower;
     private boolean end_with_period;
     private boolean is_real_word;
     private boolean needs_capital;
@@ -17,13 +22,15 @@ public class Word_Object{
     private int end_index;
     private int spaces_after;
     private int spaces_before;
+    private int[] is_capital_at;
+    private boolean ends_with_punctuation;
+    private boolean is_first_word;
 
     public Word_Object(String word) {
         // Initialization logic
         //set is_real_word to false
         this.is_real_word = false;
         this.word = word;
-        this.start_with_capital = false;
         this.end_with_period = false;
         this.needs_capital = false;
         this.needs_period = false;
@@ -36,10 +43,42 @@ public class Word_Object{
         this.end_index = 0;
         this.spaces_after = 0;
         this.spaces_before = 0;
+        this.is_capital_at = null;
+        this.ends_with_punctuation = false;
+        this.is_first_word = false;
+        this.needs_first_capital = false;
+        this.needs_lower_but_first = false;
+        this.needs_lower = false;
+
 
     }
 
     private boolean modified;
+
+    public boolean isNeeds_first_capital() {
+        return needs_first_capital;
+    }
+
+    public void setNeeds_first_capital(boolean needs_first_capital) {
+        this.needs_first_capital = needs_first_capital;
+    }
+
+    public boolean isNeeds_lower_but_first() {
+        return needs_lower_but_first;
+    }
+
+    public void setNeeds_lower_but_first(boolean needs_lower_but_first) {
+        this.needs_lower_but_first = needs_lower_but_first;
+    }
+
+    public boolean isNeeds_lower() {
+        return needs_lower;
+    }
+
+    public void setNeeds_lower(boolean needs_lower) {
+        this.needs_lower = needs_lower;
+    }
+
 
     public boolean isModified() {
         return modified;
@@ -52,7 +91,6 @@ public class Word_Object{
     
     public void Word_Object_full(String word, boolean start_with_capital, boolean end_with_period, boolean is_real_word, boolean needs_capital, boolean needs_period, boolean is_double_word_after, boolean is_double_word_before, String suggestion_1, String suggestion_2, String suggestion_3) {
         this.word = word;
-        this.start_with_capital = start_with_capital;
         this.end_with_period = end_with_period;
         this.is_real_word = is_real_word;
         this.needs_capital = needs_capital;
@@ -100,19 +138,38 @@ public class Word_Object{
     public String getWord() {
         return word;
     }
+    public void setEndsWithPunctuation(boolean endsWithPunctuation) {
+        this.ends_with_punctuation = endsWithPunctuation;
+    }
+    public boolean getEndsWithPunctuation() {
+        return ends_with_punctuation;
+    }
+
+    public void setIs_first_word(boolean is_first_word) {
+        this.is_first_word = is_first_word;
+    }
+
+    public boolean isIs_first_word() {
+        return is_first_word;
+    }
 
     public void setWord(String word) {
         this.word = word;
+        this.is_capital_at = new int[word.length()];
+        //loop through each char assign 1 if capital, 0 if not
+        for(int i = 0; i < word.length(); i++){
+            if(Character.isUpperCase(word.charAt(i))){
+                this.is_capital_at[i] = 1;
+            }
+            else{
+                this.is_capital_at[i] = 0;
+            }
+        }
     }
 
-    public boolean isStart_with_capital() {
-        return start_with_capital;
-    }
+    
 
-    public void setStart_with_capital(boolean start_with_capital) {
-        this.start_with_capital = start_with_capital;
-    }
-
+    
     public boolean isEnd_with_period() {
         return end_with_period;
     }
@@ -190,6 +247,10 @@ public class Word_Object{
 
         return items;
 
+    }
+
+    public int[] getIs_capital_at() {
+        return is_capital_at;
     }
 
    

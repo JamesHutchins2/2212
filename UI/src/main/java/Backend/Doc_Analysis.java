@@ -22,7 +22,7 @@ class Doc_Analysis{
 
   //to return line count
   private int getLineCount(char[] text) {
-    int lineCount = 0; // Initialize lineCount
+    int lineCount = 1; // Initialize lineCount
     int i = 0;
     while (i < text.length) {
         // If newline, count

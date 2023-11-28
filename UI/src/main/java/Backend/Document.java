@@ -18,28 +18,44 @@ public Document(String text){
   populateLinkedList(text);
   //doc_analysis = new Doc_Analysis(wordBuffer);
   System.out.println("document created");
+  //create doc analysis object
+  this.doc_analysis = new Doc_Analysis(wordBuffer);
 }
 public void populateLinkedList(String text) {
   // Split the text into words, keeping delimiters (spaces and punctuation)
   String[] wordsWithDelimiters = text.split("(?<=\\s)|(?=\\s)|(?<=\\p{Punct})|(?=\\p{Punct})");
 
-  int index = 0;
   Word_Object current = wordBuffer.getHead();
   int spacesBefore = 0;
-  boolean wordChanged;
 
   for (String element : wordsWithDelimiters) {
       boolean isWord = !element.matches("\\s+"); // True if the element is a word, false if it's spaces
 
       if (isWord) {
-          wordChanged = current == null || !current.getWord().equals(element) || current.getSpaces_before() != spacesBefore;
+          boolean endsWithPeriod = element.endsWith(".");
+          boolean endsWithComma = element.endsWith(",");
+          boolean endsWithQuestionMark = element.endsWith("?");
+          boolean endsWithExclamationPoint = element.endsWith("!");
+          
+            
+
+          if (endsWithPeriod || endsWithComma || endsWithQuestionMark || endsWithExclamationPoint) {
+              // Remove the period from the word
+              element = element.substring(0, element.length() - 1);
+          }
+
+          boolean wordChanged = current == null || 
+                                !current.getWord().equals(element) || 
+                                current.getSpaces_before() != spacesBefore || 
+                                current.isEnd_with_period() != endsWithPeriod;
 
           if (wordChanged) {
               // Create a new Word_Object or update the existing one
               Word_Object newWord = new Word_Object(element);
-              newWord.setWord(element);
+              newWord.setEnd_with_period(endsWithPeriod);
               newWord.setSpaces_before(spacesBefore);
-              newWord.setModified(true); // Mark as modified for spell check
+              newWord.setModified(true); 
+              newWord.setEndsWithPunctuation(endsWithPeriod || endsWithQuestionMark || endsWithExclamationPoint);
 
               if (current == null) {
                   wordBuffer.add(newWord);
@@ -48,7 +64,7 @@ public void populateLinkedList(String text) {
                   current = newWord.getNext_node();
               }
           } else {
-              current.setModified(false); // No change in word and spaces
+              current.setModified(false); // No change in word, spaces, and period status
               current = current.getNext_node(); // Move to next word
           }
 
@@ -57,21 +73,10 @@ public void populateLinkedList(String text) {
           // Element is spaces or punctuation
           spacesBefore += element.length();
       }
-
-      index += element.length();
   }
-
-  // Remove any remaining words in the old list
-  while (current != null) {
-      Word_Object next = current.getNext_node();
-      wordBuffer.removeWord(current);
-      current = next;
-  }
-
-  // Recalculate indices and run spell check on modified words
-  wordBuffer.calculate_indicies();
-  run_spell_check(); // Modify this method to check only modified words
 }
+
+
 
 public void run_spell_check() {
   Word_Object current = wordBuffer.getHead();
@@ -79,10 +84,15 @@ public void run_spell_check() {
       if (current.isModified()) {
           // Run spell check on this word
           doc_error.checkWords(current);
+          doc_error.checkDoubleWord(current);
+          doc_error.checkCapitals(current);
           current.setModified(false); // Reset the modified flag after checking
       }
       current = current.getNext_node();
   }
+
+  //let us update the doc analysis
+  update_doc_analysis();
 }
 
 public Word_Object check_single_word(Word_Object word){
@@ -111,11 +121,25 @@ public Word_Object get_word_in_linked_list(int index){
 
 
 public void update_doc_analysis(){
+  System.out.println("updating doc analysis");
+  //check to see if doc_analysis is null
+  if(doc_analysis == null){
+    //create a new doc analysis object and assign it to instance variable
+    doc_analysis = new Doc_Analysis(wordBuffer);
+  }
   //update the document analysis
   doc_analysis.update(wordBuffer);
+  //get the values from doc analysis and print them
+  int char_count = doc_analysis.get_char_count();
+  int word_count = doc_analysis.get_word_count();
+  int line_count = doc_analysis.get_line_count();
+
+  System.out.println("char count: " + char_count);
+  System.out.println("word count: " + word_count);
+  System.out.println("line count: " + line_count);
 }
 
-public int[] get_doc_analysis(){
+public int[] get_doc_analysis(int num_lines){
   
 
   //get the char count
@@ -125,7 +149,7 @@ public int[] get_doc_analysis(){
   int word_count = doc_analysis.get_word_count();
   
   //get the line count
-  int line_count = doc_analysis.get_line_count();
+  int line_count = num_lines;
 
   //add them to an array
   int[] analysis = {char_count, word_count, line_count};
@@ -160,4 +184,28 @@ public int[] get_doc_error_values(){
   return errors;
 
   }
+
+
+  public Doc_Error get_doc_error(){
+    return doc_error;
+  }
+
+  public void add_to_user_dict(String word){
+    //call the add to user dict function in doc error
+    doc_error.addToUserDict(word);
+  }
+
+  
+
+  public void decrease_current_misspelt_words(){
+    //call the down count misspelt function in doc error
+    doc_error.downCountMisspelt();
+  }
+
+  public void decrease_current_double_words(){
+    //call the down count double word function in doc error
+    doc_error.downCountDoubleWord();
+  }
+
+  
 }

@@ -2,6 +2,7 @@ package Backend;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 public class Doc_Error {
     //create the document error variables
@@ -73,98 +74,92 @@ public class Doc_Error {
         //get the current word text
         String word_text = word_Object.getWord();
 
-        //get the next word object
-        Word_Object next_word_object = word_Object.getNext_node();
-        //extract the word string
-        String next_word = next_word_object.getWord();
+        //get the next word object if it is not null
+        if(word_Object.getNext_node() == null){
+            //if it is null then we do nothing
+            return;
+        }
+        else{
+            Word_Object next_word_object = word_Object.getNext_node();
+            //extract the word string
+            String next_word = next_word_object.getWord();
+            System.out.println("next word: " + next_word);
+            System.out.println("current word: " + word_text);
 
+            //check to see if this word and next word are the same word
+            if(word_text.equals(next_word)){
+                //if they are the same word, then it is a double word
+                this.current_double_words++;
+                System.out.println("Double word!!!: " + word_text);
+                
+                //add a flag to the word object
+                word_Object.setIs_double_word_after(true);
+                word_Object.getNext_node().setIs_double_word_before(true);
 
-        //check to see if this word and next word are the same word
-        if(word_text.equals(next_word)){
-            //if they are the same word, then it is a double word
-            this.current_double_words++;
-            //add a flag to the word object
-            word_Object.setIs_double_word_after(true);
+            }
+        }
+    
+    }
 
+    public void set_is_first(Word_Object word){
+        //check to see if there is a previous word
+        if(word.getPrev_node() == null){
+            //if there is no previous word, then this is the first word
+            word.setIs_first_word(true);
+        }
+        else{
+            //if the previous word ends with punctuation, then this is the first word
+            if(word.getPrev_node().getEndsWithPunctuation()){
+                word.setIs_first_word(true);
+            }
+            else{
+                //if the previous word does not end with punctuation, then this is not the first word
+                word.setIs_first_word(false);
+            }
         }
     }
 
-    public void checkCapitals(Word_Object word_Object) {
-
-        //let's go through the cases when it should be a capital
-        //1. if it is just the letter I
-        //2. first word in the sentence
-        //3. if it is the first word in the document
-        //4. if it is the first word on a new line
-
-
-        //lets implement case 1
-
-        //get the word text
-        String word_text = word_Object.getWord();
-
-        //check to see if the word is just the letter I in capital form
-        if(word_text.equals("I") && word_text.toUpperCase().equals(word_text)){
-            
-            // we do nothing here because it is correct
-        }else{
-            //add flag to the word object needs upper case
-            word_Object.setNeeds_capital(true);
-            //add to the current capital errors
-            this.current_capital_errors++;
-        }
-
-        //check to see if the word is the first word in the sentence
-        //get the previous word object
-        Word_Object prev_word_object = word_Object.getPrev_node();
-
-        //get the previous word text
-        String prev_word_text = prev_word_object.getWord();
-
-        //check to see if the previous word text ends with a period
-        if(prev_word_text.endsWith(".")){
-            //split the current word into char array
-            char[] word_text_char_array = word_text.toCharArray();
-            
-            //check to see if first char is upper case
-            if(Character.isUpperCase(word_text_char_array[0])){
-                //we do nothing here because it is correct
-            }else{
-                //add flag to the word object needs upper case
-                word_Object.setNeeds_capital(true);
-                //add to the current capital errors
-                this.current_capital_errors++;
+    public void checkCapitals(Word_Object head) {
+        Word_Object current = head;
+    
+        while (current != null) {
+            String word = current.getWord();
+    
+            // Check for the first word or words after punctuation (as marked by is_first_word)
+            if (current.isIs_first_word()) {
+                if (!Character.isUpperCase(word.charAt(0))) {
+                    current.setNeeds_first_capital(true);
+                }
+    
+                // Check if any other letters in the word are capitalized
+                for (int i = 1; i < word.length(); i++) {
+                    if (Character.isUpperCase(word.charAt(i))) {
+                        current.setNeeds_lower_but_first(true);
+                        break;
+                    }
+                }
+            } else {
+                // Check for capitals anywhere in the word
+                for (int i = 0; i < word.length(); i++) {
+                    if (Character.isUpperCase(word.charAt(i))) {
+                        current.setNeeds_lower(true);
+                        break;
+                    }
+                }
             }
-            
+    
+            // Move to the next node in the list
+            current = current.getNext_node();
         }
-
-        //case 3 first word in document
-        //check to see if the previous word object is null
-
-        if(word_Object.getPrev_node() == null){
-            //split the current word into char array
-            char[] word_text_char_array = word_text.toCharArray();
-            
-            //check to see if first char is upper case
-            if(Character.isUpperCase(word_text_char_array[0])){
-                //we do nothing here because it is correct
-            }else{
-                //add flag to the word object needs upper case
-                word_Object.setNeeds_capital(true);
-                //add to the current capital errors
-                this.current_capital_errors++;
-            }
-        }
+    }
 
 
-        //case 4 first word on a new line
-        
+    
 
-        
-
-
-
-
+    //add to user dict function
+    public void addToUserDict(String word){
+        //add the word to the user dict
+        dictionary.add_user_word(word);
     }
 
     //functions to down count the errors as they are corrected

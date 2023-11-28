@@ -1,5 +1,5 @@
 package spellapp.spellcheck;
-
+import org.fxmisc.richtext.StyleClassedTextArea;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import Backend.Document;
 
 import java.io.IOException;
 
@@ -68,5 +69,3 @@ public class UserDictionaryController {
         }
     }
 }
-
-
