@@ -1,4 +1,6 @@
 package tests;
+import javax.print.Doc;
+
 import Backend.Document;
 public class Doc_Analysis_test {
 
@@ -20,13 +22,39 @@ public class Doc_Analysis_test {
 
 
 
-    // convert the test_corpus into a linked list of words
-
     //create a doc object
 
-    //Document doc = new Document(test_corpus);
+    Document doc = new Document(test_corpus);
 
+    //now create doc analysis object, which will in turn create a linked list of words
+    Doc_Analysis doc_analysis = new Doc_Analysis(doc);
 
+    //test get line count
+    int lc = doc_analysis.getLineCount();
 
+    //correct metric of lines given by the test corpus is 10
+    if(lc == 10){
+        System.out.println("Test 1: Passed");
+    }else{
+        System.out.println("Test 1: Failed");
     }
+
+    //test get word count
+    int wc = doc_analysis.getWordCount();
+    //correct metric of words given by the test corpus is 80
+    if(wc == 80){
+        System.out.println("Test 2: Passed");
+    }else{
+        System.out.println("Test 2: Failed");
+    }
+
+    //test get char count
+    int cc = doc_analysis.getCharCount();
+    //correct metric of chars given by the test corpus is 399
+    if(cc == 399){
+        System.out.println("Test 3: Passed");
+    }else{
+        System.out.println("Test 3: Failed");
+    }
+}
 }
