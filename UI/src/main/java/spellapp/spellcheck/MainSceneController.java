@@ -290,6 +290,56 @@ public void startRepeatedTask() {
         }
     }
 
+    private void showPopupAtTextPosition_DoubleWoes(Word_Object word, double x, double y){
+
+        contextMenu.getItems().clear();
+
+        if (word.isIs_double_word_after()){
+            contextMenu.getItems().addAll(
+                createDoubleWordItem_replace(int index, Word_Object word);
+            );
+
+            contextMenu.show(textArea, x, y);
+        }
+    }
+
+    private CustomMenuItem createDoubleWordItem_replace(int index, Word_Object word){
+        String text = "Delete Double Word";
+        Label label = new Label(text);
+        label.setStyle("-fx-text-fill: red;");
+        label.setPrefWidth(150);
+        label.setMaxWidth(Double.MAX_VALUE);
+        label.setWrapText(true);
+
+
+        label.setOnMouseClicked(event -> {
+            //delete the text, and the word object in the linked list
+
+            Word_Object next_word = word.getNext_node();
+            Word_Object last_word = word.getPrev_node();
+
+            next_word.setPrev_node(last_word);
+            last_word.setNext_node(next_word);
+
+            //now we delete it from the text area
+            int end = word.getEnd_index();
+            int start = word.getStart_index();
+
+            //delete this word object
+
+            textArea.replaceText(start,end," ");
+        });
+
+        return new CustomMenuItem(label,true);
+    }
+
+    private CustomMenuItem capitalize(int index, Word_Object word){
+        String word_text = word.getWord();
+
+        //capatalize the first letter
+        
+    }
+
     private CustomMenuItem createCustomMenuItem(int index, Word_Object word) {
         // Create a label with specified text and styling
         String text = word.getSuggestions()[index];
