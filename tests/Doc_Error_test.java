@@ -2,6 +2,8 @@ package tests;
 import Backend.Document;
 import Backend.Word_Object;
 import Backend.Doc_Error;
+import Backend.Doc_Analysis;
+
 public class Doc_Error_test {
 
     public void testDocError(){
@@ -13,16 +15,17 @@ public class Doc_Error_test {
 
 
         //test corpus
-        String [] test_corpus = {"The", "Quick", "brown", "fox", "Jumps", "over", "the", "lazy", "dog.", "\n",
-        "it's", "a", "beautifull", "sunny", "day", "outside.", "\n",
-        "Tommorrow", "will", "be", "an", "an", "intersting", "day", "for", "our", "picnic.", "\n",
-        "She", "said", "her", "favoritte", "book", "is", "\"The", "Great", "Gatsby\".", "\n",
-        "Could", "you", "pleese", "pass", "the", "ketchup?", "\n",
-        "He", "decided", "to", "seperate", "the", "papers", "into", "two", "piles.", "\n",
-        "Their", "going", "to", "visit", "the", "museum", "next", "week.", "\n",
-        "The", "cat", "chased", "it's", "tail", "around", "the", "living", "room.", "\n",
-        "We", "recieved", "an", "invitation", "for", "the", "gaLlery", "opening.", "\n",
-        "He", "loves", "to", "play", "the", "guitar", "and", "the", "pianoo."};
+        String test_corpus = "The Quick brown fox Jumps over the lazy dog.\n" +
+        "it's a beautifull sunny day outside.\n" +
+        "Tommorrow will be an an intersting day for our picnic.\n" +
+        "She said her favoritte book is \"The Great Gatsby\".\n" +
+        "Could you pleese pass the ketchup?\n" +
+        "He decided to seperate the papers into two piles.\n" +
+        "Their going to visit the museum next week.\n" +
+        "The cat chased it's tail around the living room.\n" +
+        "We recieved an invitation for the gaLlery opening.\n" +
+        "He loves to play the guitar and the pianoo.";
+
 
         StringBuilder stringBuilder = new StringBuilder();
         for (String word : test_corpus) {
@@ -88,7 +91,7 @@ public class Doc_Error_test {
             }
 
             //and at the beginning of a sentance not capitalized (b) - line 2, word 1 of test corpus
-            Document test3b = new Document("it's", "a", "beautifull", "sunny", "day", "outside.", "\n");
+            Document test3b = new Document("it's a beautifull sunny day outside.\n");
             test3b.run_spell_check();
             int[] temp3b = test3b.get_doc_error_values();
             if(temp3b[4] == 1){                 //need to double check this val
@@ -99,7 +102,7 @@ public class Doc_Error_test {
 
 
             //and in the middle of a sentence capitalized when it shouldnt be (c) - line 1, word 2 of test corpus
-            Document test3c = new Document("The", "Quick", "brown", "fox", "Jumps", "over", "the", "lazy", "dog.", "\n");
+            Document test3c = new Document("The Quick brown fox Jumps over the lazy dog.\n");
             test3c.run_spell_check();
             int[] temp3c = test3c.get_doc_error_values();
             if(temp3c[4] == 2){                 //need to double check this val
@@ -135,30 +138,36 @@ public class Doc_Error_test {
 
         //test check get and set of corrected misspelt words: Test 6
         //assume the user corrects the word jumpsz to jumps via the UI
-        doc.correct_word("jumpsz", "jumps");
+        Word_Object curr = doc.wordBuffer.getHead();
+        while(curr.hasNext()){
+            if(curr.getWord().equals("jumpsz")){
+                curr.setWord("jumps");
+                doc.doc_error.downCountMisspelt();;
+            }
+        curr = curr.getNext_node();
+    }
         int[] temp6 = doc.get_doc_error_values();
         //test correcting some of the words - 6a
         if(temp6[1] == 1){
             System.out.println("Test 6a: Passed");
         }else{
             System.out.println("Test 6a: Failed");
-        }
-
+        } 
         //test getting some of the words - 6b
         
-        while(doc.getNext_node() != null){
-            curr = doc.getNext_node();
+        Word_Object curr6b = doc.wordBuffer.getHead();
+        while(curr6b.hasNext()){
             if(curr.getWord().equals("jumps")){
                 System.out.println("Test 6b: Passed");
         }else if(curr.getWord().equals("jumpsz")){
             System.out.println("Test 6b: Failed");
         }
+         curr = curr.getNext_node();
         }
-
+    
 
         //test check get and set of current double words: Test 7
-        Document t7 = new Document("Tommorrow", "will", "be", "an", "an", "intersting", "day", "for", "our", "picnic.", "\n");
-        t7.run_spell_check();
+        Document t7 = new Document("Tommorrow will be an an intersting day for our picnic.\n");
         int[] temp7 = t7.get_doc_error_values();
         if(temp7[2] == test_double){
             System.out.println("Test 7: Passed");
@@ -168,7 +177,18 @@ public class Doc_Error_test {
 
         //test check get and set of corrected double words: Test 8
         //assume the user removes one of the instances of an
-        t7.correct_word("an", "");
+        int instance = 0;
+        Word_Object curr8 = t7.wordBuffer.getHead();
+        while(curr8.hasNext()){
+            if(curr8.getWord().equals("an") && instance == 1){
+                curr8.setWord("");
+                t7.doc_error.downCountDoubleWord();
+            }else if(curr8.getWord().equals("an")){
+                instance++;
+            }
+            curr8 = curr8.getNext_node();
+        }
+
         int[] temp8 = t7.get_doc_error_values();
         if(temp8[2] == 0 && temp8[3] == 1){
             System.out.println("Test 8: Passed");
@@ -177,8 +197,7 @@ public class Doc_Error_test {
         }
 
         //test check get and set of current capital errors: Test 9
-        Document t9 = new Document("it's", "a", "beautifull", "sunny", "day", "outside.", "\n");
-        t9.run_spell_check();
+        Document t9 = new Document("it's a beautifull sunny day outside.\n");
         int[] temp9 = t9.get_doc_error_values();
         if(temp9[4] == 1){
             System.out.println("Test 9: Passed");
@@ -188,7 +207,15 @@ public class Doc_Error_test {
 
         //test check get and set of corrected capital errors: Test 10
         //assume the user capitalizes the i in it's
-        t9.correct_word("it's", "It's");
+        
+        Word_Object currt9 = t9.wordBuffer.getHead();
+        while(currt9.hasNext()){
+            if(currt9.getWord().equals("it's")){
+                currt9.setWord("It's");
+                t9.doc_error.downCountCapital();
+            }
+            currt9 = currt9.getNext_node();
+        }
         int[] temp10 = t9.get_doc_error_values();
         if(temp10[4] == 0 && temp10[5] == 1){
             System.out.println("Test 10: Passed");
@@ -197,8 +224,7 @@ public class Doc_Error_test {
         }
 
         //test check get and set of current misspelt words: Test 11
-        Document t11 = new Document("She", "said", "her", "favoritte", "book", "is", "\"The", "Great", "Gatsby\".", "\n");
-        t11.run_spell_check();
+        Document t11 = new Document("She said her favoritte book is \"The Great Gatsby\".\n");
         int[] temp11 = t11.get_doc_error_values();
         if(temp11[0] == 1){
             System.out.println("Test 11: Passed");
@@ -208,7 +234,15 @@ public class Doc_Error_test {
 
         //test check get and set of corrected misspelt words: Test 12
         //assume the user corrects the word favoritte to favorite
-        t11.correct_word("favoritte", "favorite");
+        Word_Object currt11 = t11.wordBuffer.getHead();
+        while(currt11.hasNext()){
+            if(currt11.getWord().equals("favoritte")){
+                currt11.setWord("favorite");
+                t11.doc_error.downCountMisspelt();
+            }
+            currt11 = currt11.getNext_node();
+        }
+        
         int[] temp12 = t11.get_doc_error_values();
         if(temp12[0] == 0 && temp12[1] == 1){
             System.out.println("Test 12: Passed");
