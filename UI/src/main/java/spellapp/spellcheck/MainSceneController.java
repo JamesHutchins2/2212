@@ -329,6 +329,77 @@ public void startRepeatedTask() {
 
         return new CustomMenuItem(label, false);
     }
+    private void implement_caps(Word_Object word){
+        //get the word start and stop indicies
+        int startIndex = (word.getPrev_node() != null) ? word.getPrev_node().getEnd_index() + 1 : 0;
+        int endIndex = (word.getNext_node() != null) ? word.getNext_node().getStart_index() : textArea.getLength();
+
+        //replace that text in that range with the word
+    }
+
+    private void implement_suggestion(Word_Object word, String suggestion) {
+        // Get indices from adjacent nodes
+        int startIndex = (word.getPrev_node() != null) ? word.getPrev_node().getEnd_index() + 1 : 0;
+        int endIndex = (word.getNext_node() != null) ? word.getNext_node().getStart_index() : textArea.getLength();
+    
+        // Debugging print statements
+        System.out.println("Replacing '" + textArea.getText(startIndex, endIndex) + "' with '" + suggestion + "'");
+    
+        // Replace the text with new word and surrounding spaces
+
+        //check for 3 cases:
+        int w_len = word.getWord().length();
+        int s_len = suggestion.length();
+        int worddiff = w_len - s_len;
+        //1 the words are the same length
+        if(worddiff == 0){
+            textArea.replaceText(startIndex, endIndex, " " + suggestion + " ");
+        }
+        //2 the suggestion is longer
+        else if(worddiff < 0){
+            textArea.replaceText(startIndex, endIndex, " " + suggestion + " ");
+        }
+        //3 the suggestion is shorter
+        else if(worddiff > 0){
+            //means we need to shift the indices back
+            
+            shift_indices();
+        }
+        else{
+            System.out.println("error in worddiff");
+        }
+        
+
+        
+        
+    
+        // Update the Word_Object and document stats
+        word.setWord(suggestion);
+        word.setIs_real_word(true);
+        word.setModified(false);
+        document.decrease_current_misspelt_words();
+    }
+
+    private void shift_indices(){
+        //shift the indices back
+    }
+
+    private void implement_drop_double_word(Word_Object word){
+        //get the word start and stop indicies
+        //update the words' indicies
+
+
+        int startIndex = (word.getPrev_node() != null) ? word.getPrev_node().getEnd_index() + 1 : 0;
+        int endIndex = (word.getNext_node() != null) ? word.getNext_node().getStart_index() : textArea.getLength();
+
+        textArea.replaceText(startIndex, endIndex, " ");
+
+        //remove the word
+
+        document.wordBuffer.removeWord(word);
+
+    }
+    
 
     private int getClickPosition(MouseEvent event) {
         // Return the current caret position in the text area
