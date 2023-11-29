@@ -88,11 +88,12 @@ public class MainSceneController {
                     update_doc_analysis_values(docAnalysisVals);
                     //get the doc error values
                     int[] docErrorVals = get_doc_error();
-                    //run the highlight misspelled words function
-                    highlightWords();
                     //populate the doc error values on the front end
                     update_doc_error_values(docErrorVals);
                     
+                    //run the highlight misspelled words function
+                    highlightErrors();
+
                 } catch (Exception e) {
                     System.err.println("Error during repeated task: " + e.getMessage());
                     // Handle or log the exception appropriately
@@ -429,8 +430,8 @@ public class MainSceneController {
     }
 
     private CustomMenuItem createCustomMenuItem_caps(Word_Object word, String adjusted_word) {
-        String label_word = word.getWord();
-        Label label = new Label(label_word);
+        
+        Label label = new Label(adjusted_word);
         label.setStyle("-fx-text-fill: red;");
         label.setPrefWidth(150);
         label.setMaxWidth(Double.MAX_VALUE);
@@ -439,7 +440,7 @@ public class MainSceneController {
 
         label.setOnMouseClicked(event -> {
             //delete the text, and the word object in the linked list
-            implement_caps(word);
+            implement_caps(word, adjusted_word);
         });
 
         return new CustomMenuItem(label,true);
@@ -560,29 +561,60 @@ public class MainSceneController {
     
         return new CustomMenuItem(label, false);
     }
-    private void implement_caps(Word_Object word){
+    private void implement_caps(Word_Object word, String adjusted_word){
         //get the word start and stop indicies
-        int startIndex = (word.getPrev_node() != null) ? word.getPrev_node().getEnd_index() + 1 : 0;
-        int endIndex = (word.getNext_node() != null) ? word.getNext_node().getStart_index() : textArea.getLength();
+        int startIndex = word.getStart_index();
+        int endIndex = word.getEnd_index();
+
+        word.setWord(adjusted_word);
 
         //replace that text in that range with the word
+        textArea.replaceText(startIndex, endIndex, adjusted_word);
+        //update the word object
+        word.setIs_real_word(true);
+        word.setNeeds_capital(false);
+        word.setNeeds_lower_but_first(false);
+        word.setNeeds_lower(false);
+
+        //update the document statistics
+        document.decrease_current_capital_errors();
     }
 
-    private void implement_suggestion(Word_Object word, String suggestion) {
-        // Get indices from adjacent nodes
-        int startIndex = (word.getPrev_node() != null) ? word.getPrev_node().getEnd_index() + 1 : 0;
-        int endIndex = (word.getNext_node() != null) ? word.getNext_node().getStart_index() : textArea.getLength();
+       
     
-        // Debugging print statements
+
+    private void implement_suggestion(Word_Object word, String suggestion) {
+        // Ensure that the word object and suggestion are valid
+        if (word == null || suggestion == null || suggestion.isEmpty()) {
+            return;
+        }
+    
+        // Calculate start and end indices for the word to be replaced
+        int startIndex = word.getStart_index();
+        int endIndex = word.getEnd_index();
+    
+        // Debugging print statement
         System.out.println("Replacing '" + textArea.getText(startIndex, endIndex) + "' with '" + suggestion + "'");
     
-        // Replace the text with new word and surrounding spaces
-        textArea.replaceText(startIndex, endIndex, " " + suggestion + " ");
+        // Replace the text with the new word
+        // Calculate the length of the text to be replaced
+        int lengthToReplace = endIndex - startIndex;
+        String replacement = suggestion;
     
-        // Update the Word_Object and document stats
+        // If the suggestion is shorter than the original word, we need to adjust the replacement string
+        if (suggestion.length() < lengthToReplace) {
+            // Append extra spaces if the suggestion is shorter than the original word
+            replacement += " ".repeat(lengthToReplace - suggestion.length());
+        }
+    
+        textArea.replaceText(startIndex, endIndex, replacement);
+    
+        // Update the Word_Object
         word.setWord(suggestion);
         word.setIs_real_word(true);
         word.setModified(false);
+    
+        // Update document statistics
         document.decrease_current_misspelt_words();
     }
 
@@ -653,43 +685,52 @@ public class MainSceneController {
             }
         }
 
-        //Word_Object [] previous = {this_word.getPrev_node(), this_word.getPrev_node().getPrev_node()};
-        //Word_Object [] next = {this_word.getNext_node(), this_word.getNext_node().getNext_node()};
-
-        //mark two words in each direction as modified
-
-
     }
 
-    public void highlightWords(){
-    String text = textArea.getText();
-        String[] words = text.split("\\s+"); // Split text into words
+    public void highlightErrors() {
+        String text = textArea.getText();
+        if (text == null || text.isEmpty()) {
+            return; // Early return if the text is null or empty
+        }
     
+        String[] words = text.split("\\s+");
         int startIndex = 0;
+    
         for (String word : words) {
+            if (word.isEmpty()) {
+                startIndex++; // For handling multiple consecutive spaces
+                continue;
+            }
+    
             int endIndex = startIndex + word.length();
+            Word_Object this_word = document.wordBuffer.get_word_at_index(startIndex);
     
-            // Get the word object from the linked list
-            Word_Object this_word = document.wordBuffer.get_word_at_index(startIndex+1);
-
-            if(this_word == null){
-                System.out.println("word is null");
-                return;
+            // Check for null or invalid word object
+            if (this_word == null) {
+                System.out.println("Word at index " + startIndex + " is null.");
+                startIndex = endIndex + 1;
+                continue; // Skip to next iteration if word object is null
             }
     
-            if (!this_word.isIs_real_word()) {
-                textArea.setStyleClass(startIndex, endIndex, "misspelled-word");
-            } 
-            else if (this_word.isIs_double_word_after() || this_word.isIs_double_word_before()) {
-                textArea.setStyleClass(startIndex, endIndex, "double-word");
-            
-            }else if(this_word.isNeeds_capital() || this_word.isNeeds_period()){
-                textArea.setStyleClass(startIndex, endIndex, "capital-word");
-            } else {
-                textArea.setStyleClass(startIndex, endIndex, "normal-word");
-            }
+            // Determine the style class based on the word properties
+            String styleClass = determineStyleClass(this_word);
     
-            startIndex = endIndex + 1; // +1 for the space after the word
+            // Apply the style class
+            textArea.setStyleClass(startIndex, endIndex, styleClass);
+    
+            startIndex = endIndex + 1;
+        }
+    }
+    
+    private String determineStyleClass(Word_Object word) {
+        if (!word.isIs_real_word()) {
+            return "misspelled-word";
+        } else if (word.isIs_double_word_after() || word.isIs_double_word_before()) {
+            return "double-word";
+        } else if (word.isNeeds_first_capital() || word.isNeeds_lower() || word.isNeeds_lower_but_first()) {
+            return "capital-word";
+        } else {
+            return "normal-word";
         }
     }
    

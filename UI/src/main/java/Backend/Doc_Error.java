@@ -28,7 +28,7 @@ public class Doc_Error {
         
         String path_test = "../UI/src/main/java/Backend/dict_resources/words.txt";
         String path_run = "../../Backend/dict_resources/words.txt";
-        String path = "C:/Users/james/Downloads/2212/final/2212/UI/src/main/java/Backend/dict_resources/words.txt";
+        String path = "C:/Users/james/Desktop/2212_final/splash_fix/2212/UI/src/main/java/Backend/dict_resources/words.txt";
         File file = new File(path);
         
         dictionary = new Dictionary(path);
@@ -130,14 +130,17 @@ public class Doc_Error {
             if (current.isIs_first_word()) {
                 if (!Character.isUpperCase(word.charAt(0))) {
                     current.setNeeds_first_capital(true);
+                    System.out.println("Needs first capital: " + word);
                 }
     
                 // Check if any other letters in the word are capitalized
                 for (int i = 1; i < word.length(); i++) {
                     if (Character.isUpperCase(word.charAt(i))) {
                         current.setNeeds_lower_but_first(true);
+
                         break;
                     }
+                    System.out.println("Needs Lower But first: " + word);
                 }
             } else {
                 // Check for capitals anywhere in the word
@@ -146,6 +149,7 @@ public class Doc_Error {
                         current.setNeeds_lower(true);
                         break;
                     }
+                    System.out.println("Needs Lower: " + word);
                 }
             }
     

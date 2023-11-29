@@ -207,5 +207,11 @@ public int[] get_doc_error_values(){
     doc_error.downCountDoubleWord();
   }
 
+  public void decrease_current_capital_errors(){
+    //call the down count capital function in doc error
+    doc_error.downCountCapital();
+  
+  }
+
   
 }
