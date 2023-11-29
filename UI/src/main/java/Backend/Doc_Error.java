@@ -1,5 +1,4 @@
 package Backend;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -26,12 +25,14 @@ public class Doc_Error {
 
         //create an instance of the dictionary
         
-        String path_test = "../UI/src/main/java/Backend/dict_resources/words.txt";
-        String path_run = "../../Backend/dict_resources/words.txt";
-        String path = "C:/Users/james/Desktop/2212_final/splash_fix/2212/UI/src/main/java/Backend/dict_resources/words.txt";
-        File file = new File(path);
+        // String path_test = "../UI/src/main/java/Backend/dict_resources/words.txt";
+        // String path_run = "../../Backend/dict_resources/words.txt";
+        // String path = "C:/Users/james/Desktop/2212_final/splash_fix/2212/UI/src/main/java/Backend/dict_resources/words.txt";
+        String relativePath = "2212_final/splash_fix/2212/UI/src/main/java/Backend/dict_resources/words.txt";
+        File wordsFile = new File(System.getProperty("user.dir") + File.separator + relativePath);
+
         
-        dictionary = new Dictionary(path);
+        dictionary = new Dictionary(wordsFile.getAbsolutePath());
 
         //put int a try catch block
         
