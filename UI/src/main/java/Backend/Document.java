@@ -1,5 +1,7 @@
 package Backend;
 
+import java.util.HashMap;
+import java.util.Map;
 
 public class Document{
 //this class is to work as the hub for the spell check system creating the linked list from the workspace text.
@@ -20,61 +22,97 @@ public Document(String text){
   System.out.println("document created");
   //create doc analysis object
   this.doc_analysis = new Doc_Analysis(wordBuffer);
+  this.doc_error = new Doc_Error();
 }
 public void populateLinkedList(String text) {
-  // Split the text into words, keeping delimiters (spaces and punctuation)
-  String[] wordsWithDelimiters = text.split("(?<=\\s)|(?=\\s)|(?<=\\p{Punct})|(?=\\p{Punct})");
+    
+    //check to see if the string is empty
+    if(text.equals("")){
+      //do nothing
+      return;
+    }
+    String[] wordsWithDelimiters = text.split("\\s+");
+    //check to see if the linked list is empty
+    int i = 0;
+    
+    
 
-  Word_Object current = wordBuffer.getHead();
-  int spacesBefore = 0;
-
-  for (String element : wordsWithDelimiters) {
-      boolean isWord = !element.matches("\\s+"); // True if the element is a word, false if it's spaces
-
-      if (isWord) {
-          boolean endsWithPeriod = element.endsWith(".");
-          boolean endsWithComma = element.endsWith(",");
-          boolean endsWithQuestionMark = element.endsWith("?");
-          boolean endsWithExclamationPoint = element.endsWith("!");
-          
-            
-
-          if (endsWithPeriod || endsWithComma || endsWithQuestionMark || endsWithExclamationPoint) {
-              // Remove the period from the word
-              element = element.substring(0, element.length() - 1);
-          }
-
-          boolean wordChanged = current == null || 
-                                !current.getWord().equals(element) || 
-                                current.getSpaces_before() != spacesBefore || 
-                                current.isEnd_with_period() != endsWithPeriod;
-
-          if (wordChanged) {
-              // Create a new Word_Object or update the existing one
-              Word_Object newWord = new Word_Object(element);
-              newWord.setEnd_with_period(endsWithPeriod);
-              newWord.setSpaces_before(spacesBefore);
-              newWord.setModified(true); 
-              newWord.setEndsWithPunctuation(endsWithPeriod || endsWithQuestionMark || endsWithExclamationPoint);
-
-              if (current == null) {
-                  wordBuffer.add(newWord);
-              } else {
-                  wordBuffer.replaceWord(current, newWord);
-                  current = newWord.getNext_node();
-              }
-          } else {
-              current.setModified(false); // No change in word, spaces, and period status
-              current = current.getNext_node(); // Move to next word
-          }
-
-          spacesBefore = 0; // Reset spacesBefore as we just processed a word
-      } else {
-          // Element is spaces or punctuation
-          spacesBefore += element.length();
+    Word_Object current = wordBuffer.getHead();
+    
+    while (current != null) {
+      //check that i is in range of the wordsWithDelimiters
+      if(i >= wordsWithDelimiters.length - 1){
+        //remove the word
+        wordBuffer.removeWord(current);
+        //move to the next word
+        current = current.getNext_node();
+      }else if(current.getWord().equals(wordsWithDelimiters[i])){
+        //do nothing
+        i++;
+      }else{
+        String new_word = wordsWithDelimiters[i];
+        //take off the punctuation if any
+        if(new_word.endsWith(".") || new_word.endsWith(",") || new_word.endsWith(";") || new_word.endsWith(":") || new_word.endsWith("!") || new_word.endsWith("?") || new_word.endsWith("\"") || new_word.endsWith("\'")){
+          new_word = new_word.substring(0, new_word.length() - 1);
+        }
+        //create a new word object
+        Word_Object new_word_obj = new Word_Object(wordsWithDelimiters[i]);
+        //replace the word object in the linked list
+        wordBuffer.replaceWord(current, new_word_obj);
+        //increment i
+        i++;
+        //call the capital function
+        mark_capitals(new_word_obj);
       }
+      if(current.getNext_node() != null){
+        current = current.getNext_node();
+      }else{
+        break;
+      }
+    }
+    //now we need to add the rest of the words to the linked list
+    while(i < wordsWithDelimiters.length){
+      //create a new word object
+      Word_Object new_word = new Word_Object(wordsWithDelimiters[i]);
+      //add the word object to the linked list
+      wordBuffer.add(new_word);
+      //increment i
+      i++;
+      //call the capital function
+      mark_capitals(new_word);
+    }
   }
+
+public void mark_capitals(Word_Object word){
+  
+  //set the word_objects capital array
+  String this_word = word.getWord();
+
+  //get the length of the word
+  int length = this_word.length();
+
+  //create an array to hold the capitals
+  int[] capitals = new int[length];
+
+  //loop through the word
+  for(int i = 0; i < length; i++){
+    //check to see if the char is a capital
+    if(Character.isUpperCase(this_word.charAt(i))){
+      capitals[i] = 1;
+    }else{
+      capitals[i] = 0;
+    }
+  }
+
+  //set the capital array
+  word.setCapital_at(capitals);
+
+  //FROM THE CAPITAL ARRAY SE THE MARKERS
+  word.set_capital_markets();
+
+
 }
+
 
 
 

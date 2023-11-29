@@ -24,13 +24,21 @@ public class Doc_Error_test {
         "We", "recieved", "an", "invitation", "for", "the", "gaLlery", "opening.", "\n",
         "He", "loves", "to", "play", "the", "guitar", "and", "the", "pianoo."};
 
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String word : test_corpus) {
+        stringBuilder.append(word);
+        stringBuilder.append(" ");
+        }
+
+        String result = stringBuilder.toString().trim();
+
         //values to check errors for
         int test_mispelt = 5;
         int test_double = 1;
         int test_capital = 3;
 
         //create a document object
-        Document doc = new Document(test_corpus);
+        Document doc = new Document(result);
 
         //running spell check
         doc.run_spell_check();

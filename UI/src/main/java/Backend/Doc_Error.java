@@ -43,6 +43,11 @@ public class Doc_Error {
         //get the word from the word object
         String word_text = word.getWord();
         // check to see if word in dict
+        //take off any punctuation
+        if(word_text.endsWith(".") || word_text.endsWith(",") || word_text.endsWith(";") || word_text.endsWith(":") || word_text.endsWith("!") || word_text.endsWith("?") || word_text.endsWith("\"") || word_text.endsWith("\'")){
+            word_text = word_text.substring(0, word_text.length() - 1);
+        }
+
         Boolean is_a_word = dictionary.isWord(word_text);
         //set the word object is real word flag
         word.setIs_real_word(is_a_word);

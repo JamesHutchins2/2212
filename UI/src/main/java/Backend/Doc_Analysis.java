@@ -1,5 +1,5 @@
 package Backend;
-class Doc_Analysis{
+public class Doc_Analysis{
   //this class is to return the analysis portion 
   
   //defining instance variables

@@ -204,6 +204,68 @@ public class Word_Object{
 
     }
 
+    public void setCapital_at(int[] capital_at) {
+        this.is_capital_at = capital_at;
+    }
+
+    public void set_capital_markets(){
+        //check that if the previous word ends with a period, then this word needs a capital
+        if(this.prev_node != null){
+            if(this.prev_node.isEnd_with_period()){
+                //check if the fist char is a capital
+                if(Character.isUpperCase(this.word.charAt(0))){
+                    //do nothing
+                }
+                else{
+                    //set the needs capital to true
+                    this.needs_first_capital = true;
+                }
+                //check to see if any other characters are capitals
+                for(int i = 1; i < this.word.length(); i++){
+                    if(Character.isUpperCase(this.word.charAt(i))){
+                        //set the needs lower but first to true
+                        this.needs_lower_but_first = true;
+                        this.needs_first_capital = false;
+                    }
+                }
+            }
+            //check to see if any letters are capitals
+            for(int i = 0; i < this.word.length(); i++){
+                if(Character.isUpperCase(this.word.charAt(i))){
+                    //set the needs lower to true
+                    this.needs_lower = true;
+                    break;
+                }
+            }
+        }else{
+            //first word so it needs a capital at the start
+            if(Character.isUpperCase(this.word.charAt(0))){
+                    //do nothing
+                }
+                else{
+                    //set the needs capital to true
+                    this.needs_first_capital = true;
+                }
+                //check to see if any other characters are capitals
+                for(int i = 1; i < this.word.length(); i++){
+                    if(Character.isUpperCase(this.word.charAt(i))){
+                        //set the needs lower but first to true
+                        this.needs_lower_but_first = true;
+                        this.needs_first_capital = false;
+                    }
+                }
+            }
+            //check to see if any letters are capitals
+            for(int i = 0; i < this.word.length(); i++){
+                if(Character.isUpperCase(this.word.charAt(i))){
+                    //set the needs lower to true
+                    this.needs_lower = true;
+                    break;
+                }
+
+        }
+    }
+
     
 
     

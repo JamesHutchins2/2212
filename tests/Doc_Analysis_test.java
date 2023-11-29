@@ -2,6 +2,7 @@ package tests;
 import Backend.Document;
 import Backend.Doc_Analysis;
 import Backend.Doc_Error;
+
 public class Doc_Analysis_test {
 
     public void testDocAnalysis() {
@@ -23,8 +24,13 @@ public class Doc_Analysis_test {
 
 
     //create a doc object
-
-    Document doc = new Document(test_corpus);
+    StringBuilder stringBuilder = new StringBuilder();
+        for (String word : test_corpus) {
+        stringBuilder.append(word);
+        stringBuilder.append(" ");
+        }
+    String result = stringBuilder.toString().trim();
+    Document doc = new Document(result);
 
     //now create doc analysis object, which will in turn create a linked list of words
     Doc_Analysis doc_analysis = new Doc_Analysis(doc);

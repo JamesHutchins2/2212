@@ -625,8 +625,8 @@ public class MainSceneController {
         }
     
         // Calculate the replacement area
-        int startIndex = (word.getPrev_node() != null) ? word.getPrev_node().getEnd_index() + 1 : 0;
-        int endIndex = (word.getNext_node() != null) ? word.getNext_node().getStart_index() : textArea.getLength();
+        int startIndex = (word.getPrev_node() != null) ? word.getPrev_node().getEnd_index() : 0;
+        int endIndex = (word.getNext_node() != null) ? word.getNext_node().getStart_index() : textArea.getLength() + 1;
     
         // Clear the area between the last and the next word
         textArea.replaceText(startIndex, endIndex, "");
