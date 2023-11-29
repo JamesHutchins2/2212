@@ -14,7 +14,7 @@ public class Doc_Error_test {
     
 
 
-        //test corpus
+        //test corpus - updated for the needed format
         String test_corpus = "The Quick brown fox Jumps over the lazy dog.\n" +
         "it's a beautifull sunny day outside.\n" +
         "Tommorrow will be an an intersting day for our picnic.\n" +
@@ -27,13 +27,13 @@ public class Doc_Error_test {
         "He loves to play the guitar and the pianoo.";
 
 
-        StringBuilder stringBuilder = new StringBuilder();
+    /*    StringBuilder stringBuilder = new StringBuilder();
         for (String word : test_corpus) {
         stringBuilder.append(word);
         stringBuilder.append(" ");
         }
 
-        String result = stringBuilder.toString().trim();
+        String result = stringBuilder.toString().trim();*/
 
         //values to check errors for
         int test_mispelt = 5;
@@ -41,7 +41,7 @@ public class Doc_Error_test {
         int test_capital = 3;
 
         //create a document object
-        Document doc = new Document(result);
+        Document doc = new Document(test_corpus);
 
         //running spell check
         doc.run_spell_check();

@@ -25,13 +25,15 @@ public class Doc_Analysis_test {
 
 
     //create a doc object
-    StringBuilder stringBuilder = new StringBuilder();
+
+    //commented these out as I updated the string to the correct format
+ /*   StringBuilder stringBuilder = new StringBuilder();
         for (String word : test_corpus) {
         stringBuilder.append(word);
         stringBuilder.append(" ");
         }
-    String result = stringBuilder.toString().trim();
-    Document doc = new Document(result);
+    String result = stringBuilder.toString().trim();*/
+    Document doc = new Document(test_corpus);
 
     //now create doc analysis object, which will in turn create a linked list of words
     Doc_Analysis doc_analysis = new Doc_Analysis(doc.wordBuffer);
