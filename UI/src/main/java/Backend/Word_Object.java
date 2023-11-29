@@ -167,6 +167,43 @@ public class Word_Object{
         }
     }
 
+    public void replace_word(String word){
+        //replace the word and adjust indicies after the word
+        int old_length = this.word.length();
+        int new_length = word.length();
+        this.word = word;
+
+        //adjust the indicies of the word
+        this.end_index = this.start_index + new_length - 1;
+
+        for(int i = 0; i < word.length(); i++){
+            if(Character.isUpperCase(word.charAt(i))){
+                this.is_capital_at[i] = 1;
+            }
+            else{
+                this.is_capital_at[i] = 0;
+            }
+        }
+
+        //adjust the indicies of the next word
+        Word_Object current = this.next_node;
+        while(current != null){
+            current.setStart_index(current.getStart_index() - old_length + new_length);
+            current.setEnd_index(current.getEnd_index() - old_length + new_length);
+            current = current.getNext_node();
+        }
+
+        //mark the last and first words as modified
+        if(this.next_node != null){
+            this.next_node.setModified(true);
+        }
+        if(this.prev_node != null){
+            this.prev_node.setModified(true);
+        }
+        
+
+    }
+
     
 
     

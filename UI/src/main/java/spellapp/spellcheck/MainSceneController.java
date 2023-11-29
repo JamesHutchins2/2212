@@ -584,37 +584,67 @@ public class MainSceneController {
     
 
     private void implement_suggestion(Word_Object word, String suggestion) {
-        // Ensure that the word object and suggestion are valid
+        // Validate word and suggestion
         if (word == null || suggestion == null || suggestion.isEmpty()) {
             return;
         }
     
-        // Calculate start and end indices for the word to be replaced
-        int startIndex = word.getStart_index();
-        int endIndex = word.getEnd_index();
+        // Calculate indices with the original word
+        document.wordBuffer.calculate_indicies();
     
-        // Debugging print statement
-        System.out.println("Replacing '" + textArea.getText(startIndex, endIndex) + "' with '" + suggestion + "'");
+        // Get the original word length and start index
+        int originalWordLength = word.getWord().length();
+        int originalStartIndex = word.getStart_index();
     
-        // Replace the text with the new word
-        // Calculate the length of the text to be replaced
-        int lengthToReplace = endIndex - startIndex;
-        String replacement = suggestion;
-    
-        // If the suggestion is shorter than the original word, we need to adjust the replacement string
-        if (suggestion.length() < lengthToReplace) {
-            // Append extra spaces if the suggestion is shorter than the original word
-            replacement += " ".repeat(lengthToReplace - suggestion.length());
-        }
-    
-        textArea.replaceText(startIndex, endIndex, replacement);
-    
-        // Update the Word_Object
+        // Replace the word in the linked list
         word.setWord(suggestion);
         word.setIs_real_word(true);
         word.setModified(false);
     
+        // Recalculate indices to reflect the new word length
+        document.wordBuffer.calculate_indicies();;
+    
+        // Determine the text replacement range in the text area
+        int textAreaStartIndex = originalStartIndex;
+        int textAreaEndIndex = (word.getNext_node() != null) ? word.getNext_node().getStart_index() - 1 : textArea.getLength();
+    
+        // Check the length difference between the original word and the suggestion
+        int lengthDifference = suggestion.length() - originalWordLength;
+
+        replaceAndInsertWord(textArea, word, suggestion);
+    
+        
+    
         // Update document statistics
+        document.decrease_current_misspelt_words();
+    }
+    private void replaceAndInsertWord(StyleClassedTextArea textArea, Word_Object word, String replacement) {
+        // Validate the parameters
+        if (word == null || replacement == null || replacement.isEmpty()) {
+            return;
+        }
+    
+        // Calculate the replacement area
+        int startIndex = (word.getPrev_node() != null) ? word.getPrev_node().getEnd_index() + 1 : 0;
+        int endIndex = (word.getNext_node() != null) ? word.getNext_node().getStart_index() : textArea.getLength();
+    
+        // Clear the area between the last and the next word
+        textArea.replaceText(startIndex, endIndex, "");
+    
+        // Insert the new word
+        textArea.insertText(startIndex, " " + replacement + " ");
+    
+        // Update the Word_Object and the document
+        word.replace_word(replacement);
+        word.setIs_real_word(true);
+        word.setModified(false);
+    
+        // Recalculate the indices of all words in the document
+        document.wordBuffer.calculate_indicies();
+
+        // mark the previous and next word as modified
+        
+        // Update document statistics, if needed
         document.decrease_current_misspelt_words();
     }
 
