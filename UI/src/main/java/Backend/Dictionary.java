@@ -13,6 +13,16 @@ import java.io.File;
 import java.util.Set;
 import java.io.IOException;
 
+/**
+ * @author      James Hutchins
+ * @author      Michelle Bourdon
+ * @author      Jessica Kerr
+ * @author      Laila El attar
+ * @author      Nouran Sakr
+ * @version     1.0
+ * @since       0.0
+ * This class represents the dictionary which words are checked against to see if they are correct
+ */
 public class Dictionary {
     
     //create a set that will contain words from the text file dict
