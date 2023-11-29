@@ -23,8 +23,16 @@ import Backend.Word_Object;
 import org.fxmisc.richtext.StyleClassedTextArea;
 
 
-
-
+/**
+ * @author      James Hutchins
+ * @author      Michelle Bourdon
+ * @author      Jessica Kerr
+ * @author      Laila El attar
+ * @author      Nouran Sakr
+ * @version     1.0
+ * @since       0.0
+ * The FileController class handles actions related to file operations in the application.
+ */
 public class FileController {
 
     @FXML
@@ -35,19 +43,26 @@ public class FileController {
     //Create a document object
     Document document;
 
+    /**
+     * Sets the primary stage for the controller.
+     * @param primaryStage The primary stage of the application.
+     */
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        
-
-        }
-
+    }
+    
+    /**
+     * Sets the content of the text area.
+     * @param content The content to be set in the text area.
+     */
         public void setTextAreaContent(String content) {
-            textArea.replaceText(content); // Set the text content
-    
-            
+            textArea.replaceText(content); // Set the text content  
         }
     
-
+    /**
+     * Handles the "Open" button click event to open a file and load its content.
+     * @param event The ActionEvent triggered by the "Open" button.
+     */
         @FXML
         protected void handleOpenButton(ActionEvent event) {
             File file = fileChooser.showOpenDialog(label.getScene().getWindow());
@@ -63,8 +78,6 @@ public class FileController {
                     }
                     reader.close();
     
-                    
-    
                     // Get object hierarchy for MainScene into a loader object and load into a Parent class
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScene.fxml"));
                     Parent mainSceneRoot = loader.load();
@@ -72,9 +85,6 @@ public class FileController {
                     mainSceneRoot.getStylesheets().add(getClass().getResource("/spellapp/spellcheck/stylesheet.css").toExternalForm());
                     //add text to text area variable
                     textArea = (StyleClassedTextArea) mainSceneRoot.lookup("#textArea");
-                    
-    
-                    
     
                     // Get the controller of the main scene - and send it action to set text area of main text area
                     MainSceneController mainSceneController = loader.getController();
@@ -87,18 +97,18 @@ public class FileController {
                     // Make Scene visible
                     primaryStage.setScene(mainScene);
     
-                
-    
                     //now populate the linked list
-                    
-    
                 } catch (IOException e) {
                     e.printStackTrace();
                     label.setText("Error reading the file");
                 }
             }
         }
-
+    
+    /**
+     * Handles the "New File" button click event to open a new blank file.
+     * @param event The ActionEvent triggered by the "New File" button.
+     */
     @FXML
     void handleNewFileButton(ActionEvent event) {
         try {
@@ -132,9 +142,5 @@ public class FileController {
             label.setText("Error opening with blank file");
         }
     }
-
-    
-
-
 
 }
