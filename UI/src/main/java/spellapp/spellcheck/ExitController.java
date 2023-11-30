@@ -43,15 +43,30 @@ public class ExitController {
      *     Exits the application.
      * @param event The ActionEvent triggered by the "Save" button.
      */
-    @FXML
-    void exitSave(ActionEvent event) {
-        // Basically do same as if the save button was clicked
-            // Bring up the Save popup
-            // Have user set the filename and path
-            // Do the save
 
-        // Then exit
+    @FXML
+    private void exitSave(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save File");
+        File file = fileChooser.showSaveDialog(new Stage());
+
+        if (file != null) {
+            saveSystem(file, textArea.getText());
+        }
         Platform.exit();
+    }
+
+    /**
+     * saveSystem saves the file
+     * @param file is the file to be saved
+     * @param text is the string to be saved in the file
+     */
+    private void saveSystem(File file, String text) {
+        try (PrintWriter printWriter = new PrintWriter(file)) {
+            printWriter.write(text);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
 
