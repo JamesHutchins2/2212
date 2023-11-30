@@ -29,7 +29,7 @@ public class Doc_Error_test {
         //values to check errors for
         int test_mispelt = 7;
         int test_double = 1;
-        int test_capital = 3;
+        int test_capital = 4;
 
         //create a document object
         Document doc = new Document(test_corpus);
@@ -104,7 +104,7 @@ public class Doc_Error_test {
             }else{
                 System.out.println("Test 3b Marking: Failed");
             }
-            if(curr3b.isNeeds_capital() == true){
+            if(curr3b.isNeeds_first_capital() == true){
                 System.out.println("Test 3b Checking: Passed");
             }else{
                 System.out.println("Test 3b Checking: Failed");
@@ -128,16 +128,19 @@ public class Doc_Error_test {
                 System.out.println("Test 3c Checking: Failed");
             }
             
-            if(curr3c.isNeeds_lower() == true){
+            if(curr3c.isNeeds_lower_but_first() == true){
                 System.out.println("Test 3c Marking: Passed");
             }else{
                 System.out.println("Test 3c Marking: Failed");
             }
 
-            //checking all capital countings: Test 3d            
-            int[] temp = doc.get_doc_error_values();
+            //checking all capital countings: Test 3d
+            test3c.run_spell_check();            
+            int[] temp = test3c.get_doc_error_values();
+            int t = test3c.doc_error.getCurrent_capital_errors();
+            System.out.println(t);
             System.out.println(temp[4]);
-            if(temp[4] == 3){                 //need to double check this val
+            if(temp[4] == 2){                 //need to double check this val
                 System.out.println("Test 3d Number Capital errors: Passed");
             }else{
                 System.out.println("Test 3d Number Capital errors: Failed");
@@ -281,5 +284,16 @@ public class Doc_Error_test {
             System.out.println("Test 12: Failed");
         }
         
+
+        //test to see if we pick up periods for capitals
+        Document t13 = new Document("The cat chased it's tail around the living room.\n word");
+        t13.run_spell_check();
+        int[] temp13 = t13.get_doc_error_values();
+        System.out.println(temp13[4]);
+        if(temp13[4] == 1){
+            System.out.println("Test 13 Period: Passed");
+        }else{
+            System.out.println("Test 13 Period: Failed");
+        }
     }   
 }

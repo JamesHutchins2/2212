@@ -171,13 +171,11 @@ public class Doc_Error {
      */
     public void checkCapitals(Word_Object head) {
         Word_Object current = head;
-        
-        
 
         // set the ends with punctuation flag for each
 
         while (current != null) {
-            
+            //System.out.println("word: " + current.getWord());
             if(current.check_end_punctuation()){
                 
                 current.setEndsWithPunctuation(true);
@@ -191,7 +189,6 @@ public class Doc_Error {
         // reset current to the head
         current = head;
         //run set_is_first on the head
-        current = current.getNext_node();
     
         while (current != null) {
             String word = current.getWord();
@@ -202,18 +199,6 @@ public class Doc_Error {
                 if (!Character.isUpperCase(word.charAt(0))) {
                     current.setNeeds_first_capital(true);
                     
-                    
-                }
-    
-                // Check if any other letters in the word are capitalized
-                for (int i = 1; i < word.length(); i++) {
-                    if (Character.isUpperCase(word.charAt(i))) {
-                        current.setNeeds_lower_but_first(true);
-                       
-
-                        break;
-                    }
-                    
                 }
             } else {
                 // Check for capitals anywhere in the word
@@ -221,7 +206,7 @@ public class Doc_Error {
                     if (Character.isUpperCase(word.charAt(i))) {
                         current.setNeeds_lower(true);
                         //check that word is_modified
-                       
+                      
                         break;
                     }
                     
@@ -231,14 +216,40 @@ public class Doc_Error {
             // Move to the next node in the list
             current = current.getNext_node();
         }
+        
+        //loop to fix miscapitalizations
+        current = head;
+        
+        while(current != null){
+            String word = current.getWord();
+            if(current.isIs_first_word()){
+                if(Character.isUpperCase(word.charAt(0))){
+                    current.setNeeds_first_capital(false);
+                    current.setNeeds_lower_but_first(false);
+                }
+            }
+            current = current.getNext_node();
+        }
     }
 
     /**
      * Increases count of fixed capitalization errors.
      *
      */
-    public void upCountCapital_fix(){
-        this.current_capital_errors++;
+    public void upCountCapital_fix(Word_Object head){
+        //loop through, check errors
+        current_capital_errors = 0;
+        Word_Object current = head;
+        while(current != null){
+            
+            if(current.isNeeds_first_capital() || current.isNeeds_lower() || current.isNeeds_lower_but_first()){
+                current_capital_errors = current_capital_errors + 1;
+            }
+            
+            
+            current = current.getNext_node();
+        }
+        
     }
 
     

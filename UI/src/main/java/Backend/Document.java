@@ -172,7 +172,7 @@ public void mark_capitals(Word_Object word){
      */
 public void run_spell_check() {
   Word_Object current = wordBuffer.getHead();
-  check_num_capital_errors();
+  //check_num_capital_errors();
   while (current != null) {
       if (current.isModified()) {
           // Run spell check on this word
@@ -185,6 +185,7 @@ public void run_spell_check() {
   }
 
   //let us update the doc analysis
+  doc_error.upCountCapital_fix(wordBuffer.getHead());
   update_doc_analysis();
 }
     /**
@@ -368,7 +369,7 @@ public int[] get_doc_error_values(){
 
   public void increase_corrected_capital_errors(){
     //call the up count capital function in doc error
-    doc_error.upCountCapital_fix();
+   // doc_error.upCountCapital_fix();
   }
     /**
      * Increases the count of corrected misspelled words in Doc_Error.

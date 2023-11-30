@@ -423,7 +423,8 @@ public class MainSceneController {
 
             String word_base = this_word.getWord();
             String word_lower = word_base.toLowerCase();
-            String word_capital = word_lower.substring(0, 1).toUpperCase() + word_lower.substring(1);
+            //String word_capital = word_lower.substring(0, 1).toUpperCase() + word_lower.substring(1);
+            String word_capital = this_word.getWord().toLowerCase();
 
             popup_caps(word_capital, this_word, event.getScreenX(), event.getScreenY());
 
@@ -773,7 +774,7 @@ public class MainSceneController {
         int startIndex = (word.getPrev_node() != null) ? word.getPrev_node().getEnd_index() + 1 : 0;
         int endIndex = (word.getNext_node() != null) ? word.getNext_node().getStart_index() : textArea.getLength();
 
-        textArea.replaceText(startIndex, endIndex, " ");
+        textArea.replaceText(startIndex, endIndex, "");
 
         //remove the word
 

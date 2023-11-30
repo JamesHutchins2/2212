@@ -332,9 +332,11 @@ public class Word_Object{
         //check that if the previous word ends with a period, then this word needs a capital
         if(this.prev_node != null){
             if(this.prev_node.isEnd_with_period()){
+                this.setIs_first_word(true);
                 //check if the fist char is a capital
                 if(Character.isUpperCase(this.word.charAt(0))){
                     //do nothing
+                    this.needs_first_capital = false;
                 }
                 else{
                     //set the needs capital to true
@@ -344,20 +346,33 @@ public class Word_Object{
                 for(int i = 1; i < this.word.length(); i++){
                     if(Character.isUpperCase(this.word.charAt(i))){
                         //set the needs lower but first to true
-                        this.needs_lower_but_first = true;
+                        if(i == 0){
+                        //this.needs_lower_but_first = true;
                         this.needs_first_capital = false;
+                        }else{
+                            this.needs_lower = true;
+                        }
+                        
                     }
                 }
-            }
+            
+            }else{
             //check to see if any letters are capitals
             for(int i = 0; i < this.word.length(); i++){
                 if(Character.isUpperCase(this.word.charAt(i))){
                     //set the needs lower to true
+                    if(i == 0){
+                        this.needs_lower_but_first = true;
+                        this.needs_first_capital = false;
+                    }else{
                     this.needs_lower = true;
+                    }
                     break;
                 }
-            }
+        }
+    }
         }else{
+            this.setIs_first_word(true);
             //first word so it needs a capital at the start
             if(Character.isUpperCase(this.word.charAt(0))){
                     //do nothing
@@ -370,20 +385,26 @@ public class Word_Object{
                 for(int i = 1; i < this.word.length(); i++){
                     if(Character.isUpperCase(this.word.charAt(i))){
                         //set the needs lower but first to true
-                        this.needs_lower_but_first = true;
+                        if(i == 0){
+                        //this.needs_lower_but_first = true;  //think this is wrong. word gaLlery
                         this.needs_first_capital = false;
+                        }else{
+                            this.needs_lower = true;
+                        }
                     }
                 }
             }
+            
             //check to see if any letters are capitals
-            for(int i = 0; i < this.word.length(); i++){
-                if(Character.isUpperCase(this.word.charAt(i))){
+            //THIS LOOPS THE SAME LOOP AS BEFORE
+           // for(int i = 0; i < this.word.length(); i++){
+           //     if(Character.isUpperCase(this.word.charAt(i))){
                     //set the needs lower to true
-                    this.needs_lower = true;
-                    break;
-                }
+            //        this.needs_lower = true;
+            //        break;
+         //       }
 
-        }
+      //  }
     }
 
     
