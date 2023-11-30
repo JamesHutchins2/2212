@@ -49,9 +49,9 @@
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Label>
-                  <Label fx:id="Misspellings" layoutX="6.0" layoutY="37.0" text="Misspellings: 1" />
-                  <Label fx:id="MissCaps" layoutX="6.0" layoutY="57.0" text="Miscapitalizations: 2" />
-                  <Label fx:id="DoubleWords" layoutX="7.0" layoutY="79.0" text="Double words: 1" />
+                  <Label fx:id="Misspellings" layoutX="6.0" layoutY="37.0" text="Misspellings: 0" />
+                  <Label fx:id="MissCaps" layoutX="6.0" layoutY="57.0" text="Miscapitalizations: 0" />
+                  <Label fx:id="DoubleWords" layoutX="7.0" layoutY="79.0" text="Double words: 0" />
                </children>
             </Pane>
             <Pane layoutX="8.0" layoutY="350.0" prefHeight="125.0" prefWidth="142.0" style="-fx-background-color: #EEEEEE; -fx-background-radius: 20;">
@@ -62,6 +62,7 @@
                      </font>
                   </Label>
                   <Label layoutX="6.0" layoutY="37.0" text="Manual: 0" />
+
                   <Label fx:id="Corrections" layoutX="6.0" layoutY="57.0" text="Accepted: 0" />
                   <Label fx:id="DoubleWordCorrections" layoutX="7.0" layoutY="79.0" text="Deletions: 0" />
                </children>

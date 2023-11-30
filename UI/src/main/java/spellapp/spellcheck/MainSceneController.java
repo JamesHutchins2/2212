@@ -440,7 +440,6 @@ public class MainSceneController {
             popup_caps(word_lower, this_word, event.getScreenX(), event.getScreenY());
 
         }else if(this_word.isNeeds_lower()){
-            System.out.println("Is needs Lower");
             //provide a reccomendation that shows the word lowercase
             String word_base = this_word.getWord();
             String word_lower = word_base.toLowerCase();
@@ -709,42 +708,57 @@ public class MainSceneController {
      * @param replacement The corrected word to be inserted.
      */
     private void replaceAndInsertWord(StyleClassedTextArea textArea, Word_Object word, String replacement) {
-        // Validate the parameters
-        if (word == null || replacement == null || replacement.isEmpty()) {
-            return;
-        }
-    
-        // Calculate the replacement area
-        int startIndex = (word.getPrev_node() != null) ? word.getPrev_node().getEnd_index() : 0;
-        int endIndex = (word.getNext_node() != null) ? word.getNext_node().getStart_index() : textArea.getLength();
+        
+        //first let's match the word in the text area
+        //get the word start and stop indicies
+        int startIndex = word.getStart_index();
+        int endIndex = word.getEnd_index();
 
-        //check to see if the word is the tail.
-        if(word.getNext_node() == null){
-            
-            
-        }else{
-            //if it is not the tail, then we need to add a space to the end of the word
-            endIndex = endIndex + 1;        
-        }
-    
-        // Clear the area between the last and the next word
-        textArea.replaceText(startIndex, endIndex, "");
-    
-        // Insert the new word
-        textArea.insertText(startIndex, " " + replacement + " ");
-    
-        // Update the Word_Object and the document
-        word.replace_word(replacement);
-        word.setIs_real_word(true);
-        word.setModified(false);
-    
-        // Recalculate the indices of all words in the document
-        document.wordBuffer.calculate_indicies();
+        int middle = (startIndex + endIndex) / 2;
+        int start = findWordStart(textArea.getText(), middle);
+        int end = findWordEnd(textArea.getText(), middle);
 
-        // mark the previous and next word as modified
+
+        //get the text before and after the word
+        String[] texts = {textArea.getText(0, start), textArea.getText(end, textArea.getLength())};
+
+        // now join the three strings together
+        String text = texts[0] + replacement + texts[1];
+
+        //now replace the text area
+        textArea.replaceText(text);
+
+        //
         
         
     }
+
+    private static int findWordStart(String text, int middle) {
+
+        //get the char at the middle index
+        char middle_char = text.charAt(middle);
+        while(middle_char != ' ' && middle_char != '\n'){
+            middle--;
+            if(middle <= 0){
+                return 0;
+            }
+            middle_char = text.charAt(middle);
+        }
+        return middle + 1;
+    }
+
+    private static int findWordEnd(String text, int middle) {
+        char middle_char = text.charAt(middle);
+        while(middle_char != ' ' && middle_char != '\n'){
+            middle++;
+            if(middle >= text.length() - 1){
+                return 0;
+            }
+            middle_char = text.charAt(middle);
+        }
+        return middle;
+    }
+    
 
     /**
      * Drops a double word by removing it from the linked list and updating the text area.
@@ -787,15 +801,14 @@ public class MainSceneController {
      * @param event The MouseEvent representing the mouse click event.
      */
     private void invoke_click_splash(MouseEvent event){
-        System.out.println("invoking click splash");
         
         //get the click position
         int position = textArea.getCaretPosition();
 
         //get the word object at this position
         Word_Object this_word = document.wordBuffer.getWordAtCaretPosition(position);
-        System.out.println("this word: " + this_word.getWord());
 
+        
         if(this_word == null){
             return;
         }
