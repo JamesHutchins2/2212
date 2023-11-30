@@ -42,6 +42,9 @@ public class Dictionary {
         //set user words to null
         user_words = null;
     }
+    /**
+     * sets the user words to null and returns
+     */
     public boolean userDictIsNull(){
         return user_words == null;
     }
@@ -53,13 +56,19 @@ public class Dictionary {
         words = new HashSet<>();
         populateTable(fileLocation);
     }
-
+    /**
+     * Constructor gets user_words 
+     * @return user_words
+     */
     public String[] get_user_dict(){
         //get user_words
         return user_words;
     }
 
-    //populate the set with words from the text file
+    /**
+     * Method populateTable populates the set with words from the text file
+     * @param fileLocation is the location of the file the user chooses
+     */
     private void populateTable(String fileLocation) {
         //get file location, and create a file object
         File file = new File(fileLocation);
@@ -226,6 +235,9 @@ public class Dictionary {
    
     /**
      * returns 0 if they are not equal, 1 if they are
+     * @param a is the first char being compared
+     * @parm b is the second char being compared
+     * @return 0 or 1 if they are equal or not
      */
     private static int costOfSubstitution(char a, char b) {
         return a == b ? 0 : 1;
@@ -233,6 +245,8 @@ public class Dictionary {
 
     /**
      * returns the minimum of the numbers passed in
+     * @param int numbers 
+     * @returns minimum value of ints provided  
      */
     private static int min(int... numbers) {
         return Arrays.stream(numbers).min().orElse(Integer.MAX_VALUE);

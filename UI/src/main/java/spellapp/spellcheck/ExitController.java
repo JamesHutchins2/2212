@@ -1,15 +1,14 @@
 package spellapp.spellcheck;
-
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import javafx.scene.control.Label;
 
 public class ExitController {
     private Stage primaryStage;
@@ -23,6 +22,16 @@ public class ExitController {
     void exitExit(ActionEvent event) {
         Platform.exit();
     }
+
+        /**
+     * Handles the "Save" button click event to save data and exit the application.
+     * This method performs the following steps:
+     *     Brings up the Save popup.
+     *     Allows the user to set the filename and path.
+     *     Performs the save operation.
+     *     Exits the application.
+     * @param event The ActionEvent triggered by the "Save" button.
+     */
 
     @FXML
     void exitSave(ActionEvent event) {

@@ -25,7 +25,7 @@ public class Doc_Error {
     Dictionary dictionary;
     
     /**
-     * Initializes a new Doc_Error object and sets default values for error variables.
+     * Constructor initializes a new Doc_Error object and sets default values for error variables.
      * Also creates an instance of the dictionary using a specified words file.
      */
     public Doc_Error(){
@@ -38,33 +38,19 @@ public class Doc_Error {
         this.corrected_capital_errors = 0;
 
         //create an instance of the dictionary
-        
-        // String path_test = "../UI/src/main/java/Backend/dict_resources/words.txt";
-        // String path_run = "../../Backend/dict_resources/words.txt";
-         String path = "C://Users//jessi//Documents//final//2212//UI//src//main//java//Backend//dict_resources//words.txt";
-    //    String relativePath = "2212_final/splash_fix/2212/UI/src/main/java/Backend/dict_resources/words.txt";
-        
-        //File wordsFile = new File(System.getProperty("user.dir") + File.separator + relativePath);
-        
- //       File wordsFile = new File("C:/Users/james/Desktop/2212_final//splash_fix/2212/UI/src/main//java/Backend/dict_resources/words.txt");
-        //System.out.println("path: " + wordsFile.getAbsolutePath());
-
-        
-      //  dictionary = new Dictionary(wordsFile.getAbsolutePath());
-         dictionary = new Dictionary(path);
+        String path = "C://Users//jessi//Documents//final//2212//UI//src//main//java//Backend//dict_resources//words.txt";
+        dictionary = new Dictionary(path);
         System.out.println("dictionary created");
 
-        //put int a try catch block
+
         
     }
     /**
      * Checks words from the document for misspellings and provides suggestions for correction.
-     *
      * @param word The Word_Object representing the word to be checked.
      */
     public void checkWords(Word_Object word) {
         //First check if the word is an actual word
-
         //get the word from the word object
         String word_text = word.getWord();
         // check to see if word in dict
@@ -113,7 +99,6 @@ public class Doc_Error {
 
     /**
      * Checks for consecutive occurrences of the same word in the document.
-     *
      * @param word_Object The Word_Object representing the current word to be checked.
      */  
     public void checkDoubleWord(Word_Object word_Object){
@@ -150,7 +135,6 @@ public class Doc_Error {
     
     /**
      * Sets the "is_first_word" flag for the given word based on its position in the document.
-     *
      * @param word The Word_Object representing the word to be checked.
      */
     public void set_is_first(Word_Object word){
@@ -171,10 +155,15 @@ public class Doc_Error {
             }
         }
     }
-
+    /**
+     * Clears the user dictionary
+     */
     public void clearUserDict(){
         dictionary.clear_user_dict();
     }
+    /**
+     * Returns when the user dictionary is null
+     */
     public boolean userDictIsNull(){
         return dictionary.userDictIsNull();
     }
@@ -246,8 +235,8 @@ public class Doc_Error {
     }
 
     /**
-     * Increases count of fixed capitalization errors.
-     *
+     * Method upCountCapital_fix increases the count of fixed capitalization errors.
+     * @param head is the first letter of the word to be capatalized 
      */
     public void upCountCapital_fix(Word_Object head){
         //loop through, check errors
@@ -269,7 +258,6 @@ public class Doc_Error {
 
     /**
      * Adds a word to the user dictionary for custom words.
-     *
      * @param word The word to be added to the user dictionary.
      */
     public void addToUserDict(String word){
@@ -318,7 +306,6 @@ public class Doc_Error {
 
     /**
      * Gets the current count of misspelled words in the document.
-     *
      * @return The current count of misspelled words.
      */  
     public int getCurrent_misspelt_words() {
@@ -327,7 +314,6 @@ public class Doc_Error {
     
     /**
      * Sets the current count of misspelled words in the document.
-     *
      * @param current_misspelt_words The new count of misspelled words to be set.
      */
     public void setCurrent_misspelt_words(int current_misspelt_words) {
@@ -336,7 +322,6 @@ public class Doc_Error {
 
     /**
      * Gets the count of corrected misspelled words in the document.
-     *
      * @return The count of corrected misspelled words.
      */
     public int getCorrected_misspelt_words() {
@@ -344,7 +329,6 @@ public class Doc_Error {
     }
     /**
      * Sets the count of corrected misspelled words in the document.
-     *
      * @param corrected_misspelt_words The new count of corrected misspelled words to be set.
      */
     public void setCorrected_misspelt_words(int corrected_misspelt_words) {
@@ -352,7 +336,6 @@ public class Doc_Error {
     }
     /**
      * Gets the current count of double words in the document.
-     *
      * @return The current count of double words.
      */
     public int getCurrent_double_words() {
@@ -360,7 +343,6 @@ public class Doc_Error {
     }
     /**
      * Sets the current count of double words in the document.
-     *
      * @param current_double_words The new count of double words to be set.
      */
     public void setCurrent_double_words(int current_double_words) {
@@ -368,7 +350,6 @@ public class Doc_Error {
     }
     /**
      * Gets the count of corrected double words in the document.
-     *
      * @return The count of corrected double words.
      */
     public int getCorrected_double_words() {
@@ -376,7 +357,6 @@ public class Doc_Error {
     }
     /**
      * Sets the count of corrected double words in the document.
-     *
      * @param corrected_double_words The new count of corrected double words to be set.
      */
     public void setCorrected_double_words(int corrected_double_words) {
@@ -384,7 +364,6 @@ public class Doc_Error {
     }
     /**
      * Gets the current count of capitalization errors in the document.
-     *
      * @return The current count of capitalization errors.
      */
     public int getCurrent_capital_errors() {
@@ -392,7 +371,6 @@ public class Doc_Error {
     }
    /**
      * Sets the current count of capitalization errors in the document.
-     *
      * @param current_capital_errors The new count of capitalization errors to be set.
      */
     public void setCurrent_capital_errors(int current_capital_errors) {
@@ -400,7 +378,6 @@ public class Doc_Error {
     }
     /**
      * Gets the count of corrected capitalization errors in the document.
-     *
      * @return The count of corrected capitalization errors.
      */
     public int getCorrected_capital_errors() {
@@ -408,14 +385,15 @@ public class Doc_Error {
     }
     /**
      * Sets the count of corrected capitalization errors in the document.
-     *
      * @param corrected_capital_errors The new count of corrected capitalization errors to be set.
      */
     public void setCorrected_capital_errors(int corrected_capital_errors) {
         this.corrected_capital_errors = corrected_capital_errors;
     }
 
-    //up count the current capital errors
+    /**
+     * Adds one to the current capital errors count
+     */
     public void upCountCapital(){
         this.current_capital_errors++;
     }
