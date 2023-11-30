@@ -18,7 +18,7 @@ public class Doc_Error_test {
         String test_corpus = "The Quick brown fox Jumps over the lazy dog.\n" +
         "it's a beautifull sunny day outside.\n" +
         "Tommorrow will be an an intersting day for our picnic.\n" +
-        "She said her favoritte book is \"The Great Gatsby\".\n" +
+        
         "Could you pleese pass the ketchup?\n" +
         "He decided to seperate the papers into two piles.\n" +
         "Their going to visit the museum next week.\n" +
@@ -26,17 +26,8 @@ public class Doc_Error_test {
         "We recieved an invitation for the gaLlery opening.\n" +
         "He loves to play the guitar and the pianoo.";
 
-
-    /*    StringBuilder stringBuilder = new StringBuilder();
-        for (String word : test_corpus) {
-        stringBuilder.append(word);
-        stringBuilder.append(" ");
-        }
-
-        String result = stringBuilder.toString().trim();*/
-
         //values to check errors for
-        int test_mispelt = 5;
+        int test_mispelt = 7;
         int test_double = 1;
         int test_capital = 3;
 
@@ -82,54 +73,88 @@ public class Doc_Error_test {
         //checking capitals: Test 3
             //can be within the word incorrectly capitalized (a) - line 9, word 7 of test corpus
             Word_Object word6 = new Word_Object("gaLlery");
-            doc_error.checkCapitals(word6);
-
-            if(doc_error.getCurrent_capital_errors() == 1){
-                System.out.println("Test 3a: Passed");
+            Document d3a = new Document(word6.getWord());
+            d3a.mark_capitals(word6);
+            
+            if(word6.getIs_capital_at()[2] == 1){
+                System.out.println("Test 3a Indicating: Passed");
             }else{
-                System.out.println("Test 3a: Failed");
+                System.out.println("Test 3a Indicating: Failed");
+            }
+
+            if(word6.isNeeds_lower() == true){
+                System.out.println("Test 3a Checking: Passed");
+            }else{
+                System.out.println("Test 3a Checking: Failed");
             }
 
             //and at the beginning of a sentance not capitalized (b) - line 2, word 1 of test corpus
             Document test3b = new Document("it's a beautifull sunny day outside.\n");
-            test3b.run_spell_check();
-            int[] temp3b = test3b.get_doc_error_values();
-            if(temp3b[4] == 1){                 //need to double check this val
-                System.out.println("Test 3b: Passed");
+            Word_Object curr3b = test3b.wordBuffer.getHead();
+            while(curr3b.hasNext()){
+                if(curr3b.getWord().equals("it's")){
+                test3b.mark_capitals(curr3b);
+                break;
+            } 
+                curr3b = curr3b.getNext_node();
+            }
+ 
+            if(curr3b.getIs_capital_at()[0] == 0){                 //need to double check this val
+                System.out.println("Test 3b Marking: Passed");
             }else{
-                System.out.println("Test 3b: Failed");
+                System.out.println("Test 3b Marking: Failed");
+            }
+            if(curr3b.isNeeds_capital() == true){
+                System.out.println("Test 3b Checking: Passed");
+            }else{
+                System.out.println("Test 3b Checking: Failed");
             }
 
 
             //and in the middle of a sentence capitalized when it shouldnt be (c) - line 1, word 2 of test corpus
             Document test3c = new Document("The Quick brown fox Jumps over the lazy dog.\n");
-            test3c.run_spell_check();
-            int[] temp3c = test3c.get_doc_error_values();
-            if(temp3c[4] == 2){                 //need to double check this val
-                System.out.println("Test 3c: Passed");
-            }else{
-                System.out.println("Test 3c: Failed");
+            Word_Object curr3c = test3c.wordBuffer.getHead();
+            while(curr3c.hasNext()){
+                if(curr3c.getWord().equals("Quick")){
+                test3c.mark_capitals(curr3c);
+                break;
+            } 
+                curr3c = curr3c.getNext_node();
             }
 
-            //now for all capitals
-            int[] temp = doc.get_doc_error_values();
-            if(temp[4] == 3){                 //need to double check this val
-                System.out.println("Test 3d: Passed");
+            if(curr3c.getIs_capital_at()[0] == 1){                //need to double check this val
+                System.out.println("Test 3c Checking: Passed");
             }else{
-                System.out.println("Test 3d: Failed");
+                System.out.println("Test 3c Checking: Failed");
+            }
+            
+            if(curr3c.isNeeds_lower() == true){
+                System.out.println("Test 3c Marking: Passed");
+            }else{
+                System.out.println("Test 3c Marking: Failed");
+            }
+
+            //checking all capital countings: Test 3d            
+            int[] temp = doc.get_doc_error_values();
+            System.out.println(temp[4]);
+            if(temp[4] == 3){                 //need to double check this val
+                System.out.println("Test 3d Number Capital errors: Passed");
+            }else{
+                System.out.println("Test 3d Number Capital errors: Failed");
             }
 
         //test check doubles: Test 4 - line 3, word 4 & 5 of test corpus
         int[] temp4 = doc.get_doc_error_values();
         if(temp4[2] == test_double){
-            System.out.println("Test 4: Passed");
+            System.out.println("Test 4 Num double word errors: Passed");
         }else{
-            System.out.println("Test 4: Failed");
+            System.out.println("Test 4 Num double word errors: Failed");
         }    
 
 
         //test check get and set of current misspelt words: Test 5
         int[] temp5 = doc.get_doc_error_values();
+        System.out.println(temp5[0]);
         if(temp5[0] == test_mispelt){
             System.out.println("Test 5: Passed");
         }else{
@@ -138,15 +163,16 @@ public class Doc_Error_test {
 
         //test check get and set of corrected misspelt words: Test 6
         //assume the user corrects the word jumpsz to jumps via the UI
-        Word_Object curr = doc.wordBuffer.getHead();
+        Document d6a = new Document("The Quick brown fox jumpsz over the lazy dog.\n");
+        Word_Object curr = d6a.wordBuffer.getHead();
         while(curr.hasNext()){
             if(curr.getWord().equals("jumpsz")){
                 curr.setWord("jumps");
-                doc.doc_error.downCountMisspelt();;
+                d6a.doc_error.downCountMisspelt();
             }
         curr = curr.getNext_node();
     }
-        int[] temp6 = doc.get_doc_error_values();
+        int[] temp6 = d6a.get_doc_error_values();
         //test correcting some of the words - 6a
         if(temp6[1] == 1){
             System.out.println("Test 6a: Passed");
@@ -154,20 +180,22 @@ public class Doc_Error_test {
             System.out.println("Test 6a: Failed");
         } 
         //test getting some of the words - 6b
-        
-        Word_Object curr6b = doc.wordBuffer.getHead();
+    
+        Word_Object curr6b = d6a.wordBuffer.getHead();
         while(curr6b.hasNext()){
-            if(curr.getWord().equals("jumps")){
+            if(curr6b.getWord().equals("jumps")){
                 System.out.println("Test 6b: Passed");
-        }else if(curr.getWord().equals("jumpsz")){
+                break;
+        }else if(curr6b.getWord().equals("jumpsz")){
             System.out.println("Test 6b: Failed");
         }
-         curr = curr.getNext_node();
+         curr6b = curr6b.getNext_node();
         }
     
 
         //test check get and set of current double words: Test 7
         Document t7 = new Document("Tommorrow will be an an intersting day for our picnic.\n");
+        t7.run_spell_check();
         int[] temp7 = t7.get_doc_error_values();
         if(temp7[2] == test_double){
             System.out.println("Test 7: Passed");
@@ -198,11 +226,12 @@ public class Doc_Error_test {
 
         //test check get and set of current capital errors: Test 9
         Document t9 = new Document("it's a beautifull sunny day outside.\n");
+        t9.run_spell_check();
         int[] temp9 = t9.get_doc_error_values();
         if(temp9[4] == 1){
-            System.out.println("Test 9: Passed");
+            System.out.println("Test 9 Get Capital Error: Passed");
         }else{
-            System.out.println("Test 9: Failed");
+            System.out.println("Test 9 Get Capital Error: Failed");
         }
 
         //test check get and set of corrected capital errors: Test 10
@@ -218,13 +247,14 @@ public class Doc_Error_test {
         }
         int[] temp10 = t9.get_doc_error_values();
         if(temp10[4] == 0 && temp10[5] == 1){
-            System.out.println("Test 10: Passed");
+            System.out.println("Test 10 Correct Capitals: Passed");
         }else{
-            System.out.println("Test 10: Failed");
+            System.out.println("Test 10 Correct Capitals: Failed");
         }
 
         //test check get and set of current misspelt words: Test 11
-        Document t11 = new Document("She said her favoritte book is \"The Great Gatsby\".\n");
+        Document t11 = new Document("He loves to play the guitar and the pianoo.");
+        t11.run_spell_check();
         int[] temp11 = t11.get_doc_error_values();
         if(temp11[0] == 1){
             System.out.println("Test 11: Passed");
@@ -235,10 +265,11 @@ public class Doc_Error_test {
         //test check get and set of corrected misspelt words: Test 12
         //assume the user corrects the word favoritte to favorite
         Word_Object currt11 = t11.wordBuffer.getHead();
-        while(currt11.hasNext()){
-            if(currt11.getWord().equals("favoritte")){
-                currt11.setWord("favorite");
+        while(currt11 != null){
+            if(currt11.getWord().equals("pianoo.")){
+                currt11.setWord("piano");
                 t11.doc_error.downCountMisspelt();
+                break;
             }
             currt11 = currt11.getNext_node();
         }
