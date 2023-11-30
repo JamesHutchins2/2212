@@ -34,6 +34,17 @@ import javafx.concurrent.Task;
 import org.fxmisc.richtext.StyleClassedTextArea;
 
 import Backend.Doc_Error;
+
+/**
+ * @author      James Hutchins
+ * @author      Michelle Bourdon
+ * @author      Jessica Kerr
+ * @author      Laila El attar
+ * @author      Nouran Sakr
+ * @version     1.0
+ * @since       0.0
+ * Controller class for the main scene of the spell-checking application.
+ */
 public class MainSceneController {
 
     @FXML
@@ -51,7 +62,10 @@ public class MainSceneController {
     private int currentCaretPosition = 0;
 
     
-
+    /**
+     * Sets the content of the text area.
+     * @param content The content to be set in the text area.
+     */
     public void setTextAreaContent(String content) {
         textArea.replaceText(content); // Replaces the entire text content
 
@@ -61,18 +75,14 @@ public class MainSceneController {
             }
             // Additional logic for handling text click, if any
         });
-        System.out.println("setting text area content" + content);
-        System.out.println("text area content: " + textArea.getText());
         
         // Initialize and populate the document as before
         init_document(textArea); // Ensure init_document is compatible with InlineCssTextArea
-        
-        
-
-        
     }
-
-    //this function starts at the first click, and automatically updates the encironment every 10 seconds
+    
+    /**
+     * This function starts at the first click and automatically updates the environment every 10 seconds.
+     */
     public void startRepeatedTask() {
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(10), event -> {
             Platform.runLater(() -> {
@@ -106,16 +116,19 @@ public class MainSceneController {
     }
     
 
-    
-     //init the document object from the text area
-    public void init_document(StyleClassedTextArea textArea_in){
-        
+    /**
+     * init the document object from the text area
+     * @param textArea_in which is the text area
+     */
+    public void init_document(StyleClassedTextArea textArea_in){      
         // Create a new document object
         this.document = new Document(textArea_in.getText());
-        
     }
     
-
+    /**
+     * populates the document object and sets the document object 
+     * @param document is the document 
+     */
     public void setDocument(Document document) {
         // Populate the document object
         document.populateLinkedList(textArea.getText());
@@ -124,7 +137,10 @@ public class MainSceneController {
         this.document = document;
     }
     
-
+    /**
+     * handleSaveButton handles the action when the user clicks the save button to save the file
+     * @param event is the button click event
+     */
     @FXML
     private void handleSaveButton(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -136,6 +152,11 @@ public class MainSceneController {
         }
     }
 
+    /**
+     * saveSystem saves the file
+     * @param file is the file to be saved
+     * @param text is the string to be saved in the file
+     */
     private void saveSystem(File file, String text) {
         try (PrintWriter printWriter = new PrintWriter(file)) {
             printWriter.write(text);
@@ -144,7 +165,10 @@ public class MainSceneController {
         }
     }
 
-
+    /**
+     * openHelp opens the help button
+     * @param event is the button click event
+     */
     @FXML
     void openHelp(ActionEvent event) {
         try {
@@ -165,7 +189,9 @@ public class MainSceneController {
         }
     }
 
-    //gets the text from the document (depricated (I think))
+    /**
+     * gets the text from the document
+     */
     public String[] parse_text(){
         //get the text from the text area
         String text = textArea.getText();
@@ -176,9 +202,12 @@ public class MainSceneController {
         
         //return the array of words
         return words;
-    
     }
 
+    /**
+     * exit handles the exit button which exits the application
+     * @param event is the button click event
+     */
     @FXML
     public void exit(ActionEvent event) {
         try {
@@ -203,6 +232,10 @@ public class MainSceneController {
 
     private Label userWords;
 
+    /**
+     * handleUserDictionary handles the user dictionary
+     * @param event is the button click event
+     */
     @FXML
     private void handleUserDictionary(ActionEvent event) {
 
@@ -235,13 +268,11 @@ public class MainSceneController {
             System.out.println("Error loading UserDictionary.fxml: " + e.getMessage());
         }
     }
-
-    //I dont think we really need this
-
-    // ---> james adding stuff.
     
 
-    //gets the doc analysis values
+    /**
+     * gets the doc analysis values
+     */
     public int[] get_doc_analysis(){
         //gets the values from the doc analysis object
         //int num_lines = textArea.getParagraphs().size();
@@ -252,8 +283,10 @@ public class MainSceneController {
         return doc_err_vals;
 
     };
-
-    //define fxml values for the doc analysis counts
+    
+    /**
+     * define fxml values for the doc analysis counts
+     */
     @FXML
     private Label characterCountLabel;
     @FXML
@@ -271,8 +304,10 @@ public class MainSceneController {
     @FXML
     private Label DoubleWordCorrections;
 
-    //updates the document error values from an array of values
-
+    /**
+     * updates the document error values from an array of values
+     * @param values is the int values
+     */
     public void update_doc_error_values(int[] values){
         //update the doc error values
         //get the values
@@ -291,6 +326,10 @@ public class MainSceneController {
         DoubleWordCorrections.setText("Corrected Double Words: " + corrected_double_words);
     }
 
+    /**
+     * updates the doc analysis values and gets value
+     * @param counts is the int values
+     */
     public void update_doc_analysis_values(int[] counts){
         //update the doc analysis values
         //get the values
@@ -308,7 +347,9 @@ public class MainSceneController {
         wordCountLabel.setText("Word count: " + word_count);
     }
 
-    //get the values from the doc error class via the document class/ 
+    /**
+     * get the values from the doc error class via the document class
+     */ 
     public int[] get_doc_error(){
 
         Doc_Error error = document.get_doc_error();
@@ -331,8 +372,9 @@ public class MainSceneController {
     };
     
 
-
-    //inits the text area, as well as the repeated task function
+     /**
+     * inits the text area and starts the repeated task function.
+     */
     @FXML
     public void initialize() {
         // Initialize StyleClassedTextArea
@@ -354,7 +396,10 @@ public class MainSceneController {
         });
     }
 
-    //when we click on the screen this function is called. 
+    /**
+     * When we click on the screen this function is called.
+     * @param event is the event when the user clicks with the mouse
+     */
     private void handleTextClick(MouseEvent event) {
     
         // Check if the document is initialized
@@ -409,6 +454,14 @@ public class MainSceneController {
             //explode
         }
     }
+    
+    /**
+     * Displays a context menu with a suggestion for capitalization adjustment.
+     * @param adjusted_word The adjusted word with the desired capitalization.
+     * @param word          The Word_Object representing the original word.
+     * @param x             The x-coordinate of the mouse cursor.
+     * @param y             The y-coordinate of the mouse cursor.
+     */
     private void popup_caps(String adjusted_word, Word_Object word, double x, double y){
         // Clear existing items and prepare new ones
         contextMenu.getItems().clear();
@@ -421,6 +474,13 @@ public class MainSceneController {
         contextMenu.show(textArea, x, y);
     }
 
+    /**
+     * Creates a custom menu item for adjusting capitalization in the context menu.
+     *
+     * @param word          The Word_Object representing the original word.
+     * @param adjusted_word The adjusted word with the desired capitalization.
+     * @return A CustomMenuItem with a label displaying the adjusted word and an action to implement the capitalization change.
+     */
     private CustomMenuItem createCustomMenuItem_caps(Word_Object word, String adjusted_word) {
         
         Label label = new Label(adjusted_word);
@@ -434,12 +494,16 @@ public class MainSceneController {
             //delete the text, and the word object in the linked list
             implement_caps(word, adjusted_word);
         });
-
         return new CustomMenuItem(label,true);
-
-    
     }
-
+    
+    /**
+     * Shows a context menu with options for handling double words at the specified text position.
+     *
+     * @param word The Word_Object representing the double word.
+     * @param x    The x-coordinate of the mouse cursor.
+     * @param y    The y-coordinate of the mouse cursor.
+     */
     private void showPopupAtTextPosition_double_word(Word_Object word, double x, double y){
 
         contextMenu.getItems().clear();
@@ -453,6 +517,13 @@ public class MainSceneController {
             contextMenu.show(textArea, x, y);
         }
     }
+    /**
+     * Creates a CustomMenuItem for replacing a double word with a specific action.
+     *
+     * @param index The index of the menu item.
+     * @param word  The Word_Object representing the double word.
+     * @return A CustomMenuItem for handling double word replacement.
+     */
     private CustomMenuItem createDoubleWordItem_replace(int index, Word_Object word){
         String text = "Delete Double Word";
         Label label = new Label(text);
@@ -472,8 +543,12 @@ public class MainSceneController {
         return new CustomMenuItem(label,true);
     }
     
-
-    //adding a function to display the popup
+    /**
+     * Creates a CustomMenuItem for replacing a double word with a specific action.
+     * @param index The index of the menu item.
+     * @param word  The Word_Object representing the double word.
+     * @return A CustomMenuItem for handling double word replacement.
+     */
     private CustomMenuItem addTouserDictItem(Word_Object word){
         //create a new menu item
         
@@ -507,6 +582,13 @@ public class MainSceneController {
         return new CustomMenuItem(label, true);
     }
 
+    /**
+     * Shows a context menu with spelling suggestions and an option to add the word to the user dictionary.
+     *
+     * @param word The Word_Object representing the misspelled word.
+     * @param x    The x-coordinate of the mouse cursor's position.
+     * @param y    The y-coordinate of the mouse cursor's position.
+     */
     private void showPopupAtTextPosition_spelling(Word_Object word, double x, double y) {
         // Clear existing items and prepare new ones
         contextMenu.getItems().clear();
@@ -530,7 +612,12 @@ public class MainSceneController {
     }
 
     
-
+    /**
+     * Creates a custom menu item for a spelling suggestion with an event handler to replace the misspelled word.
+     * @param index      The index of the suggestion in the array.
+     * @param word       The Word_Object representing the misspelled word.
+     * @return A CustomMenuItem containing the suggestion as a label and an event handler to replace the word.
+     */
     private CustomMenuItem createCustomMenuItem(int index, Word_Object word) {
         String suggestion = word.getSuggestions()[index];
         Label label = new Label(suggestion);
@@ -553,6 +640,13 @@ public class MainSceneController {
     
         return new CustomMenuItem(label, false);
     }
+    
+    /**
+     * Implements the capitalization correction for a Word_Object in the text area.
+     *
+     * @param word          The Word_Object representing the word to be capitalized.
+     * @param adjusted_word The adjusted word with proper capitalization.
+     */
     private void implement_caps(Word_Object word, String adjusted_word){
         //get the word start and stop indicies
         int startIndex = word.getStart_index();
@@ -574,7 +668,12 @@ public class MainSceneController {
 
        
     
-
+    /**
+     * Implements the suggestion correction for a Word_Object in the text area.
+     *
+     * @param word       The Word_Object representing the misspelled word to be corrected.
+     * @param suggestion The suggested correction for the misspelled word.
+     */
     private void implement_suggestion(Word_Object word, String suggestion) {
         // Validate word and suggestion
         if (word == null || suggestion == null || suggestion.isEmpty()) {
@@ -610,6 +709,14 @@ public class MainSceneController {
         // Update document statistics
         document.decrease_current_misspelt_words();
     }
+
+    /**
+     * Replaces a Word_Object in the linked list and inserts the corrected word in the text area.
+     *
+     * @param textArea    The text area where the replacement will occur.
+     * @param word        The Word_Object to be replaced.
+     * @param replacement The corrected word to be inserted.
+     */
     private void replaceAndInsertWord(StyleClassedTextArea textArea, Word_Object word, String replacement) {
         // Validate the parameters
         if (word == null || replacement == null || replacement.isEmpty()) {
@@ -640,6 +747,11 @@ public class MainSceneController {
         document.decrease_current_misspelt_words();
     }
 
+    /**
+     * Drops a double word by removing it from the linked list and updating the text area.
+     *
+     * @param word The Word_Object representing the double word to be dropped.
+     */
     private void implement_drop_double_word(Word_Object word){
         //get the word start and stop indicies
         //update the words' indicies
@@ -656,13 +768,23 @@ public class MainSceneController {
 
     }
     
-
+    /**
+     * Gets the current caret position in the text area and invokes the click splash.
+     *
+     * @param event The MouseEvent associated with the click.
+     * @return The caret position in the text area.
+     */
     private int getClickPosition(MouseEvent event) {
         // Return the current caret position in the text area
         invoke_click_splash(event);
         return textArea.getCaretPosition();
     }
-
+    /**
+     * Invokes actions related to a mouse click event, specifically for word objects before and after
+     * the clicked word at the current caret position in the text area.
+     *
+     * @param event The MouseEvent representing the mouse click event.
+     */
     private void invoke_click_splash(MouseEvent event){
         
         //get the click position
@@ -708,7 +830,13 @@ public class MainSceneController {
         }
 
     }
-
+    
+    /**
+     * Highlights errors in the text area based on the properties of words in the document.
+     * It iterates through the words in the text, retrieves corresponding Word_Object instances,
+     * determines the appropriate style class, and applies it to the corresponding text range.
+     * Words with null or invalid Word_Object instances are skipped.
+     */
     public void highlightErrors() {
         String text = textArea.getText();
         if (text == null || text.isEmpty()) {
@@ -743,7 +871,13 @@ public class MainSceneController {
             startIndex = endIndex + 1;
         }
     }
-    
+
+    /**
+     * Determines the style class for a Word_Object based on its properties.
+     *
+     * @param word The Word_Object for which the style class is determined.
+     * @return The style class corresponding to the word's properties.
+     */
     private String determineStyleClass(Word_Object word) {
         if (!word.isIs_real_word()) {
             return "misspelled-word";

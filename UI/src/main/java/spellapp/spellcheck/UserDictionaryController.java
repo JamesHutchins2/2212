@@ -11,7 +11,16 @@ import javafx.scene.control.TextArea;
 import javafx.stage.Popup;
 import javafx.scene.control.Button;
 import java.io.IOException;
-
+/**
+ * @author      James Hutchins
+ * @author      Michelle Bourdon
+ * @author      Jessica Kerr
+ * @author      Laila El attar
+ * @author      Nouran Sakr
+ * @version     1.0
+ * @since       0.0
+ * Controller class for the user dictionary view.
+ */
 public class UserDictionaryController {
     private Scene preScene;         // To remember scene of Main window, to go back
 
@@ -31,7 +40,11 @@ public class UserDictionaryController {
     private Stage primaryStage;
 
 
-
+    /**
+     * Handles the action when the home button is clicked.
+     *
+     * @param event The ActionEvent triggered by the home button.
+     */
     @FXML
     private void handleHome(ActionEvent event) {
             Stage stage = (Stage) homeButton.getScene().getWindow();
@@ -39,7 +52,11 @@ public class UserDictionaryController {
             stage.show();
     }
 
-
+    /**
+     * Opens the help popup when the help button is clicked.
+     *
+     * @param event The ActionEvent triggered by the help button.
+     */
     @FXML
     void openHelp(ActionEvent event) {
         try {
