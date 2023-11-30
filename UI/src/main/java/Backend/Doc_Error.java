@@ -41,17 +41,17 @@ public class Doc_Error {
         
         // String path_test = "../UI/src/main/java/Backend/dict_resources/words.txt";
         // String path_run = "../../Backend/dict_resources/words.txt";
-        // String path = "C:/Users/james/Desktop/2212_final/splash_fix/2212/UI/src/main/java/Backend/dict_resources/words.txt";
-        String relativePath = "2212_final/splash_fix/2212/UI/src/main/java/Backend/dict_resources/words.txt";
+         String path = "C://Users//jessi//Documents//final//2212//UI//src//main//java//Backend//dict_resources//words.txt";
+    //    String relativePath = "2212_final/splash_fix/2212/UI/src/main/java/Backend/dict_resources/words.txt";
         
         //File wordsFile = new File(System.getProperty("user.dir") + File.separator + relativePath);
         
-        File wordsFile = new File("C:/Users/james/Desktop/2212_final//splash_fix/2212/UI/src/main//java/Backend/dict_resources/words.txt");
+ //       File wordsFile = new File("C:/Users/james/Desktop/2212_final//splash_fix/2212/UI/src/main//java/Backend/dict_resources/words.txt");
         //System.out.println("path: " + wordsFile.getAbsolutePath());
 
         
-        dictionary = new Dictionary(wordsFile.getAbsolutePath());
-        // dictionary = new Dictionary(path);
+      //  dictionary = new Dictionary(wordsFile.getAbsolutePath());
+         dictionary = new Dictionary(path);
         System.out.println("dictionary created");
 
         //put int a try catch block
@@ -70,7 +70,20 @@ public class Doc_Error {
         // check to see if word in dict
         //take off any punctuation
         if(word_text.endsWith(".") || word_text.endsWith(",") || word_text.endsWith(";") || word_text.endsWith(":") || word_text.endsWith("!") || word_text.endsWith("?") || word_text.endsWith("\"") || word_text.endsWith("\'")){
+            if(word_text.endsWith(".")){
+                word.set_punctuation_index(1);
+            }else if(word_text.endsWith("?")){
+                word.set_punctuation_index(2);
+            }else if(word_text.endsWith("!")){
+                word.set_punctuation_index(3);
+            }else if(word_text.endsWith(",")){
+                word.set_punctuation_index(4);
+            }else if(word_text.endsWith(";")){
+                word.set_punctuation_index(5);
+            }
+
             word_text = word_text.substring(0, word_text.length() - 1);
+
         }
 
         Boolean is_a_word = dictionary.isWord(word_text);
