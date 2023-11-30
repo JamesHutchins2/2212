@@ -149,6 +149,7 @@ public class Doc_Error {
         else{
             //if the previous word ends with punctuation, then this is the first word
             if(word.getPrev_node().getEndsWithPunctuation()){
+                System.out.println("previous word ends with punctuation");
                 word.setIs_first_word(true);
             }
             else{
@@ -170,11 +171,13 @@ public class Doc_Error {
      */
     public void checkCapitals(Word_Object head) {
         Word_Object current = head;
+        
+        
 
         // set the ends with punctuation flag for each
 
         while (current != null) {
-            System.out.println("word: " + current.getWord());
+            
             if(current.check_end_punctuation()){
                 
                 current.setEndsWithPunctuation(true);
@@ -188,6 +191,7 @@ public class Doc_Error {
         // reset current to the head
         current = head;
         //run set_is_first on the head
+        current = current.getNext_node();
     
         while (current != null) {
             String word = current.getWord();

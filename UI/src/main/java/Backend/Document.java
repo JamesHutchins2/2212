@@ -172,6 +172,7 @@ public void mark_capitals(Word_Object word){
      */
 public void run_spell_check() {
   Word_Object current = wordBuffer.getHead();
+  check_num_capital_errors();
   while (current != null) {
       if (current.isModified()) {
           // Run spell check on this word
@@ -298,11 +299,12 @@ public int[] get_doc_error_values(){
 
   private void check_num_capital_errors(){
     //loop through the word buffer
-
+    
     //if the word object has any of the needs capital flags set to true
     //increase the current capital errors
     Word_Object current = wordBuffer.getHead();
 
+    doc_error.setCurrent_capital_errors(0);
     while(current != null){
       //check to see if the word object has any of the needs capital flags set to true
       if(current.isNeeds_first_capital()|| current.isNeeds_lower() || current.isNeeds_lower_but_first()){

@@ -660,9 +660,6 @@ public class MainSceneController {
         word.setNeeds_lower(false);
         word.setNeeds_first_capital(false);
         
-
-        //update the document statistics
-        document.decrease_current_capital_errors();
         //count the fix
         document.increase_corrected_capital_errors();
     }
