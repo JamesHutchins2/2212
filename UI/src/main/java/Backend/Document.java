@@ -1,4 +1,6 @@
 package Backend;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author      James Hutchins
@@ -8,17 +10,12 @@ package Backend;
  * @author      Nouran Sakr
  * @version     1.0
  * @since       0.0
-  * The Document class serves as the hub for the spell-check system,
+ * The Document class serves as the hub for the spell-check system,
  * creating a linked list from the workspace text and transforming
  * data types into Word_Object instances for spell checking.
  */
-import java.util.HashMap;
-import java.util.Map;
 
 public class Document{
-//this class is to work as the hub for the spell check system creating the linked list from the workspace text.
-//It transforms the data types into our word object so that the words can be analyzed by the spell check.
-
 // first creating instance variables
 public String text;  // variable to hold last checked text instance in document
 public LinkedList wordBuffer = new LinkedList();  //linked list to hold our word object list (for the entire document)
@@ -190,7 +187,6 @@ public void run_spell_check() {
 }
     /**
      * Checks a single word for spelling errors.
-     *
      * @param word The Word_Object instance to check.
      * @return The checked Word_Object instance.
      */
@@ -206,7 +202,6 @@ public Word_Object check_single_word(Word_Object word){
 }
     /**
      * Gets the Word_Object instance at the specified index in the linked list.
-     *
      * @param index The index to retrieve the Word_Object.
      * @return The Word_Object at the specified index.
      */
@@ -270,7 +265,6 @@ public int[] get_doc_analysis(int num_lines){
 }
     /**
      * Gets the document error values, including misspelled words, double words, and capital errors.
-     *
      * @return An array containing error statistics.
      */
 public int[] get_doc_error_values(){
@@ -291,13 +285,16 @@ public int[] get_doc_error_values(){
   //add them to an array
   int[] errors = {misspelt_words, Corrected_misspelt_words, Current_double_words, Corrected_double_words, Current_capital_errors, Corrected_capital_errors};
 
-  
-
   //return the array
   return errors;
 
   }
 
+/**
+ * Checks the word buffer for capitalization errors in Word_Object instances.
+ * Increases the current capital errors count if any Word_Object has specific
+ * capitalization flags set to true.
+ */
   private void check_num_capital_errors(){
     //loop through the word buffer
     
@@ -317,7 +314,9 @@ public int[] get_doc_error_values(){
     }
   }
 
-  //function to increase the current number of capital errors
+   /**
+     * function to increase the current number of capital errors
+     */
   public void increase_current_capital_errors(){
     //call the up count capital function in doc error
     doc_error.upCountCapital();
@@ -326,7 +325,6 @@ public int[] get_doc_error_values(){
 
     /**
      * Gets the Doc_Error instance associated with this document.
-     *
      * @return The Doc_Error instance.
      */
   public Doc_Error get_doc_error(){
@@ -334,7 +332,6 @@ public int[] get_doc_error_values(){
   }
     /**
      * Adds a word to the user dictionary in Doc_Error.
-     *
      * @param word The word to add to the user dictionary.
      */
   public void add_to_user_dict(String word){
@@ -363,14 +360,9 @@ public int[] get_doc_error_values(){
   public void decrease_current_capital_errors(){
     //call the down count capital function in doc error
     doc_error.downCountCapital();
-  
-
   }
-
-  public void increase_corrected_capital_errors(){
-    //call the up count capital function in doc error
-   // doc_error.upCountCapital_fix();
-  }
+ 
+ 
     /**
      * Increases the count of corrected misspelled words in Doc_Error.
      */
