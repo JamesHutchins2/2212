@@ -403,24 +403,41 @@ public class MainSceneController {
         if (!this_word.isIs_real_word()) {
             //hide all other context menus
             contextMenu.hide();
-            System.out.println("word is misspelled: " + this_word.getWord());
+            
             showPopupAtTextPosition_spelling(this_word, event.getScreenX(), event.getScreenY());
         }else if(this_word.isIs_double_word_after() || this_word.isIs_double_word_before()){
             //hide all other context menus
             contextMenu.hide();
-            System.out.println("word is double word: " + this_word.getWord());
+            
             showPopupAtTextPosition_double_word(this_word, event.getScreenX(), event.getScreenY());
-        }else if(this_word.isNeeds_first_capital() || this_word.isNeeds_lower_but_first()){
-            System.out.println("Is needs first capital");
+        }else if(this_word.isNeeds_first_capital()){
+
+            String word_base = this_word.getWord();
+
+            String word_capital = word_base.substring(0, 1).toUpperCase() + word_base.substring(1);
+
+            popup_caps(word_capital, this_word, event.getScreenX(), event.getScreenY());
+
+
+        }else if(this_word.isNeeds_lower_but_first()){
+
+            String word_base = this_word.getWord();
+            String word_lower = word_base.toLowerCase();
+            String word_capital = word_lower.substring(0, 1).toUpperCase() + word_lower.substring(1);
+
+            popup_caps(word_capital, this_word, event.getScreenX(), event.getScreenY());
+
+
+        }else if(this_word.isNeeds_lower()){
+            
             //provide a reccomendation that shows just the first letter capatalized
             String word_base = this_word.getWord();
             //first set it all to lower case
             String word_lower = word_base.toLowerCase();
             //then set the first letter to upper case
-            String word_capital = word_lower.substring(0, 1).toUpperCase() + word_lower.substring(1);
-            //create a new word_object
             
-            popup_caps(word_capital, this_word, event.getScreenX(), event.getScreenY());
+            
+            popup_caps(word_lower, this_word, event.getScreenX(), event.getScreenY());
 
         }else if(this_word.isNeeds_lower()){
             System.out.println("Is needs Lower");
@@ -641,6 +658,8 @@ public class MainSceneController {
         word.setNeeds_capital(false);
         word.setNeeds_lower_but_first(false);
         word.setNeeds_lower(false);
+        word.setNeeds_first_capital(false);
+        
 
         //update the document statistics
         document.decrease_current_capital_errors();
@@ -727,8 +746,7 @@ public class MainSceneController {
 
         // mark the previous and next word as modified
         
-        // Update document statistics, if needed
-        document.decrease_current_misspelt_words();
+        
     }
 
     /**
@@ -811,9 +829,12 @@ public class MainSceneController {
             //mark the word objects as modified
             if(before[j] != null){
                 before[j].setModified(true);
+                //check if it has any kind of capitalization error
+                 
             }
             if(after[j] != null){
                 after[j].setModified(true);
+                
             }
         }
 
@@ -865,6 +886,8 @@ public class MainSceneController {
         } else if (word.isIs_double_word_after() || word.isIs_double_word_before()) {
             return "double-word";
         } else if (word.isNeeds_first_capital() || word.isNeeds_lower() || word.isNeeds_lower_but_first()) {
+            //upcount the current capital errors
+            
             return "capital-word";
         } else {
             return "normal-word";

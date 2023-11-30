@@ -225,7 +225,7 @@ public Word_Object get_word_in_linked_list(int index){
      * Updates the document analysis, including character count, word count, and line count.
      */
 public void update_doc_analysis(){
-  System.out.println("updating doc analysis");
+  
   //check to see if doc_analysis is null
   if(doc_analysis == null){
     //create a new doc analysis object and assign it to instance variable
@@ -238,9 +238,7 @@ public void update_doc_analysis(){
   int word_count = doc_analysis.get_word_count();
   int line_count = doc_analysis.get_line_count();
 
-  System.out.println("char count: " + char_count);
-  System.out.println("word count: " + word_count);
-  System.out.println("line count: " + line_count);
+  
 }
     /**
      * Gets the document analysis values.
@@ -297,6 +295,31 @@ public int[] get_doc_error_values(){
   return errors;
 
   }
+
+  private void check_num_capital_errors(){
+    //loop through the word buffer
+
+    //if the word object has any of the needs capital flags set to true
+    //increase the current capital errors
+    Word_Object current = wordBuffer.getHead();
+
+    while(current != null){
+      //check to see if the word object has any of the needs capital flags set to true
+      if(current.isNeeds_first_capital()|| current.isNeeds_lower() || current.isNeeds_lower_but_first()){
+        //increase the current capital errors
+        increase_current_capital_errors();
+      }
+      //move to the next word
+      current = current.getNext_node();
+    }
+  }
+
+  //function to increase the current number of capital errors
+  public void increase_current_capital_errors(){
+    //call the up count capital function in doc error
+    doc_error.upCountCapital();
+  }
+
 
     /**
      * Gets the Doc_Error instance associated with this document.

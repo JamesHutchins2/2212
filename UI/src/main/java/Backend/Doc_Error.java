@@ -205,7 +205,7 @@ public class Doc_Error {
                 for (int i = 1; i < word.length(); i++) {
                     if (Character.isUpperCase(word.charAt(i))) {
                         current.setNeeds_lower_but_first(true);
-                        
+                       
 
                         break;
                     }
@@ -216,7 +216,8 @@ public class Doc_Error {
                 for (int i = 0; i < word.length(); i++) {
                     if (Character.isUpperCase(word.charAt(i))) {
                         current.setNeeds_lower(true);
-                        
+                        //check that word is_modified
+                       
                         break;
                     }
                     
@@ -384,6 +385,11 @@ public class Doc_Error {
      */
     public void setCorrected_capital_errors(int corrected_capital_errors) {
         this.corrected_capital_errors = corrected_capital_errors;
+    }
+
+    //up count the current capital errors
+    public void upCountCapital(){
+        this.current_capital_errors++;
     }
 
     

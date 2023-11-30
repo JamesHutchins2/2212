@@ -422,6 +422,7 @@ public class Word_Object{
      * @return True if the word needs a period, false otherwise.
      */
     public boolean isNeeds_capital() {
+        
         return needs_capital;
     }
     /**
