@@ -722,10 +722,15 @@ public class MainSceneController {
 
         //get the text before and after the word
         String[] texts = {textArea.getText(0, start), textArea.getText(end, textArea.getLength())};
-
+        String[] textold = {textArea.getText(0, textArea.getLength())};
         // now join the three strings together
-        String text = texts[0] + replacement + texts[1];
-
+        String text = "";
+        if(texts[1].equals(textold[0])){
+            //means this is the last word in the file.
+            text = texts[0] + replacement;
+        }else{  
+            text = texts[0] + replacement + texts[1];
+        }
         //now replace the text area
         textArea.replaceText(text);
 
