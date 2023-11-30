@@ -91,4 +91,5 @@ public class Document_test {
         document.decrease_current_capital_errors();
         System.out.println("testDecreaseCurrentCapitalErrors executed");
     }
+    
 }

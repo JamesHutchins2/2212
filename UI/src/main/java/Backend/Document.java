@@ -374,6 +374,9 @@ public int[] get_doc_error_values(){
     /**
      * Increases the count of corrected misspelled words in Doc_Error.
      */
+  public int getCorrected_capital_errors() {
+      return doc_error.getCorrected_capital_errors();
+  }
 
   
 }

@@ -284,6 +284,8 @@ public class MainSceneController {
     private Label Corrections;
     @FXML
     private Label DoubleWordCorrections;
+    @FXML
+    private Label corrected_capital;
 
     /**
      * updates the document error values from an array of values
@@ -297,7 +299,7 @@ public class MainSceneController {
         int double_words = values[2];
         int corrected_double_words = values[3];
         int capital_errors = values[4];
-        int corrected_capital_errors = values[5];
+        int corrected_capital_errors = document.getCorrected_capital_errors();
 
         //set the values
         Misspellings.setText("Misspellings: " + misspelt_words);
@@ -305,10 +307,12 @@ public class MainSceneController {
         DoubleWords.setText("Double Words: " + double_words);
         Corrections.setText("Corrected Misspellings: " + corrected_misspelt_words);
         DoubleWordCorrections.setText("Corrected Double Words: " + corrected_double_words);
+        corrected_capital.setText("Corrected Capital Errors: " + corrected_capital_errors);
         if(document.user_dict_is_null()){
             userWords.setText("");
         }else{
-        userWords.setText("User Dictionary: " + document.get_user_dict_formatted());
+        
+        userWords.setText(document.get_user_dict_formatted());
     }
 }
 
