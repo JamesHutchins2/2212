@@ -11,7 +11,7 @@ public class Document{
 public String text;  // variable to hold last checked text instance in document
 public LinkedList wordBuffer = new LinkedList();  //linked list to hold our word object list (for the entire document)
 //create an instance of Doc error
-Doc_Error doc_error = new Doc_Error();
+public Doc_Error doc_error = new Doc_Error();
 Doc_Analysis doc_analysis;
 
 //constructor
@@ -23,6 +23,10 @@ public Document(String text){
   //create doc analysis object
   this.doc_analysis = new Doc_Analysis(wordBuffer);
   this.doc_error = new Doc_Error();
+}
+public void clear_user_dict(){
+  //call the clear user dict function in doc error
+  doc_error.clearUserDict();
 }
 public void populateLinkedList(String text) {
     
@@ -41,12 +45,12 @@ public void populateLinkedList(String text) {
     
     while (current != null) {
       //check that i is in range of the wordsWithDelimiters
-      if(i >= wordsWithDelimiters.length - 1){
+      if(i > wordsWithDelimiters.length - 1){
         //remove the word
         wordBuffer.removeWord(current);
         //move to the next word
         current = current.getNext_node();
-      }else if(current.getWord().equals(wordsWithDelimiters[i])){
+      }else if(current.getWord().equals(wordsWithDelimiters[i]) && !current.isModified()){
         //do nothing
         i++;
       }else{
@@ -64,12 +68,13 @@ public void populateLinkedList(String text) {
         //call the capital function
         mark_capitals(new_word_obj);
       }
-      if(current.hasNext()){
+      if(current != null && current.hasNext()){
         current = current.getNext_node();
       }else{
         break;
       }
     }
+    
     //now we need to add the rest of the words to the linked list
     while(i < wordsWithDelimiters.length){
       //create a new word object
@@ -82,6 +87,10 @@ public void populateLinkedList(String text) {
       mark_capitals(new_word);
     }
   }
+  public boolean user_dict_is_null(){
+      //call the user dict is null function in doc error
+      return doc_error.userDictIsNull();
+    }
 public String get_user_dict_formatted(){
   //call get_user_dict from doc_error
   String[] user_dict = doc_error.get_user_dict();

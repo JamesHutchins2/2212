@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spellapp.spellcheck.UserDictionaryController">
    <children>
       <ToolBar prefHeight="57.0" prefWidth="600.0" style="-fx-background-color: #D3E3EE;">
          <items>
@@ -17,7 +16,7 @@
             <Button alignment="TOP_RIGHT" mnemonicParsing="false" onAction="#handleHome" style="-fx-background-radius: 20;" text="Home" />
          </items>
       </ToolBar>
-      <Label fx:id ="userWords" alignment="TOP_CENTER" layoutX="253.0" layoutY="69.0" text="Words Added" textAlignment="CENTER">
+      <Label fx:id="userWords" alignment="TOP_CENTER" layoutX="253.0" layoutY="69.0" text="Words Added" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>

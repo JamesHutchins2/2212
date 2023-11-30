@@ -18,8 +18,7 @@
                 <Button fx:id="saveButton" mnemonicParsing="false" onAction="#handleSaveButton" style="-fx-background-radius: 20;" text="Save" />
                 <Button mnemonicParsing="false" style="-fx-background-radius: 20;" text="Spellcheck" />
                 <Button mnemonicParsing="false" onAction="#openHelp" style="-fx-background-radius: 20;" text="Help" />
-                <Button onAction="#handleUserDictionary" alignment="TOP_RIGHT" mnemonicParsing="false" style="-fx-background-radius: 20;" text="User Dictionary" />
-            <Button fx:id="saveButton1" layoutX="10.0" layoutY="20.0" mnemonicParsing="false" onAction="#exit" style="-fx-background-radius: 20;" text="Exit" />
+                <Button fx:id="saveButton1" layoutX="10.0" layoutY="20.0" mnemonicParsing="false" onAction="#exit" style="-fx-background-radius: 20;" text="Exit" />
             </items>
         </ToolBar>
     </top>
@@ -67,7 +66,17 @@
                   <Label fx:id="DoubleWordCorrections" layoutX="7.0" layoutY="79.0" text="Deletions: 0" />
                </children>
             </Pane>
-            <Label fx:id="mainLabel" layoutX="9.0" layoutY="510.0" text="Label" />
+            <Pane layoutX="8.0" layoutY="350.0" prefHeight="125.0" prefWidth="142.0" style="-fx-background-color: #EEEEEE; -fx-background-radius: 20;">
+               <children>
+                  <Label layoutX="7.0" layoutY="13.0" prefHeight="27.0" prefWidth="66.0" text="User Dictionary">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="userWords" layoutX="6.0" layoutY="37.0" text="User_words" />
+                  <Button onAction="#clear_user_dict" alignment="BOTTOM_RIGHT" mnemonicParsing="false" style="-fx-background-radius: 20;" text="Clear User Dictionary" />
+               </children>
+            </Pane>
          </children>
       </Pane>
    </right>

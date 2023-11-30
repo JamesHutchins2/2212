@@ -83,16 +83,21 @@ public class MainSceneController {
                     document.populateLinkedList(textContent);
                     //run the document spell check on the newly updated linked list
                     document.run_spell_check();
-    
+                    System.out.println("running spell check");
                     int[] docAnalysisVals = get_doc_analysis();
+                    System.out.println("getting doc analysis");
                     update_doc_analysis_values(docAnalysisVals);
+                    System.out.println("updating doc analysis");
                     //get the doc error values
                     int[] docErrorVals = get_doc_error();
+                    System.out.println("getting doc error");
                     //populate the doc error values on the front end
                     update_doc_error_values(docErrorVals);
+                    System.out.println("updating doc error");
                     
                     //run the highlight misspelled words function
                     highlightErrors();
+                    System.out.println("highlighting errors");
 
                 } catch (Exception e) {
                     System.err.println("Error during repeated task: " + e.getMessage());
@@ -200,40 +205,14 @@ public class MainSceneController {
 
     }
     @FXML
-
     private Label userWords;
 
     @FXML
-    private void handleUserDictionary(ActionEvent event) {
-
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("UserDictionary.fxml"));
-            Parent root = loader.load();
-            UserDictionaryController userDictionaryController = loader.getController();
-            
-            if (getClass().getResourceAsStream("/stylesheet.css") == null) {
-                System.out.println("Stylesheet not found");
-            } else {
-                System.out.println("Stylesheet found");
-            }
-
-            Scene mainScene = new Scene(root, 800, 500);
-            //adds the stylesheet to the scene
-            mainScene.getStylesheets().add(getClass().getResource("/spellapp/spellcheck/stylesheet.css").toExternalForm());
-            
-            String text = document.get_user_dict_formatted();
-            userWords = new Label();
-            userWords.setText(text);
-            System.out.println("text: " + text);
-            
-            Stage stage = new Stage();
-            stage.setTitle("User Dictionary");
-            stage.setScene(mainScene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Error loading UserDictionary.fxml: " + e.getMessage());
-        }
+    private void clear_user_dict(ActionEvent event) {
+        //clear the user dictionary
+        document.clear_user_dict();
+        
+        userWords.setText("");;
     }
 
     //I dont think we really need this
@@ -275,7 +254,7 @@ public class MainSceneController {
 
     public void update_doc_error_values(int[] values){
         //update the doc error values
-        //get the values
+        //get the valuesclear_user_dict
         int misspelt_words = values[0];
         int corrected_misspelt_words = values[1];
         int double_words = values[2];
@@ -289,7 +268,12 @@ public class MainSceneController {
         DoubleWords.setText("Double Words: " + double_words);
         Corrections.setText("Corrected Misspellings: " + corrected_misspelt_words);
         DoubleWordCorrections.setText("Corrected Double Words: " + corrected_double_words);
+        if(document.user_dict_is_null()){
+            userWords.setText("");
+        }else{
+        userWords.setText("User Dictionary: " + document.get_user_dict_formatted());
     }
+}
 
     public void update_doc_analysis_values(int[] counts){
         //update the doc analysis values
@@ -297,10 +281,6 @@ public class MainSceneController {
         int char_count = counts[0];
         int word_count = counts[1];
         int line_count = counts[2];
-        System.out.println("scene control doc vals");
-        System.out.println("char count: " + char_count);
-        System.out.println("word count: " + word_count);
-        System.out.println("line count: " + line_count);
 
         //set the values
         characterCountLabel.setText("Character count: " + char_count);
@@ -343,7 +323,6 @@ public class MainSceneController {
         startRepeatedTask();
         // Configure the StyleClassedTextArea
         textAreaContainer.setOnMouseClicked(event -> {
-            System.out.println("Mouse clicked in textArea"); // For debugging purposes
             if (event.getButton() == MouseButton.PRIMARY) {
                 handleTextClick(event);
             } else {
@@ -359,7 +338,6 @@ public class MainSceneController {
     
         // Check if the document is initialized
         if (this.document == null) {
-            System.out.println("document is null, initializing");
             init_document(textArea);
             startRepeatedTask();
         }
@@ -486,12 +464,12 @@ public class MainSceneController {
         label.setMaxWidth(Double.MAX_VALUE);
         label.setWrapText(true);
         label.setOnMouseClicked(event -> {
-            System.out.println("adding to user dict");
+            
             //get the word
             String word_text = word.getWord();
             //add the word to the user dictionary
             document.add_to_user_dict(word_text);
-            System.out.println("added to user dict: " + word_text); 
+            
             //set the word object is real word flag
             word.setIs_real_word(true);
             //set the word object modified flag
@@ -618,7 +596,16 @@ public class MainSceneController {
     
         // Calculate the replacement area
         int startIndex = (word.getPrev_node() != null) ? word.getPrev_node().getEnd_index() : 0;
-        int endIndex = (word.getNext_node() != null) ? word.getNext_node().getStart_index() : textArea.getLength() + 1;
+        int endIndex = (word.getNext_node() != null) ? word.getNext_node().getStart_index() : textArea.getLength();
+
+        //check to see if the word is the tail.
+        if(word.getNext_node() == null){
+            
+            
+        }else{
+            //if it is not the tail, then we need to add a space to the end of the word
+            endIndex = endIndex + 1;        
+        }
     
         // Clear the area between the last and the next word
         textArea.replaceText(startIndex, endIndex, "");
@@ -659,17 +646,21 @@ public class MainSceneController {
 
     private int getClickPosition(MouseEvent event) {
         // Return the current caret position in the text area
+        //update index
+        document.wordBuffer.calculate_indicies();
         invoke_click_splash(event);
         return textArea.getCaretPosition();
     }
 
     private void invoke_click_splash(MouseEvent event){
+        System.out.println("invoking click splash");
         
         //get the click position
         int position = textArea.getCaretPosition();
 
         //get the word object at this position
         Word_Object this_word = document.wordBuffer.getWordAtCaretPosition(position);
+        System.out.println("this word: " + this_word.getWord());
 
         if(this_word == null){
             return;
@@ -700,10 +691,10 @@ public class MainSceneController {
         for(int j = 0; j<2; j++){
             //mark the word objects as modified
             if(before[j] != null){
-                before[j].isModified();
+                before[j].setModified(true);
             }
             if(after[j] != null){
-                after[j].isModified();
+                after[j].setModified(true);
             }
         }
 

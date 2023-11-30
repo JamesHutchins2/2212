@@ -81,16 +81,13 @@ public class FileController {
                     // Get object hierarchy for MainScene into a loader object and load into a Parent class
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScene.fxml"));
                     Parent mainSceneRoot = loader.load();
-<<<<<<< HEAD
                     
 
-=======
                     //set the style sheet to the scene
                     mainSceneRoot.getStylesheets().add(getClass().getResource("/spellapp/spellcheck/stylesheet.css").toExternalForm());
                     //add text to text area variable
                     textArea = (StyleClassedTextArea) mainSceneRoot.lookup("#textArea");
     
->>>>>>> e4c82bce62fb606aaa1803e28eb49cd0024f2a66
                     // Get the controller of the main scene - and send it action to set text area of main text area
                     MainSceneController mainSceneController = loader.getController();
                     mainSceneController.setTextAreaContent(content.toString());

@@ -25,21 +25,20 @@ public class Doc_Error {
 
         //create an instance of the dictionary
         
-<<<<<<< HEAD
-        String path_test = "../UI/src/main/java/Backend/dict_resources/words.txt";
-        String path_run = "../../Backend/dict_resources/words.txt";
-        String path = "C:/Users/james/Downloads/2212/final/2212/UI/src/main/java/Backend/dict_resources/words.txt";
-        File file = new File(path);
-=======
         // String path_test = "../UI/src/main/java/Backend/dict_resources/words.txt";
         // String path_run = "../../Backend/dict_resources/words.txt";
         // String path = "C:/Users/james/Desktop/2212_final/splash_fix/2212/UI/src/main/java/Backend/dict_resources/words.txt";
         String relativePath = "2212_final/splash_fix/2212/UI/src/main/java/Backend/dict_resources/words.txt";
-        File wordsFile = new File(System.getProperty("user.dir") + File.separator + relativePath);
+        
+        //File wordsFile = new File(System.getProperty("user.dir") + File.separator + relativePath);
+        
+        File wordsFile = new File("C:/Users/james/Downloads/2212/final/2212/UI/src/main/java/Backend/dict_resources/words.txt");
+        //System.out.println("path: " + wordsFile.getAbsolutePath());
 
->>>>>>> e4c82bce62fb606aaa1803e28eb49cd0024f2a66
         
         dictionary = new Dictionary(wordsFile.getAbsolutePath());
+        // dictionary = new Dictionary(path);
+        System.out.println("dictionary created");
 
         //put int a try catch block
         
@@ -132,6 +131,13 @@ public class Doc_Error {
         }
     }
 
+    public void clearUserDict(){
+        dictionary.clear_user_dict();
+    }
+    public boolean userDictIsNull(){
+        return dictionary.userDictIsNull();
+    }
+
     // This is my new attempt at implemeting this I have added some new params to the word object for doing so and have added populating functions to do so. 
     public void checkCapitals(Word_Object head) {
         Word_Object current = head;
@@ -143,7 +149,7 @@ public class Doc_Error {
             if (current.isIs_first_word()) {
                 if (!Character.isUpperCase(word.charAt(0))) {
                     current.setNeeds_first_capital(true);
-                    System.out.println("Needs first capital: " + word);
+                    
                 }
     
                 // Check if any other letters in the word are capitalized
@@ -153,7 +159,7 @@ public class Doc_Error {
 
                         break;
                     }
-                    System.out.println("Needs Lower But first: " + word);
+                    
                 }
             } else {
                 // Check for capitals anywhere in the word
@@ -162,7 +168,7 @@ public class Doc_Error {
                         current.setNeeds_lower(true);
                         break;
                     }
-                    System.out.println("Needs Lower: " + word);
+                    
                 }
             }
     

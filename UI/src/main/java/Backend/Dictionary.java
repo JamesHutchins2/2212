@@ -35,7 +35,16 @@ public class Dictionary {
      * cut offs for word length to speed up search
      */
     private static int threshold = 4;
-
+    /**
+     * sets the user words to null
+     */
+    public void clear_user_dict(){
+        //set user words to null
+        user_words = null;
+    }
+    public boolean userDictIsNull(){
+        return user_words == null;
+    }
     /**
      * Constructor creates has table from a file
      * @param fileLocation is the location of the file we are loading in
@@ -45,19 +54,12 @@ public class Dictionary {
         populateTable(fileLocation);
     }
 
-<<<<<<< HEAD
     public String[] get_user_dict(){
         //get user_words
         return user_words;
     }
 
     //populate the set with words from the text file
-=======
-    /**
-     * Method populateTable populates the set with words from the text file
-     * @param fileLocation is the location of the file we are loading in
-     */
->>>>>>> e4c82bce62fb606aaa1803e28eb49cd0024f2a66
     private void populateTable(String fileLocation) {
         //get file location, and create a file object
         File file = new File(fileLocation);
