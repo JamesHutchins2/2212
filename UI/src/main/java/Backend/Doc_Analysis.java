@@ -1,13 +1,26 @@
 package Backend;
+/**
+ * @author      James Hutchins
+ * @author      Michelle Bourdon
+ * @author      Jessica Kerr
+ * @author      Laila El attar
+ * @author      Nouran Sakr
+ * @version     1.0
+ * @since       0.0
+ * The Doc_Analysis class is responsible for analyzing a document, including character count, word count, and line count
+ */
+
 public class Doc_Analysis{
-  //this class is to return the analysis portion 
-  
   //defining instance variables
   public char[] text;
   private int charCount = 0;
   private int wordCount = 0;
   private int lineCount = 0;
-  //constructor
+  
+   /**
+   * Constructor for Doc_Analysis class
+   * @param wordBuffer A linked list containing words for analysis.
+   */
   public Doc_Analysis(LinkedList wordBuffer){
     //get the text
     String[] text = getText(wordBuffer);
@@ -19,8 +32,11 @@ public class Doc_Analysis{
 
 }
 
-
-  //to return line count
+  /**
+   * Private method to calculate the line count based on newline characters.
+   * @param text The character array representing the document text.
+   * @return The line count in the document.
+   */
   private int getLineCount(char[] text) {
     int lineCount = 1; // Initialize lineCount
     int i = 0;
@@ -34,6 +50,11 @@ public class Doc_Analysis{
     return lineCount;
   }
 
+  /**
+   * Private method to extract text from a linked list of words.
+   * @param wordBuffer A linked list containing words.
+   * @return An array of strings representing the text.
+   */
   private String[] getText(LinkedList wordBuffer) {
     int length = wordBuffer.get_length();
     String[] text = new String[length];
@@ -49,7 +70,12 @@ public class Doc_Analysis{
     this.wordCount = i;
     return text;
   }
-
+  
+  /**
+   * Private method to convert an array of strings into a single character array.
+   * @param text An array of strings representing the document text.
+   * @return A character array representing the document text.
+   */
   private char[] getChar(String[] text) {
     // Calculate total length needed
     int totalLength = 0;
@@ -74,8 +100,10 @@ public class Doc_Analysis{
     return char_array;
 }
 
-  
-
+/**
+ * Update method to recalculate analysis based on a new linked list of words.
+ * @param wordBuffer A linked list containing words for analysis.
+ */  
 public void update(LinkedList wordBuffer){
   //get the text
   String[] text = getText(wordBuffer);
@@ -86,13 +114,24 @@ public void update(LinkedList wordBuffer){
   lineCount = getLineCount(char_array);
 }
 
-  //getters and setters
+  /**
+   * Getter for character count.
+   * @return The total number of characters in the document.
+   */
   public int get_char_count(){
     return charCount;
   }
+  /**
+   * Getter for word count.
+   * @return The total number of words in the document.
+   */
   public int get_word_count(){
     return wordCount;
   }
+  /**
+   * Getter for line count.
+   * @return The total number of lines in the document.
+   */
   public int get_line_count(){
     return lineCount;
   }

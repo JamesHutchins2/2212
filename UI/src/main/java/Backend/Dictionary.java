@@ -13,27 +13,51 @@ import java.io.File;
 import java.util.Set;
 import java.io.IOException;
 
+/**
+ * @author      James Hutchins
+ * @author      Michelle Bourdon
+ * @author      Jessica Kerr
+ * @author      Laila El attar
+ * @author      Nouran Sakr
+ * @version     1.0
+ * @since       0.0
+ * This class represents the dictionary which words are checked against to see if they are correct
+ */
 public class Dictionary {
     
-    //create a set that will contain words from the text file dict
+    /**
+     * create a set that will contain words from the text file dict
+     */
     private Set<String> words;
     private String[] user_words;
 
-    // cut off for word length to speed up search
+    /**
+     * cut offs for word length to speed up search
+     */
     private static int threshold = 4;
 
-    //constructor
+    /**
+     * Constructor creates has table from a file
+     * @param fileLocation is the location of the file we are loading in
+     */
     public Dictionary(String fileLocation) {
         words = new HashSet<>();
         populateTable(fileLocation);
     }
 
+<<<<<<< HEAD
     public String[] get_user_dict(){
         //get user_words
         return user_words;
     }
 
     //populate the set with words from the text file
+=======
+    /**
+     * Method populateTable populates the set with words from the text file
+     * @param fileLocation is the location of the file we are loading in
+     */
+>>>>>>> e4c82bce62fb606aaa1803e28eb49cd0024f2a66
     private void populateTable(String fileLocation) {
         //get file location, and create a file object
         File file = new File(fileLocation);
@@ -50,7 +74,11 @@ public class Dictionary {
     }
 
     
-    //check to see if a word is in the dictionary
+    /**
+     * Method isWord checks to see if a word is in the dictionary
+     * @param word is the word we are checking
+     * @return true or false is the word is in the dictionary
+     */
     public boolean isWord(String word) {
         //check to see if the word is in the set put to lowercase jic
         if(words.contains(word.toLowerCase())){
@@ -74,7 +102,11 @@ public class Dictionary {
         }
     }
 
-    //filter out words that are not within a certain length of the misspelled word
+    /**
+     * Method lengthFilter filters out words that are not within a certain length of the misspelled word
+     * @param misspelledWord is a word which is spelled incorrectly
+     * @return filterWords which are the words same length as misspelledWord
+     */
     public Set<String> lengthFilter(String misspelledWord) {
         //create a new set object to hold words 
         Set<String> filteredWords = new HashSet<>();
@@ -90,7 +122,11 @@ public class Dictionary {
         return filteredWords;
     }
 
-    //get suggestions for a misspelled word
+    /**
+     * Method getSuggestions gets suggestions for a misspelled word
+     * @param misspelledWord is a word which is spelled incorrectly
+     * @return array of suggestions
+     */
     public String[] getSuggestions(String misspelledWord) {
         // Create a set to hold filtered words
        
@@ -148,8 +184,12 @@ public class Dictionary {
 
     
 
-    //algorithm to find the levenshtein distance between two words (used for creating suggestions)
-    //takes 2 strings as parameters
+    /**
+     * Method levenshteinDistance is an algorithm to find the levenshtein distance between two words (used for creating suggestions)
+     * @param a is the first input string word
+     * @param b is the second input string word
+     * @return the distance between the two words
+     */
     private static int levenshteinDistance(String a, String b) {
         //create a 2d array to hold the distances of the words
         //each index represents the distance between the first i char of string a, and the first j char of string b
@@ -181,17 +221,25 @@ public class Dictionary {
         //return the distance between the two words
         return dp[a.length()][b.length()];
     }
-    //returns 0 if they are not equal, 1 if they are
+   
+    /**
+     * returns 0 if they are not equal, 1 if they are
+     */
     private static int costOfSubstitution(char a, char b) {
         return a == b ? 0 : 1;
     }
 
-    //returns the minimum of the numbers passed in
+    /**
+     * returns the minimum of the numbers passed in
+     */
     private static int min(int... numbers) {
         return Arrays.stream(numbers).min().orElse(Integer.MAX_VALUE);
     }
 
-
+    /**
+     * Method add_user_word adds the word to the user words array
+     * @param word is the word being added
+     */
     public void add_user_word(String word) {
         // Initialize user_words if it's null
         if (user_words == null) {
