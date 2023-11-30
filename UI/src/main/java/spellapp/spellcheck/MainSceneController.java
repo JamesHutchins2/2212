@@ -711,7 +711,6 @@ public class MainSceneController {
 
     /**
      * Replaces a Word_Object in the linked list and inserts the corrected word in the text area.
-     *
      * @param textArea    The text area where the replacement will occur.
      * @param word        The Word_Object to be replaced.
      * @param replacement The corrected word to be inserted.
@@ -762,7 +761,15 @@ public class MainSceneController {
         
         
     }
-
+    
+    /**
+     * Finds the start index of the word containing the specified middle index in the given text.
+     * The word is delimited by spaces or newline characters.
+     *
+     * @param text   The text in which to find the word.
+     * @param middle The middle index around which to find the word start.
+     * @return The start index of the word containing the middle index.
+     */
     private static int findWordStart(String text, int middle) {
 
         //get the char at the middle index
@@ -776,7 +783,15 @@ public class MainSceneController {
         }
         return middle + 1;
     }
-
+    
+    /**
+     * Finds the end index of the word containing the specified middle index in the given text.
+     * The word is delimited by spaces or newline characters.
+     *
+     * @param text   The text in which to find the word.
+     * @param middle The middle index around which to find the word end.
+     * @return The end index of the word containing the middle index.
+     */
     private static int findWordEnd(String text, int middle) {
         char middle_char = text.charAt(middle);
         while(middle_char != ' ' && middle_char != '\n'){
