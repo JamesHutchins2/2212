@@ -226,6 +226,10 @@ public class Word_Object{
     public String getWord() {
         return word;
     }
+    /**
+     * Checks if the last character in the word is a period, exclamation mark, or question mark.
+     * @return true if the last character is a period, exclamation mark, or question mark; false otherwise.
+     */
     public boolean check_end_punctuation(){
         //check if the last char is a period
         if(this.word.charAt(this.word.length() - 1) == '.' || this.word.charAt(this.word.length() - 1) == '!' || this.word.charAt(this.word.length() - 1) == '?'){
@@ -569,12 +573,19 @@ public class Word_Object{
             return true;
         }
     }
-
+    /**
+     * Sets the punctuation index to the specified value.
+     * @param i The index to set for punctuation.
+     * @return The updated punctuation index.
+     */
     public int set_punctuation_index(int i){
         this.punctuation_index = i;
         return punctuation_index;
     }
-
+    /**
+     * Retrieves the current punctuation index.
+     * @return The current punctuation index.
+     */
     public int get_punctuation_index(){
         return this.punctuation_index;
     }
