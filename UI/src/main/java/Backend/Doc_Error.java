@@ -3,6 +3,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
+/** 
+ * 
+ * @author      Michelle Bourdon
+ * @author      Laila El attar
+ * @author      James Hutchins
+ * @author      Jessica Kerr
+ * @author      Nouran Sakr
+ * @version     1.0
+ * @since       0.0
+ * The Doc_Error class is used to check for errors in the document and provide suggestions for correction.
+*/
 public class Doc_Error {
     //create the document error variables
     private int current_misspelt_words;
@@ -12,8 +23,11 @@ public class Doc_Error {
     private int current_capital_errors;
     private int corrected_capital_errors;
     Dictionary dictionary;
-
-    //initialize the object
+    
+    /**
+     * Initializes a new Doc_Error object and sets default values for error variables.
+     * Also creates an instance of the dictionary using a specified words file.
+     */
     public Doc_Error(){
         //set vars to zero
         this.current_misspelt_words = 0;
@@ -44,7 +58,11 @@ public class Doc_Error {
         //put int a try catch block
         
     }
-    //checks words from the document for misspellings
+    /**
+     * Checks words from the document for misspellings and provides suggestions for correction.
+     *
+     * @param word The Word_Object representing the word to be checked.
+     */
     public void checkWords(Word_Object word) {
         //First check if the word is an actual word
 
@@ -81,7 +99,11 @@ public class Doc_Error {
         }
     }
 
-    //check double word function
+    /**
+     * Checks for consecutive occurrences of the same word in the document.
+     *
+     * @param word_Object The Word_Object representing the current word to be checked.
+     */  
     public void checkDoubleWord(Word_Object word_Object){
 
         //get the current word text
@@ -113,7 +135,12 @@ public class Doc_Error {
         }
     
     }
-
+    
+    /**
+     * Sets the "is_first_word" flag for the given word based on its position in the document.
+     *
+     * @param word The Word_Object representing the word to be checked.
+     */
     public void set_is_first(Word_Object word){
         //check to see if there is a previous word
         if(word.getPrev_node() == null){
@@ -131,8 +158,10 @@ public class Doc_Error {
             }
         }
     }
-
-    // This is my new attempt at implemeting this I have added some new params to the word object for doing so and have added populating functions to do so. 
+    /**
+     * Checks for capitalization errors in the document and sets flags in the Word_Objects accordingly.
+     * @param head The head of the linked list of Word_Objects representing the document.
+     */
     public void checkCapitals(Word_Object head) {
         Word_Object current = head;
     
@@ -174,7 +203,11 @@ public class Doc_Error {
 
     
 
-    //add to user dict function
+    /**
+     * Adds a word to the user dictionary for custom words.
+     *
+     * @param word The word to be added to the user dictionary.
+     */
     public void addToUserDict(String word){
         //add the word to the user dict
         dictionary.add_user_word(word);
@@ -189,21 +222,29 @@ public class Doc_Error {
 
     }
 
-    //functions to down count the errors as they are corrected
+    /**
+     * Decrements the count of current misspelled words and increments the count of corrected misspelled words.
+     */ 
     public void downCountMisspelt(){
         //decrement the current misspelt words
         this.current_misspelt_words--;
         //increment the corrected misspelt words
         this.corrected_misspelt_words++;
     }
-
+    
+    /**
+     * Decrements the count of current double words and increments the count of corrected double words.
+     */
     public void downCountDoubleWord(){
         //decrement the current double words
         this.current_double_words--;
         //increment the corrected double words
         this.corrected_double_words++;
     }
-
+    
+    /**
+     * Decrements the count of current capitalization errors and increments the count of corrected capitalization errors.
+     */
     public void downCountCapital(){
         //decrement the current capital errors
         this.current_capital_errors--;
@@ -211,51 +252,101 @@ public class Doc_Error {
         this.corrected_capital_errors++;
     }
 
-    //getters and setters for the document class to use to popluate the front end values. 
+    /**
+     * Gets the current count of misspelled words in the document.
+     *
+     * @return The current count of misspelled words.
+     */  
     public int getCurrent_misspelt_words() {
         return current_misspelt_words;
     }
-
+    
+    /**
+     * Sets the current count of misspelled words in the document.
+     *
+     * @param current_misspelt_words The new count of misspelled words to be set.
+     */
     public void setCurrent_misspelt_words(int current_misspelt_words) {
         this.current_misspelt_words = current_misspelt_words;
     }
 
+    /**
+     * Gets the count of corrected misspelled words in the document.
+     *
+     * @return The count of corrected misspelled words.
+     */
     public int getCorrected_misspelt_words() {
         return corrected_misspelt_words;
     }
-
+    /**
+     * Sets the count of corrected misspelled words in the document.
+     *
+     * @param corrected_misspelt_words The new count of corrected misspelled words to be set.
+     */
     public void setCorrected_misspelt_words(int corrected_misspelt_words) {
         this.corrected_misspelt_words = corrected_misspelt_words;
     }
-
+    /**
+     * Gets the current count of double words in the document.
+     *
+     * @return The current count of double words.
+     */
     public int getCurrent_double_words() {
         return current_double_words;
     }
-
+    /**
+     * Sets the current count of double words in the document.
+     *
+     * @param current_double_words The new count of double words to be set.
+     */
     public void setCurrent_double_words(int current_double_words) {
         this.current_double_words = current_double_words;
     }
-
+    /**
+     * Gets the count of corrected double words in the document.
+     *
+     * @return The count of corrected double words.
+     */
     public int getCorrected_double_words() {
         return corrected_double_words;
     }
-
+    /**
+     * Sets the count of corrected double words in the document.
+     *
+     * @param corrected_double_words The new count of corrected double words to be set.
+     */
     public void setCorrected_double_words(int corrected_double_words) {
         this.corrected_double_words = corrected_double_words;
     }
-
+    /**
+     * Gets the current count of capitalization errors in the document.
+     *
+     * @return The current count of capitalization errors.
+     */
     public int getCurrent_capital_errors() {
         return current_capital_errors;
     }
-
+   /**
+     * Sets the current count of capitalization errors in the document.
+     *
+     * @param current_capital_errors The new count of capitalization errors to be set.
+     */
     public void setCurrent_capital_errors(int current_capital_errors) {
         this.current_capital_errors = current_capital_errors;
     }
-
+    /**
+     * Gets the count of corrected capitalization errors in the document.
+     *
+     * @return The count of corrected capitalization errors.
+     */
     public int getCorrected_capital_errors() {
         return corrected_capital_errors;
     }
-
+    /**
+     * Sets the count of corrected capitalization errors in the document.
+     *
+     * @param corrected_capital_errors The new count of corrected capitalization errors to be set.
+     */
     public void setCorrected_capital_errors(int corrected_capital_errors) {
         this.corrected_capital_errors = corrected_capital_errors;
     }
