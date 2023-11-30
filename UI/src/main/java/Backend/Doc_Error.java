@@ -398,6 +398,11 @@ public class Doc_Error {
         this.current_capital_errors++;
     }
 
+    public int increase_corrected_capital_errors(){
+        this.corrected_capital_errors++;
+        return this.corrected_capital_errors;
+    }
+
     
 
 

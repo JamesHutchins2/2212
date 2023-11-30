@@ -370,5 +370,14 @@ public int[] get_doc_error_values(){
       return doc_error.getCorrected_capital_errors();
   }
 
+
+    /**
+     * Increases the count of corrected double words in Doc_Error.
+     */
+  public int increase_corrected_capital_errors() {
+      return doc_error.increase_corrected_capital_errors();
+  }
+
+
   
 }
