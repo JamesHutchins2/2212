@@ -218,6 +218,7 @@ public class MainSceneController {
     @FXML
     public void exit(ActionEvent event) {
         try {
+            System.out.println("Exiting...");
             // Load the Help.fxml file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Exit.fxml"));
             Parent root = loader.load();
@@ -228,6 +229,9 @@ public class MainSceneController {
 
             // Set the owner stage
             Stage ownerStage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            //pass the text area content to the exit controller
+            ExitController exitController = loader.getController();
+            exitController.content = textArea.getText();
             popup.show(ownerStage);
 
         } catch (IOException e) {
