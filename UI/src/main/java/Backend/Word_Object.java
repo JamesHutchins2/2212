@@ -35,6 +35,7 @@ public class Word_Object{
     private int spaces_before;
     private int[] is_capital_at;
     private boolean ends_with_punctuation;
+    private int punctuation_index;
     private boolean is_first_word;
     
     /**
@@ -64,6 +65,7 @@ public class Word_Object{
         this.needs_first_capital = false;
         this.needs_lower_but_first = false;
         this.needs_lower = false;
+        this.punctuation_index = 0;
 
 
     }
@@ -568,5 +570,12 @@ public class Word_Object{
         }
     }
 
-    
+    public int set_punctuation_index(int i){
+        this.punctuation_index = i;
+        return punctuation_index;
+    }
+
+    public int get_punctuation_index(){
+        return this.punctuation_index;
+    }
 }

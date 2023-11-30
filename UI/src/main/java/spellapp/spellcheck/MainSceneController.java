@@ -710,6 +710,22 @@ public class MainSceneController {
      */
     private void replaceAndInsertWord(StyleClassedTextArea textArea, Word_Object word, String replacement) {
         
+        //getting punctuation
+        if(word.getEndsWithPunctuation()){
+            if(word.get_punctuation_index() == 1){
+                replacement = replacement + ".";
+            }else if(word.get_punctuation_index() == 2){
+                replacement = replacement + "?";
+            }else if(word.get_punctuation_index() == 3){
+                replacement = replacement + "!";
+            }else if(word.get_punctuation_index() == 4){
+                replacement = replacement + ",";
+            }else if(word.get_punctuation_index() == 5){
+                replacement = replacement + ";";
+            }
+            
+        }
+
         //first let's match the word in the text area
         //get the word start and stop indicies
         int startIndex = word.getStart_index();
