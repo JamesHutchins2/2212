@@ -224,6 +224,15 @@ public class Word_Object{
     public String getWord() {
         return word;
     }
+    public boolean check_end_punctuation(){
+        //check if the last char is a period
+        if(this.word.charAt(this.word.length() - 1) == '.' || this.word.charAt(this.word.length() - 1) == '!' || this.word.charAt(this.word.length() - 1) == '?'){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
     /**
      * Sets whether the word ends with punctuation.
      * @param endsWithPunctuation True if the word ends with punctuation, false otherwise.

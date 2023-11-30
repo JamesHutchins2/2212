@@ -76,8 +76,10 @@ public class MainSceneController {
             // Additional logic for handling text click, if any
         });
         
-        // Initialize and populate the document as before
-        init_document(textArea); // Ensure init_document is compatible with InlineCssTextArea
+
+        
+        
+        init_document(textArea); 
     }
     
     /**
@@ -93,21 +95,21 @@ public class MainSceneController {
                     document.populateLinkedList(textContent);
                     //run the document spell check on the newly updated linked list
                     document.run_spell_check();
-                    System.out.println("running spell check");
+                    
                     int[] docAnalysisVals = get_doc_analysis();
-                    System.out.println("getting doc analysis");
+                    
                     update_doc_analysis_values(docAnalysisVals);
-                    System.out.println("updating doc analysis");
+                    
                     //get the doc error values
                     int[] docErrorVals = get_doc_error();
-                    System.out.println("getting doc error");
+                    
                     //populate the doc error values on the front end
                     update_doc_error_values(docErrorVals);
-                    System.out.println("updating doc error");
+                    
                     
                     //run the highlight misspelled words function
                     highlightErrors();
-                    System.out.println("highlighting errors");
+                    
 
                 } catch (Exception e) {
                     System.err.println("Error during repeated task: " + e.getMessage());
@@ -635,13 +637,15 @@ public class MainSceneController {
         //replace that text in that range with the word
         textArea.replaceText(startIndex, endIndex, adjusted_word);
         //update the word object
-        word.setIs_real_word(true);
+        //word.setIs_real_word(true);
         word.setNeeds_capital(false);
         word.setNeeds_lower_but_first(false);
         word.setNeeds_lower(false);
 
         //update the document statistics
         document.decrease_current_capital_errors();
+        //count the fix
+        document.increase_corrected_capital_errors();
     }
 
        
@@ -672,13 +676,6 @@ public class MainSceneController {
     
         // Recalculate indices to reflect the new word length
         document.wordBuffer.calculate_indicies();;
-    
-        // Determine the text replacement range in the text area
-        int textAreaStartIndex = originalStartIndex;
-        int textAreaEndIndex = (word.getNext_node() != null) ? word.getNext_node().getStart_index() - 1 : textArea.getLength();
-    
-        // Check the length difference between the original word and the suggestion
-        int lengthDifference = suggestion.length() - originalWordLength;
 
         replaceAndInsertWord(textArea, word, suggestion);
     
@@ -829,38 +826,31 @@ public class MainSceneController {
      * Words with null or invalid Word_Object instances are skipped.
      */
     public void highlightErrors() {
-        String text = textArea.getText();
-        if (text == null || text.isEmpty()) {
-            return; // Early return if the text is null or empty
+
+        Word_Object current = document.wordBuffer.getHead();
+
+        //update the word indicies
+        document.wordBuffer.calculate_indicies();
+
+        while(current != null){
+            
+                //get the word start and stop indicies
+                int startIndex = current.getStart_index();
+                int endIndex = current.getEnd_index();
+                // Determine the style class based on the word properties
+                String styleClass = determineStyleClass(current);
+                // Apply the style class
+                textArea.setStyleClass(startIndex, endIndex, styleClass);
+
+
+                
+                
+            
+            current = current.getNext_node();
         }
-    
-        String[] words = text.split("\\s+");
-        int startIndex = 0;
-    
-        for (String word : words) {
-            if (word.isEmpty()) {
-                startIndex++; // For handling multiple consecutive spaces
-                continue;
-            }
-    
-            int endIndex = startIndex + word.length();
-            Word_Object this_word = document.wordBuffer.get_word_at_index(startIndex);
-    
-            // Check for null or invalid word object
-            if (this_word == null) {
-                System.out.println("Word at index " + startIndex + " is null.");
-                startIndex = endIndex + 1;
-                continue; // Skip to next iteration if word object is null
-            }
-    
-            // Determine the style class based on the word properties
-            String styleClass = determineStyleClass(this_word);
-    
-            // Apply the style class
-            textArea.setStyleClass(startIndex, endIndex, styleClass);
-    
-            startIndex = endIndex + 1;
-        }
+
+
+        
     }
 
     /**

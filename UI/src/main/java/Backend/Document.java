@@ -74,10 +74,8 @@ public void populateLinkedList(String text) {
         i++;
       }else{
         String new_word = wordsWithDelimiters[i];
-        //take off the punctuation if any
-        if(new_word.endsWith(".") || new_word.endsWith(",") || new_word.endsWith(";") || new_word.endsWith(":") || new_word.endsWith("!") || new_word.endsWith("?") || new_word.endsWith("\"") || new_word.endsWith("\'")){
-          new_word = new_word.substring(0, new_word.length() - 1);
-        }
+        
+        
         //create a new word object
         Word_Object new_word_obj = new Word_Object(wordsWithDelimiters[i]);
         //replace the word object in the linked list
@@ -340,7 +338,16 @@ public int[] get_doc_error_values(){
     //call the down count capital function in doc error
     doc_error.downCountCapital();
   
+
   }
+
+  public void increase_corrected_capital_errors(){
+    //call the up count capital function in doc error
+    doc_error.upCountCapital_fix();
+  }
+    /**
+     * Increases the count of corrected misspelled words in Doc_Error.
+     */
 
   
 }

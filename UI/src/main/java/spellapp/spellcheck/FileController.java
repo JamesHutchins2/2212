@@ -132,6 +132,12 @@ public class FileController {
             // Create Scene object for the main Scene - pass in initial window size
             Scene mainScene = new Scene(mainSceneRoot, 800, 500);
             mainScene.getStylesheets().add(getClass().getResource("/spellapp/spellcheck/stylesheet.css").toExternalForm());
+            if(mainScene.getStylesheets().isEmpty()){
+                System.out.println("empty");
+            }
+            else{
+                System.out.println("not empty");
+            }
             System.out.println("created scene");
             // Make Scene visible
             primaryStage.setScene(mainScene);

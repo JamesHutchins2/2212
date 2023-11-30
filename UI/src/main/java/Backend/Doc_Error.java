@@ -46,7 +46,7 @@ public class Doc_Error {
         
         //File wordsFile = new File(System.getProperty("user.dir") + File.separator + relativePath);
         
-        File wordsFile = new File("C:/Users/james/Downloads/2212/final/2212/UI/src/main/java/Backend/dict_resources/words.txt");
+        File wordsFile = new File("C:/Users/james/Desktop/2212_final//splash_fix/2212/UI/src/main//java/Backend/dict_resources/words.txt");
         //System.out.println("path: " + wordsFile.getAbsolutePath());
 
         
@@ -79,11 +79,11 @@ public class Doc_Error {
         
         //if it is not a word (False evaluation)
         if(!is_a_word){
-            System.out.println("Misspelt word!!!: " + word_text);
+            
             //itterate the current misspelt words
-            this.current_misspelt_words++;
-            //add a flag to the word object
-            word.setIs_real_word(false);
+            current_misspelt_words++;
+            
+            
 
             //now get suggestions for the word
             //create an array list to hold the suggestions
@@ -170,14 +170,34 @@ public class Doc_Error {
      */
     public void checkCapitals(Word_Object head) {
         Word_Object current = head;
+
+        // set the ends with punctuation flag for each
+
+        while (current != null) {
+            System.out.println("word: " + current.getWord());
+            if(current.check_end_punctuation()){
+                
+                current.setEndsWithPunctuation(true);
+            }
+            else{
+                current.setEndsWithPunctuation(false);
+            }
+            current = current.getNext_node();
+        }
+
+        // reset current to the head
+        current = head;
+        //run set_is_first on the head
     
         while (current != null) {
             String word = current.getWord();
+            set_is_first(current);
     
             // Check for the first word or words after punctuation (as marked by is_first_word)
             if (current.isIs_first_word()) {
                 if (!Character.isUpperCase(word.charAt(0))) {
                     current.setNeeds_first_capital(true);
+                    
                     
                 }
     
@@ -185,6 +205,7 @@ public class Doc_Error {
                 for (int i = 1; i < word.length(); i++) {
                     if (Character.isUpperCase(word.charAt(i))) {
                         current.setNeeds_lower_but_first(true);
+                        
 
                         break;
                     }
@@ -195,6 +216,7 @@ public class Doc_Error {
                 for (int i = 0; i < word.length(); i++) {
                     if (Character.isUpperCase(word.charAt(i))) {
                         current.setNeeds_lower(true);
+                        
                         break;
                     }
                     
@@ -206,6 +228,13 @@ public class Doc_Error {
         }
     }
 
+    /**
+     * Increases count of fixed capitalization errors.
+     *
+     */
+    public void upCountCapital_fix(){
+        this.current_capital_errors++;
+    }
 
     
 
