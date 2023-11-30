@@ -68,24 +68,21 @@ public class FileController {
                     // Get object hierarchy for MainScene into a loader object and load into a Parent class
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScene.fxml"));
                     Parent mainSceneRoot = loader.load();
-                    //set the style sheet to the scene
-                    mainSceneRoot.getStylesheets().add(getClass().getResource("/spellapp/spellcheck/stylesheet.css").toExternalForm());
-                    //add text to text area variable
-                    textArea = (StyleClassedTextArea) mainSceneRoot.lookup("#textArea");
                     
-    
-                    
-    
+
                     // Get the controller of the main scene - and send it action to set text area of main text area
                     MainSceneController mainSceneController = loader.getController();
                     mainSceneController.setTextAreaContent(content.toString());
-                    mainSceneController.init_document(textArea);
-                    mainSceneController.startRepeatedTask();
                     
+                    
+
                     // Create Scene object for the main Scene - pass in initial window size
                     Scene mainScene = new Scene(mainSceneRoot, 800, 500);
+                    mainScene.getStylesheets().add(getClass().getResource("/spellapp/spellcheck/stylesheet.css").toExternalForm());
+                    System.out.println("created scene");
                     // Make Scene visible
                     primaryStage.setScene(mainScene);
+                    System.out.println("set scene");
     
                 
     
@@ -105,19 +102,14 @@ public class FileController {
 
             // Get object hierarchy for MainScene into a loader object and load into a Parent class
             FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScene.fxml"));
-            System.out.println("got loader");
             Parent mainSceneRoot = loader.load();
-            System.out.println("loaded");
+            
 
             // Get the controller of the main scene - and send it action to set text area of main text area
             MainSceneController mainSceneController = loader.getController();
             mainSceneController.setTextAreaContent("");
-            System.out.println("set text area content");
-            if (getClass().getResourceAsStream("/spellapp/spellcheck/stylesheet.css") == null) {
-                System.out.println("Stylesheet not found");
-            } else {
-                System.out.println("Stylesheet found");
-            }
+            
+            
 
             // Create Scene object for the main Scene - pass in initial window size
             Scene mainScene = new Scene(mainSceneRoot, 800, 500);

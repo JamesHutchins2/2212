@@ -66,8 +66,8 @@ public class MainSceneController {
         
         // Initialize and populate the document as before
         init_document(textArea); // Ensure init_document is compatible with InlineCssTextArea
-        document.populateLinkedList(content);
-        document.run_spell_check();
+        
+        
 
         
     }
@@ -111,7 +111,7 @@ public class MainSceneController {
     public void init_document(StyleClassedTextArea textArea_in){
         
         // Create a new document object
-        this.document = new Document(textArea.getText());
+        this.document = new Document(textArea_in.getText());
         
     }
     
@@ -199,6 +199,9 @@ public class MainSceneController {
         }
 
     }
+    @FXML
+
+    private Label userWords;
 
     @FXML
     private void handleUserDictionary(ActionEvent event) {
@@ -207,7 +210,7 @@ public class MainSceneController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("UserDictionary.fxml"));
             Parent root = loader.load();
             UserDictionaryController userDictionaryController = loader.getController();
-            userDictionaryController.setTextAreaContent(textArea.getText());
+            
             if (getClass().getResourceAsStream("/stylesheet.css") == null) {
                 System.out.println("Stylesheet not found");
             } else {
@@ -217,8 +220,12 @@ public class MainSceneController {
             Scene mainScene = new Scene(root, 800, 500);
             //adds the stylesheet to the scene
             mainScene.getStylesheets().add(getClass().getResource("/spellapp/spellcheck/stylesheet.css").toExternalForm());
-
-
+            
+            String text = document.get_user_dict_formatted();
+            userWords = new Label();
+            userWords.setText(text);
+            System.out.println("text: " + text);
+            
             Stage stage = new Stage();
             stage.setTitle("User Dictionary");
             stage.setScene(mainScene);
@@ -230,22 +237,7 @@ public class MainSceneController {
     }
 
     //I dont think we really need this
-    @FXML
-    void startSpell(ActionEvent event) {
-        StringBuilder content = new StringBuilder();
-        content.append( textArea.getText() );
-        mainLabel.setText("Spell Check Mode");
-        // call spell check mode
-        
-        
-        //document.populateLinkedList(content.toString().split(" "));
-        //document.run_spell_check();
 
-        // Start Spell check mode
-        // Pass the "content" String into Backend methods to load linked Lists, etc before starting spell check mode
-        // Once done - Parse linked list of incorrect words and somehow show them differently on UI
-        // THen we want to create a series of popup UIs that are able to popup when certain words are clicked on
-    }
     // ---> james adding stuff.
     
 
@@ -388,14 +380,12 @@ public class MainSceneController {
             contextMenu.hide();
             System.out.println("word is misspelled: " + this_word.getWord());
             showPopupAtTextPosition_spelling(this_word, event.getScreenX(), event.getScreenY());
-        }
-        if(this_word.isIs_double_word_after() || this_word.isIs_double_word_before()){
+        }else if(this_word.isIs_double_word_after() || this_word.isIs_double_word_before()){
             //hide all other context menus
             contextMenu.hide();
             System.out.println("word is double word: " + this_word.getWord());
             showPopupAtTextPosition_double_word(this_word, event.getScreenX(), event.getScreenY());
-        }
-        if(this_word.isNeeds_first_capital() || this_word.isNeeds_lower_but_first()){
+        }else if(this_word.isNeeds_first_capital() || this_word.isNeeds_lower_but_first()){
             System.out.println("Is needs first capital");
             //provide a reccomendation that shows just the first letter capatalized
             String word_base = this_word.getWord();
@@ -407,7 +397,7 @@ public class MainSceneController {
             
             popup_caps(word_capital, this_word, event.getScreenX(), event.getScreenY());
 
-        }if(this_word.isNeeds_lower()){
+        }else if(this_word.isNeeds_lower()){
             System.out.println("Is needs Lower");
             //provide a reccomendation that shows the word lowercase
             String word_base = this_word.getWord();
@@ -415,6 +405,8 @@ public class MainSceneController {
             
             popup_caps(word_lower, this_word, event.getScreenX(), event.getScreenY());
 
+        }else{
+            //explode
         }
     }
     private void popup_caps(String adjusted_word, Word_Object word, double x, double y){

@@ -28,6 +28,11 @@ public class Dictionary {
         populateTable(fileLocation);
     }
 
+    public String[] get_user_dict(){
+        //get user_words
+        return user_words;
+    }
+
     //populate the set with words from the text file
     private void populateTable(String fileLocation) {
         //get file location, and create a file object
@@ -38,7 +43,7 @@ public class Dictionary {
             while ((line = bufferedReader.readLine()) != null) {
                 words.add(line.toLowerCase()); // add each word to the set
             }
-            System.out.println("WOrd" + words);
+            
         } catch (IOException e) {
             e.printStackTrace(); // print error if file not found
         }

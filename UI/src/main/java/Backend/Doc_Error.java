@@ -28,7 +28,7 @@ public class Doc_Error {
         
         String path_test = "../UI/src/main/java/Backend/dict_resources/words.txt";
         String path_run = "../../Backend/dict_resources/words.txt";
-        String path = "C:/Users/james/Desktop/2212_final/splash_fix/2212/UI/src/main/java/Backend/dict_resources/words.txt";
+        String path = "C:/Users/james/Downloads/2212/final/2212/UI/src/main/java/Backend/dict_resources/words.txt";
         File file = new File(path);
         
         dictionary = new Dictionary(path);
@@ -170,6 +170,15 @@ public class Doc_Error {
     public void addToUserDict(String word){
         //add the word to the user dict
         dictionary.add_user_word(word);
+    }
+
+    public String [] get_user_dict(){
+        
+
+        String [] user_dict = dictionary.get_user_dict();
+
+        return user_dict;
+
     }
 
     //functions to down count the errors as they are corrected

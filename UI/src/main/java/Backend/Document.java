@@ -64,7 +64,7 @@ public void populateLinkedList(String text) {
         //call the capital function
         mark_capitals(new_word_obj);
       }
-      if(current.getNext_node() != null){
+      if(current.hasNext()){
         current = current.getNext_node();
       }else{
         break;
@@ -82,7 +82,25 @@ public void populateLinkedList(String text) {
       mark_capitals(new_word);
     }
   }
+public String get_user_dict_formatted(){
+  //call get_user_dict from doc_error
+  String[] user_dict = doc_error.get_user_dict();
 
+  //parse out the string array into a list of words delimited by commas
+  String formatted_user_dict = "";
+
+  //loop through the array
+  for(int i = 0; i < user_dict.length; i++){
+    //add the word to the string
+    formatted_user_dict += user_dict[i];
+    //add a comma
+    formatted_user_dict += ",";
+  }
+
+  //return the formatted user dict
+  return formatted_user_dict;
+
+}
 public void mark_capitals(Word_Object word){
   
   //set the word_objects capital array
