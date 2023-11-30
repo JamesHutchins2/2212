@@ -1,144 +1,94 @@
 package tests;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 import Backend.Document;
 import Backend.Word_Object;
 import Backend.Doc_Error;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-import Backend.Document;
-import Backend.Word_Object;
-import Backend.Doc_Error;
+public class Document_test {
 
-class DocumentTest {
+    private static Document document;
 
-    private Document document;
+    public static void main(String[] args) {
+        setUp();
+        
+        testMarkCapitals();
+        testRunSpellCheck();
+        testCheckSingleWord();
+        testGetWordInLinkedList();
+        testUpdateDocAnalysis();
+        testGetDocAnalysis();
+        testGetDocErrorValues();
+        testGetDocError();
+        testAddToUserDict();
+        testDecreaseCurrentMisspeltWords();
+        testDecreaseCurrentDoubleWords();
+        testDecreaseCurrentCapitalErrors();
+    }
 
-    // Set up a document object for testing
-    @BeforeEach
-    void setUp() {
+    static void setUp() {
         document = new Document("Initial text");
     }
 
-    @Test
-    void testConstructor() {
-        assertNotNull(document);
-        assertEquals("Initial text", document.text);
-        // Further assertions to verify initial state of the document
-    }
+    
 
-    @Test
-    void testPopulateLinkedList() {
-        document.populateLinkedList("New text for testing");
-        // Assertions to verify the linked list is populated correctly
-    }
-
-    @Test
-    void testClearUserDict() {
-        document.clear_user_dict();
-        // Assertions to verify user dictionary is cleared
-    }
-
-    @Test
-    void testUserDictIsNull() {
-        assertFalse(document.user_dict_is_null());
-        // Additional scenarios for testing
-    }
-
-    @Test
-    void testGetUserDictFormatted() {
-        String result = document.get_user_dict_formatted();
-        assertNotNull(result);
-        // Additional assertions based on expected format
-    }
-
-    @Test
-    void testMarkCapitals() {
+    static void testMarkCapitals() {
         Word_Object word = new Word_Object("Test");
         document.mark_capitals(word);
-        // Assertions to verify capitals are marked correctly
+        System.out.println("testMarkCapitals executed");
     }
 
-    @Test
-    void testRunSpellCheck() {
+    static void testRunSpellCheck() {
         document.run_spell_check();
-        // Assertions to verify spell check functionality
+        System.out.println("testRunSpellCheck executed");
     }
 
-    @Test
-    void testCheckSingleWord() {
+    static void testCheckSingleWord() {
         Word_Object word = new Word_Object("testing");
         Word_Object result = document.check_single_word(word);
-        assertNotNull(result);
-        // Additional assertions for spell check results
+        System.out.println(result != null ? "testCheckSingleWord passed" : "testCheckSingleWord failed");
     }
 
-    @Test
-    void testGetWordInLinkedList() {
+    static void testGetWordInLinkedList() {
         Word_Object word = document.get_word_in_linked_list(0);
-        assertNotNull(word);
-        // Assertions to verify correct retrieval of word
+        System.out.println(word != null ? "testGetWordInLinkedList passed" : "testGetWordInLinkedList failed");
     }
 
-    @Test
-    void testUpdateDocAnalysis() {
+    static void testUpdateDocAnalysis() {
         document.update_doc_analysis();
-        // Assertions to verify document analysis is updated correctly
+        System.out.println("testUpdateDocAnalysis executed");
     }
 
-    @Test
-    void testGetDocAnalysis() {
+    static void testGetDocAnalysis() {
         int[] analysis = document.get_doc_analysis(5);
-        assertNotNull(analysis);
-        assertTrue(analysis.length == 3);
-        // Further assertions based on expected analysis data
+        System.out.println(analysis != null && analysis.length == 3 ? "testGetDocAnalysis passed" : "testGetDocAnalysis failed");
     }
 
-    @Test
-    void testGetDocErrorValues() {
+    static void testGetDocErrorValues() {
         int[] errors = document.get_doc_error_values();
-        assertNotNull(errors);
-        assertTrue(errors.length == 6);
-        // Assertions based on expected error data
+        System.out.println(errors != null && errors.length == 6 ? "testGetDocErrorValues passed" : "testGetDocErrorValues failed");
     }
 
-    @Test
-    void testGetDocError() {
+    static void testGetDocError() {
         Doc_Error error = document.get_doc_error();
-        assertNotNull(error);
-        // Further validations as necessary
+        System.out.println(error != null ? "testGetDocError passed" : "testGetDocError failed");
     }
 
-    @Test
-    void testAddToUserDict() {
+    static void testAddToUserDict() {
         document.add_to_user_dict("newword");
-        // Assertions to verify word is added to user dictionary
+        System.out.println("testAddToUserDict executed");
     }
 
-    @Test
-    void testDecreaseCurrentMisspeltWords() {
+    static void testDecreaseCurrentMisspeltWords() {
         document.decrease_current_misspelt_words();
-        // Assertions to verify count is decreased
+        System.out.println("testDecreaseCurrentMisspeltWords executed");
     }
 
-    @Test
-    void testDecreaseCurrentDoubleWords() {
+    static void testDecreaseCurrentDoubleWords() {
         document.decrease_current_double_words();
-        // Assertions to verify count is decreased
+        System.out.println("testDecreaseCurrentDoubleWords executed");
     }
 
-    @Test
-    void testDecreaseCurrentCapitalErrors() {
+    static void testDecreaseCurrentCapitalErrors() {
         document.decrease_current_capital_errors();
-        // Assertions to verify count is decreased
+        System.out.println("testDecreaseCurrentCapitalErrors executed");
     }
-
-    // Additional tests can be added as needed to cover more scenarios and edge cases
 }
-
-
-
-

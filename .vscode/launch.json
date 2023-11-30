@@ -3,6 +3,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Document_test",
+            "request": "launch",
+            "mainClass": "spellapp.spellcheck/tests.Document_test",
+            "projectName": "SpellCheck"
+        },
+        {
+            "type": "java",
             "name": "Main",
             "request": "launch",
             "mainClass": "spellapp.spellcheck/spellapp.spellcheck.Main",
