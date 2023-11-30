@@ -1,5 +1,17 @@
 package Backend;
 
+/**
+ * @author      James Hutchins
+ * @author      Michelle Bourdon
+ * @author      Jessica Kerr
+ * @author      Laila El attar
+ * @author      Nouran Sakr
+ * @version     1.0
+ * @since       0.0
+  * The Document class serves as the hub for the spell-check system,
+ * creating a linked list from the workspace text and transforming
+ * data types into Word_Object instances for spell checking.
+ */
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +26,10 @@ public LinkedList wordBuffer = new LinkedList();  //linked list to hold our word
 public Doc_Error doc_error = new Doc_Error();
 Doc_Analysis doc_analysis;
 
-//constructor
+    /**
+     * Constructor for Document class.
+     * @param text The initial text for the document.
+     */
 public Document(String text){
   this.text = text;
   populateLinkedList(text);
@@ -28,6 +43,10 @@ public void clear_user_dict(){
   //call the clear user dict function in doc error
   doc_error.clearUserDict();
 }
+    /**
+     * Populates the linked list with Word_Object instances based on the given text.
+     * @param text The text to populate the linked list.
+     */
 public void populateLinkedList(String text) {
     
     //check to see if the string is empty
@@ -91,6 +110,10 @@ public void populateLinkedList(String text) {
       //call the user dict is null function in doc error
       return doc_error.userDictIsNull();
     }
+    /**
+     * Gets the user dictionary formatted as a string.
+     * @return Formatted user dictionary as a string.
+     */
 public String get_user_dict_formatted(){
   //call get_user_dict from doc_error
   String[] user_dict = doc_error.get_user_dict();
@@ -110,6 +133,10 @@ public String get_user_dict_formatted(){
   return formatted_user_dict;
 
 }
+    /**
+     * Marks capital letters in a Word_Object instance.
+     * @param word The Word_Object instance to mark capitals.
+     */
 public void mark_capitals(Word_Object word){
   
   //set the word_objects capital array
@@ -142,7 +169,9 @@ public void mark_capitals(Word_Object word){
 
 
 
-
+    /**
+     * Runs spell check on the entire document by iterating through the linked list.
+     */
 public void run_spell_check() {
   Word_Object current = wordBuffer.getHead();
   while (current != null) {
@@ -159,7 +188,12 @@ public void run_spell_check() {
   //let us update the doc analysis
   update_doc_analysis();
 }
-
+    /**
+     * Checks a single word for spelling errors.
+     *
+     * @param word The Word_Object instance to check.
+     * @return The checked Word_Object instance.
+     */
 public Word_Object check_single_word(Word_Object word){
   //create a word object
   
@@ -170,7 +204,12 @@ public Word_Object check_single_word(Word_Object word){
   //return the word object
   return word;
 }
-
+    /**
+     * Gets the Word_Object instance at the specified index in the linked list.
+     *
+     * @param index The index to retrieve the Word_Object.
+     * @return The Word_Object at the specified index.
+     */
 public Word_Object get_word_in_linked_list(int index){
   
   //call calculate indicies (linked list was just updated by calling function)
@@ -184,7 +223,9 @@ public Word_Object get_word_in_linked_list(int index){
   return word;
 }
 
-
+    /**
+     * Updates the document analysis, including character count, word count, and line count.
+     */
 public void update_doc_analysis(){
   System.out.println("updating doc analysis");
   //check to see if doc_analysis is null
@@ -203,7 +244,12 @@ public void update_doc_analysis(){
   System.out.println("word count: " + word_count);
   System.out.println("line count: " + line_count);
 }
-
+    /**
+     * Gets the document analysis values.
+     *
+     * @param num_lines The number of lines in the document.
+     * @return An array containing character count, word count, and line count.
+     */
 public int[] get_doc_analysis(int num_lines){
   
 
@@ -224,7 +270,11 @@ public int[] get_doc_analysis(int num_lines){
 
 
 }
-
+    /**
+     * Gets the document error values, including misspelled words, double words, and capital errors.
+     *
+     * @return An array containing error statistics.
+     */
 public int[] get_doc_error_values(){
   //get the misspelt words
   int misspelt_words = doc_error.getCurrent_misspelt_words();
@@ -250,28 +300,42 @@ public int[] get_doc_error_values(){
 
   }
 
-
+    /**
+     * Gets the Doc_Error instance associated with this document.
+     *
+     * @return The Doc_Error instance.
+     */
   public Doc_Error get_doc_error(){
     return doc_error;
   }
-
+    /**
+     * Adds a word to the user dictionary in Doc_Error.
+     *
+     * @param word The word to add to the user dictionary.
+     */
   public void add_to_user_dict(String word){
     //call the add to user dict function in doc error
     doc_error.addToUserDict(word);
   }
 
   
-
+    /**
+     * Decreases the count of current misspelled words in Doc_Error.
+     */
   public void decrease_current_misspelt_words(){
     //call the down count misspelt function in doc error
     doc_error.downCountMisspelt();
   }
-
+    /**
+     * Decreases the count of current double words in Doc_Error.
+     */
   public void decrease_current_double_words(){
     //call the down count double word function in doc error
     doc_error.downCountDoubleWord();
   }
-
+    /**
+     * Decreases the count of current capital errors in Doc_Error.
+     */
   public void decrease_current_capital_errors(){
     //call the down count capital function in doc error
     doc_error.downCountCapital();

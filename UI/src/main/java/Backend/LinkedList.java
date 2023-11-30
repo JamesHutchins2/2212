@@ -1,15 +1,30 @@
 package Backend;
+/**
+ * @author      James Hutchins
+ * @author      Michelle Bourdon
+ * @author      Jessica Kerr
+ * @author      Laila El attar
+ * @author      Nouran Sakr
+ * @version     1.0
+ * @since       0.0
+ * Represents a linked list of Word_Object elements.
+ */
 public class LinkedList {
     private Word_Object head; // Head of the list
     private Word_Object tail; // Tail of the list
     
-
+    /**
+     * Constructs an empty linked list.
+     */
     public LinkedList() {
         head = null;
         tail = null;
     }
 
-    // Add a new node to the end of the list
+    /**
+     * Adds a new node to the end of the list.
+     * @param newNode The Word_Object to be added.
+     */
     public void add(Word_Object newNode) {
         if (head == null) {
             head = newNode;
@@ -22,8 +37,10 @@ public class LinkedList {
         }
     }
 
-    
-    // Add a new node to the beginning of the list
+    /**
+     * Adds a new node to the beginning of the list.
+     * @param newNode The Word_Object to be added.
+     */
     public void addFirst(Word_Object newNode) {
         if (head == null) {
             head = newNode;
@@ -36,16 +53,26 @@ public class LinkedList {
         }
     }
 
-    // get the head of the list
+    /**
+     * Gets the head of the list.
+     * @return The head Word_Object of the list.
+     */
     public Word_Object getHead() {
         return head;
     }
 
-    // get the tail of the list
+    /**
+     * Gets the tail of the list.
+     * @return The tail Word_Object of the list.
+     */
     public Word_Object getTail() {
         return tail;
     }
 
+    /**
+     * Gets the length of the linked list.
+     * @return The length of the linked list.
+     */
     public int get_length() {
         int length = 0;
         Word_Object curr = head;
@@ -56,7 +83,9 @@ public class LinkedList {
         return length;
     }
 
-
+    /**
+     * Calculates and sets the start and end indices for each Word_Object in the linked list.
+     */
     public void calculate_indicies() {
         // We will populate the index values for each word object.
         // Get the head of the linked list
@@ -94,6 +123,10 @@ public class LinkedList {
         }
     }
 
+    /**
+     * Removes a Word_Object from the linked list.
+     * @param word The Word_Object to be removed.
+     */
     public void removeWord(Word_Object word) {
         if (word.getPrev_node() != null) {
             word.getPrev_node().setNext_node(word.getNext_node());
@@ -108,7 +141,11 @@ public class LinkedList {
         }
     }
     
-
+    /**
+     * Gets the Word_Object at a specified index in the text.
+     * @param index The index in the text.
+     * @return The Word_Object at the specified index.
+     */
     public Word_Object get_word_at_index(int index){
         System.out.println("get word at index: " + index);
         //get the head of the linked list
@@ -133,6 +170,11 @@ public class LinkedList {
         return null;
 
     }
+    /**
+     * Gets the Word_Object at the caret position in the text.
+     * @param caretPosition The caret position in the text.
+     * @return The Word_Object at the caret position.
+     */
     public Word_Object getWordAtCaretPosition(int caretPosition) {
         Word_Object current = head;
         
@@ -145,6 +187,12 @@ public class LinkedList {
     
         return null; // No word found at this caret position
     }
+    
+    /**
+     * Updates the Word_Object at a specified caret position with a new Word_Object.
+     * @param caretPosition The caret position in the text.
+     * @param newWord       The new Word_Object to replace the existing one.
+     */
     public void updateWordAtCaretPosition(int caretPosition, Word_Object newWord) {
         Word_Object wordToUpdate = getWordAtCaretPosition(caretPosition);
     
@@ -156,6 +204,12 @@ public class LinkedList {
             add(newWord); // This may need to be more sophisticated depending on how you handle new words
         }
     }
+
+    /**
+     * Replaces an old Word_Object with a new Word_Object in the linked list.
+     * @param oldWord The old Word_Object to be replaced.
+     * @param newWord The new Word_Object to replace the old one.
+     */
     public void replaceWord(Word_Object oldWord, Word_Object newWord) {
         newWord.setNext_node(oldWord.getNext_node());
         newWord.setPrev_node(oldWord.getPrev_node());
