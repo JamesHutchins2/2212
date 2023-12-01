@@ -74,7 +74,5 @@ public class Linked_List {
         }
 
         
-
-        // Any other tests you want to perform
     }
 }

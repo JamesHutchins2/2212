@@ -66,6 +66,7 @@ public class Word_Object{
         this.needs_lower_but_first = false;
         this.needs_lower = false;
         this.punctuation_index = 0;
+        this.is_capital_at = new int[word.length()];
 
 
     }
