@@ -16,7 +16,6 @@
             <items>
                 <!-- Add fx:id to the "Save" button and set onAction attribute -->
                 <Button fx:id="saveButton" mnemonicParsing="false" onAction="#handleSaveButton" style="-fx-background-radius: 20;" text="Save" />
-                <Button mnemonicParsing="false" style="-fx-background-radius: 20;" text="Spellcheck" />
                 <Button mnemonicParsing="false" onAction="#openHelp" style="-fx-background-radius: 20;" text="Help" />
                 <Button fx:id="saveButton1" layoutX="10.0" layoutY="20.0" mnemonicParsing="false" onAction="#exit" style="-fx-background-radius: 20;" text="Exit" />
             </items>
