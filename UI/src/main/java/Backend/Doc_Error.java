@@ -38,7 +38,7 @@ public class Doc_Error {
         this.corrected_capital_errors = 0;
 
         //create an instance of the dictionary
-        String path = "C://Users//jessi//Documents//final//2212//UI//src//main//java//Backend//dict_resources//words.txt";
+        String path = "C:/Users/james/Downloads/2232/UI/src/main/java/Backend/dict_resources/words.txt";
         dictionary = new Dictionary(path);
         System.out.println("dictionary created");
 

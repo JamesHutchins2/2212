@@ -19,7 +19,7 @@ import java.io.IOException;
  * @since       0.0
  * Controller class for handling exit events and saving data in a JavaFX application.
  */
- */
+ 
 public class ExitController {
     private Stage primaryStage;
     public String content = "";
