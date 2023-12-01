@@ -1,6 +1,4 @@
 package UI.src.main.java.tests;
-import Backend.Word_Object;
-
 package Backend;
 
 public class WordObjectTest {
