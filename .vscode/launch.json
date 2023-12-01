@@ -3,6 +3,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Linked_List",
+            "request": "launch",
+            "mainClass": "spellapp.spellcheck/tests.Linked_List",
+            "projectName": "SpellCheck"
+        },
+        {
+            "type": "java",
             "name": "Document_test",
             "request": "launch",
             "mainClass": "spellapp.spellcheck/tests.Document_test",
