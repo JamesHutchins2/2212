@@ -1,29 +1,10 @@
-# Work Breakdown Structure
-
-## Backend
-
-1. Linked List implementation -> Nouran
-2. Hash Table implementation (for libarary search) -> James
-3. Doc_Error implementation (spell checking) -> James
-5. Doc_Error implementation (grammar checking) -> Nouran
-4. Doc_Analysis -> jessica - ready for testing
-5. Document -> jessica & Nouran (connection to linked list and interpretation of data) - ready for testing
-
-## UI
-
-I am not too sure what to put here. I am unaware of how front end libraries will work but:
-
-1. Determine libraries to use -> michelle
-2. Create a basic UI -> laila
-3. Create connection mechanism -> laila
-4. create document stats part -> michelle
+# Spell Checker
 
 
-## RunTime
+## important infromation
 
+to get the dictionary to load please go to the top of Doc_error in the back end folder, and insert the path to the words.txt file in the dict_resources folder located in the backend directory. 
 
-1. Manage file -> Jessica -- pretty much done, just need to convert big string to individual words
-2. Parallelize -> Jessica -- not sure how you want me to do this??
-3. Handle Click/Action -> Nouran + UI team
-4. Loops -> TBD (this will be very variable and dependant on the other classes. I can make the base stuff but everyone will be changing )
-5. Click Integration (Entire team this will really depend on what called functions are at play) Likley major for UI so michelle and laila
+## About
+
+This program is a live spell checker that highlights, and offers correction solutions in real time. The program also records common metrics such as word counts, and error counts. Please check it out!!
